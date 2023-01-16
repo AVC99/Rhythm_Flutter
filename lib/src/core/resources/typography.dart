@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:rhythm/core/resources/colors.dart';
+import 'package:rhythm/src/core/resources/colors.dart';
 
 const kAppTitle = TextStyle(
   fontSize: 32.0,

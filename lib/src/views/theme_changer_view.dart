@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:rhythm/core/theme/theme_cubit.dart';
+import 'package:rhythm/src/core/theme/theme_cubit.dart';
 
 class ThemeChangerView extends StatefulWidget {
   const ThemeChangerView({Key? key}) : super(key: key);

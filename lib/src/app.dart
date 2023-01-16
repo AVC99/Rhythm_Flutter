@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:rhythm/core/theme/theme_repository.dart';
-import 'package:rhythm/core/theme/theme_cubit.dart';
-import 'package:rhythm/core/theme/themes.dart';
-import 'package:rhythm/core/routes.dart';
+import 'package:rhythm/src/core/theme/theme_repository.dart';
+import 'package:rhythm/src/core/theme/theme_cubit.dart';
+import 'package:rhythm/src/core/theme/themes.dart';
+import 'package:rhythm/src/core/routes.dart';
 
 class RhythmApp extends StatelessWidget {
   final ThemeRepository themeRepository;
@@ -33,7 +33,7 @@ class RhythmApp extends StatelessWidget {
               darkTheme: AppTheme.darkTheme,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              initialRoute: '/theme',
+              initialRoute: '/',
               routes: routes,
             );
           },

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:rhythm/core/resources/constants.dart';
+import 'package:rhythm/src/core/resources/constants.dart';
 
 abstract class ThemePersistence {
   Stream<RhythmThemeMode> getTheme();

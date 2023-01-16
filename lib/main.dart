@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:rhythm/core/theme/theme_repository.dart';
-import 'package:rhythm/app.dart';
+import 'package:rhythm/src/core/theme/theme_repository.dart';
+import 'package:rhythm/src/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +13,7 @@ Future<void> main() async {
   );
 
   final themeRepository = ThemeRepository(
-      sharedPreferences: await SharedPreferences.getInstance(),
+    sharedPreferences: await SharedPreferences.getInstance(),
   );
 
   runApp(RhythmApp(themeRepository: themeRepository));

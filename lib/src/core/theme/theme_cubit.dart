@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:rhythm/core/theme/theme_repository.dart';
+import 'package:rhythm/src/core/theme/theme_repository.dart';
 
 part 'theme_state.dart';
 
@@ -19,7 +19,7 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   void getCurrentTheme() {
     _themeSubscription = _themeRepository.getTheme().listen(
-          (customTheme) {
+      (customTheme) {
         if (customTheme.name == RhythmThemeMode.light.name) {
           _isDarkTheme = false;
           emit(state.copyWith(themeMode: ThemeMode.light));
