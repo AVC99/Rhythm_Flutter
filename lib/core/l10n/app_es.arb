@@ -1,0 +1,46 @@
+{
+    "appName": "Rhythm",
+    "slogan": "¡Súbele el volumen a tu vida!",
+    "start": "Empezar",
+    "termsAndConditions": "Términos y condiciones",
+    "signInToContinue": "Inicia sesión para continuar",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "repeatPassword": "Repetir contraseña",
+    "forgotPassword": "¿Has olvidado tu contraseña?",
+    "signIn": "Iniciar sesión",
+    "dontHaveAnAccount": "¿No tienes cuenta?",
+    "register": "Regístrate",
+    "forgotPasswordInstructions": "¡No te preocupes! A veces pasa. Por favor, introduce el correo electrónico asociado a tu cuenta.",
+    "resetPassword": "Cambiar contraseña",
+    "requiredFieldError": "No puede estar vacío",
+    "invalidEmailError": "Correo electrónico inválido",
+    "passwordLengthError": "Debe contener mínimo {passwordLength} carácteres",
+    "@passwordLengthError": {
+        "placeholders": {
+            "passwordLength": {
+                "type": "int"
+            }
+        }
+    },
+    "underAgeError": "Has de tener mínimo {minAge} años",
+    "@underAgeError": {
+        "placeholders": {
+            "minAge": {
+                "type": "int"
+            }
+        }
+    },
+    "passwordsDoNotMatchError": "Las contraseñas no coinciden",
+    "createNewAccount": "Créate una cuenta nueva",
+    "signUp": "Registrarse",
+    "haveAnAccount": "¿Ya tienes una cuenta?",
+    "userDisabledError": "Usuario deshabilitado",
+    "userNotFoundError": "Usuario no encontrado",
+    "wrongPasswordError": "Contraseña incorrecta",
+    "emailAlreadyInUseError": "El correo electrónico ya existe",
+    "invalidCredentialError": "Credenciales inválidas",
+    "operationNotAllowedError": "Operación no permitida",
+    "weakPasswordError": "Contraseña débil",
+    "error": "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
+}

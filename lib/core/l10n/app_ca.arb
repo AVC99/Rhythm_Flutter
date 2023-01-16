@@ -1,0 +1,46 @@
+{
+    "appName": "Rhythm",
+    "slogan": "Puja-li el volum a la teva vida!",
+    "start": "Començar",
+    "termsAndConditions": "Termes i condicions",
+    "signInToContinue": "Inicia sessió per a continuar",
+    "email": "Correu electrònic",
+    "password": "Contrasenya",
+    "repeatPassword": "Repetir contrasenya",
+    "forgotPassword": "Has oblidat la contrasenya?",
+    "signIn": "Iniciar sessió",
+    "dontHaveAnAccount": "No tens compte?",
+    "register": "Registra't",
+    "forgotPasswordInstructions": "No et preocupis! De vegades passa. Si us plau, introdueix el correu electrònic associat al vostre compte.",
+    "resetPassword": "Canviar contrasenya",
+    "requiredFieldError": "No pot estar buit",
+    "invalidEmailError": "Correu electrònic invàlid",
+    "passwordLengthError": "Ha de tenir mínim {passwordLength} càracters",
+    "@passwordLengthError": {
+        "placeholders": {
+            "passwordLength": {
+                "type": "int"
+            }
+        }
+    },
+    "underAgeError": "Has de tenir mínim {minAge} anys",
+    "@underAgeError": {
+        "placeholders": {
+            "minAge": {
+                "type": "int"
+            }
+        }
+    },
+    "passwordsDoNotMatchError": "Les contrasenyes no coincideixen",
+    "createNewAccount": "Crea't un compte",
+    "signUp": "Registrar-se",
+    "haveAnAccount": "Ja tens un compte?",
+    "userDisabledError": "Usuari inhabilitat",
+    "userNotFoundError": "No s'ha trobat l'usuari",
+    "wrongPasswordError": "Contrasenya incorrecta",
+    "emailAlreadyInUseError": "El correu electrònic ja existeix",
+    "invalidCredentialError": "Credencials invàlides",
+    "operationNotAllowedError": "Operació no permesa",
+    "weakPasswordError": "Contrasenya feble",
+    "error": "Ha ocurregut un error inesperat. Si us plau, intenta-ho de nou més tard."
+}

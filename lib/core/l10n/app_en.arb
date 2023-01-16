@@ -1,0 +1,46 @@
+{
+    "appName": "Rhythm",
+    "slogan": "Turn your life's volume up!",
+    "start": "Start",
+    "termsAndConditions": "Terms & conditions",
+    "signInToContinue": "Sign in to continue",
+    "email": "Email address",
+    "password": "Password",
+    "repeatPassword": "Repeat password",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign in",
+    "dontHaveAnAccount": "Don't have an account?",
+    "register": "Register",
+    "forgotPasswordInstructions": "Don't worry! It happens. Please, enter the email address associated with your account.",
+    "resetPassword": "Reset password",
+    "requiredFieldError": "Cannot be empty",
+    "invalidEmailError": "Invalid email",
+    "passwordLengthError": "Must contain at least {passwordLength} characters",
+    "@passwordLengthError": {
+        "placeholders": {
+            "passwordLength": {
+                "type": "int"
+            }
+        }
+    },
+    "underAgeError": "You must be at least {minAge} years old",
+    "@underAgeError": {
+        "placeholders": {
+            "minAge": {
+                "type": "int"
+            }
+        }
+    },
+    "passwordsDoNotMatchError": "Passwords do not match",
+    "createNewAccount": "Create a new account",
+    "signUp": "Sign up",
+    "haveAnAccount": "Already have an account?",
+    "userDisabledError": "User has been disabled",
+    "userNotFoundError": "User not found",
+    "wrongPasswordError": "Wrong password",
+    "emailAlreadyInUseError": "Email already in use",
+    "invalidCredentialError": "Invalid credentials",
+    "operationNotAllowedError": "Operation not allowed",
+    "weakPasswordError": "Weak password",
+    "error": "An unexpected error has occurred. Please, try it again later."
+}
