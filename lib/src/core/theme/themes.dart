@@ -8,10 +8,8 @@ abstract class AppTheme {
         appBarTheme: const AppBarTheme(
           color: Colors.transparent,
           elevation: 0,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.light,
-            statusBarBrightness: Brightness.light,
-          ),
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+          iconTheme: IconThemeData(color: Colors.black),
         ),
         colorScheme: ColorScheme(
           primary: kSkyBlue,
@@ -39,10 +37,8 @@ abstract class AppTheme {
         appBarTheme: const AppBarTheme(
           color: Colors.transparent,
           elevation: 0,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.dark,
-          ),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         colorScheme: ColorScheme(
           primary: kSkyBlue,

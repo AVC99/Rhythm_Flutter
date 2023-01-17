@@ -14,6 +14,7 @@ class _ThemeChangerViewState extends State<ThemeChangerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       floatingActionButton: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return FloatingActionButton(
