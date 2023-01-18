@@ -46,5 +46,15 @@
     "accept": "Accept",
     "cancel": "Cancel",
     "tooManyRequestsError": "Too many attempts. Try it again later.",
-    "authenticationFailed": "Authentication failed"
+    "authenticationFailed": "Authentication failed",
+    "recoveryFailed": "Recovery failed",
+    "recoveryEmailSent": "Recovery email",
+    "recoveryEmailSentDescription": "A recovery email has been sent to {email}. Follow its instructions to change your password.",
+    "@recoveryEmailSentDescription": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    }
 }

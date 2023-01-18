@@ -2,45 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
-import 'package:rhythm/src/blocs/authentication/sign_in/sign_in_bloc.dart';
+import 'package:rhythm/src/blocs/authentication/reset_password/reset_password_bloc.dart';
 import 'package:rhythm/src/services/authentication/firebase_authentication_error.dart';
-import 'package:rhythm/src/views/reset_password_view.dart';
 import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
 import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
 import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
-import 'package:rhythm/src/widgets/large_action_button.dart';
 import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
+import 'package:rhythm/src/widgets/svg_image.dart';
 import 'package:rhythm/src/widgets/input_text_field.dart';
+import 'package:rhythm/src/widgets/large_action_button.dart';
 
-class SignInView extends StatefulWidget {
-  static const route = '/signIn';
+class ResetPasswordView extends StatefulWidget {
+  static const String route = '/resetPassword';
 
-  const SignInView({Key? key}) : super(key: key);
+  const ResetPasswordView({Key? key}) : super(key: key);
 
   @override
-  State<SignInView> createState() => _SignInViewState();
+  State<ResetPasswordView> createState() => _ResetPasswordViewState();
 }
 
-class _SignInViewState extends State<SignInView> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _ResetPasswordViewState extends State<ResetPasswordView> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   bool _isKeyboardVisible = false;
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     _isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
-    return BlocListener<SignInBloc, SignInState>(
+    return BlocListener<ResetPasswordBloc, ResetPasswordState>(
       listener: (context, state) {
         const DialogHelper loadingDialog = DialogHelper(
           child: LoadingSpinner(),
@@ -48,39 +41,43 @@ class _SignInViewState extends State<SignInView> {
         );
 
         switch (state.status) {
-          case SignInStatus.success:
+          case ResetPasswordStatus.success:
             loadingDialog.dismissDialog(context);
-            // TODO: Refactor home route to view as a const
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/home',
-              (route) => false,
+
+            final successDialog = DialogHelper(
+              child: PopupDialog(
+                title: AppLocalizations.of(context)!.recoveryEmailSent,
+                description: AppLocalizations.of(context)!
+                    .recoveryEmailSentDescription(state.email),
+                onAccept: () => Navigator.of(context).pop(),
+              ),
+              canBeDismissed: true,
             );
+            successDialog.displayDialog(context);
             break;
 
-          case SignInStatus.loading:
+          case ResetPasswordStatus.loading:
             loadingDialog.displayDialog(context);
             break;
 
-          case SignInStatus.failure:
+          case ResetPasswordStatus.failure:
             loadingDialog.dismissDialog(context);
+
             final DialogHelper failureDialog = DialogHelper(
               child: PopupDialog(
-                title: AppLocalizations.of(context)!.authenticationFailed,
+                title: AppLocalizations.of(context)!.recoveryFailed,
                 description: FirebaseAuthenticationErrorHandler.determineError(
                   context,
                   state.message,
                 ),
-                onAccept: () {
-                  Navigator.of(context).pop();
-                },
+                onAccept: () => Navigator.of(context).pop(),
               ),
               canBeDismissed: true,
             );
             failureDialog.displayDialog(context);
             break;
 
-          case SignInStatus.typing:
+          case ResetPasswordStatus.typing:
             break;
         }
       },
@@ -100,8 +97,8 @@ class _SignInViewState extends State<SignInView> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    VerticalRhythmBanner(
-                      subtitle: AppLocalizations.of(context)!.signInToContinue,
+                    const VerticalRhythmBanner(
+                      subtitle: '',
                     ),
                     _buildForm(context),
                     _buildFooter(context),
@@ -122,26 +119,10 @@ class _SignInViewState extends State<SignInView> {
       hint: AppLocalizations.of(context)!.email,
       icon: const Icon(Icons.email_rounded),
       isPasswordField: false,
-      textInputAction: TextInputAction.next,
       onChanged: ((value) => context
-          .read<SignInBloc>()
-          .add(SignInEmailChangedEvent(email: value!))),
+          .read<ResetPasswordBloc>()
+          .add(ResetPasswordEmailChangedEvent(email: value!))),
       validator: (value) => FieldValidator.emailValidator(context, value),
-    );
-  }
-
-  Widget _buildPasswordField() {
-    return InputTextField(
-      controller: _passwordController,
-      width: MediaQuery.of(context).size.width / 1.25,
-      icon: const Icon(Icons.password),
-      hint: AppLocalizations.of(context)!.password,
-      isPasswordField: true,
-      textInputAction: TextInputAction.done,
-      onChanged: ((value) => context
-          .read<SignInBloc>()
-          .add(SignInPasswordChangedEvent(password: value!))),
-      validator: (value) => FieldValidator.passwordValidator(context, value),
     );
   }
 
@@ -151,22 +132,36 @@ class _SignInViewState extends State<SignInView> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          _buildEmailField(),
+          SvgImage(
+            svg: kForgotPasswordIllustration,
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height / 5,
+          ),
           SizedBox(height: MediaQuery.of(context).size.height / 30),
-          _buildPasswordField(),
-          SizedBox(height: MediaQuery.of(context).size.height / 30),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 1.25,
-            child: GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, ResetPasswordView.route),
-              child: Text(
-                AppLocalizations.of(context)!.forgotPassword,
-                style: kActionText,
-                textAlign: TextAlign.end,
-              ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 20,
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    AppLocalizations.of(context)!.forgotPassword,
+                    style: kSectionTitle,
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 60),
+                Text(
+                  AppLocalizations.of(context)!.forgotPasswordInstructions,
+                  style: kTextLine,
+                ),
+              ],
             ),
           ),
+          SizedBox(height: MediaQuery.of(context).size.height / 30),
+          _buildEmailField(),
+          SizedBox(height: MediaQuery.of(context).size.height / 30),
         ],
       ),
     );
@@ -177,33 +172,16 @@ class _SignInViewState extends State<SignInView> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         LargeActionButton(
-          label: AppLocalizations.of(context)!.signIn,
+          label: AppLocalizations.of(context)!.resetPassword,
           width: MediaQuery.of(context).size.width / 1.5,
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              context.read<SignInBloc>().add(const SignInButtonPressedEvent());
+              context
+                  .read<ResetPasswordBloc>()
+                  .add(const ResetPasswordButtonPressedEvent());
             }
           },
         ),
-        SizedBox(height: MediaQuery.of(context).size.height / 15),
-        GestureDetector(
-          // TODO: Change route to view const field
-          onTap: () => Navigator.pushNamed(context, '/signUp'),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.dontHaveAnAccount,
-                style: kTextLine,
-              ),
-              const SizedBox(width: 3.0),
-              Text(
-                AppLocalizations.of(context)!.register,
-                style: kActionText,
-              ),
-            ],
-          ),
-        )
       ],
     );
   }

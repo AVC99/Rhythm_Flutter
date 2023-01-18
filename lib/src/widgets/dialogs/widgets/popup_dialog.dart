@@ -3,12 +3,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
 
-class ErrorDialog extends StatelessWidget {
+class PopupDialog extends StatelessWidget {
   final String title;
   final String description;
   final Function()? onAccept;
 
-  const ErrorDialog({
+  const PopupDialog({
     Key? key,
     required this.title,
     required this.description,

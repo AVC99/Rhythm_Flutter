@@ -46,5 +46,15 @@
     "accept": "Acceptar",
     "cancel": "Cancel·lar",
     "tooManyRequestsError": "Massa intents. Intenta-ho més tard.",
-    "authenticationFailed": "Error d'autenticació"
+    "authenticationFailed": "Error d'autenticació",
+    "recoveryFailed": "Error de recuperació",
+    "recoveryEmailSent": "Correu electrònic de recuperació",
+    "recoveryEmailSentDescription": "S'ha enviat un correu electrònic a {email}. Segueix les instruccions per a canviar la contrasenya",
+    "@recoveryEmailSentDescription": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    }
 }

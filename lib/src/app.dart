@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rhythm/src/blocs/authentication/reset_password/reset_password_bloc.dart';
 
 import 'package:rhythm/src/core/routes.dart';
 import 'package:rhythm/src/core/theme/theme_repository.dart';
@@ -42,6 +43,12 @@ class RhythmApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (BuildContext context) => SignInBloc(
+              authenticationService:
+                  context.read<FirebaseAuthenticationService>(),
+            ),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => ResetPasswordBloc(
               authenticationService:
                   context.read<FirebaseAuthenticationService>(),
             ),

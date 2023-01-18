@@ -10,4 +10,8 @@ abstract class AuthenticationService {
     required String email,
     required String password,
   });
+
+  Future<void> resetPassword({
+    required String email,
+  });
 }

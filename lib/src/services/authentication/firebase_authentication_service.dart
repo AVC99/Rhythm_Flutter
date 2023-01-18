@@ -2,21 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:rhythm/src/models/user_entity.dart';
 import 'package:rhythm/src/services/authentication/authentication_service.dart';
-
-enum FirebaseAuthError {
-  invalidEmail,
-  userDisabled,
-  userNotFound,
-  wrongPassword,
-  emailAlreadyInUse,
-  accountExistsWithDifferentCredential,
-  invalidCredential,
-  operationNotAllowed,
-  weakPassword,
-  defaultError,
-  tooManyRequests,
-  noError
-}
+import 'package:rhythm/src/services/authentication/firebase_authentication_error.dart';
 
 class FirebaseAuthenticationService implements AuthenticationService {
   final FirebaseAuth _firebaseAuthentication;
@@ -60,6 +46,15 @@ class FirebaseAuthenticationService implements AuthenticationService {
     }
   }
 
+  @override
+  Future<void> resetPassword({required String email}) async {
+    try {
+      await _firebaseAuthentication.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw _determineError(e);
+    }
+  }
+
   UserEntity _mapFirebaseUser(User? user) {
     if (user == null) {
       return UserEntity.empty();
@@ -77,29 +72,29 @@ class FirebaseAuthenticationService implements AuthenticationService {
     return UserEntity.fromJson(map);
   }
 
-  FirebaseAuthError _determineError(FirebaseAuthException exception) {
+  FirebaseAuthenticationError _determineError(FirebaseAuthException exception) {
     switch (exception.code) {
       case 'invalid-email':
-        return FirebaseAuthError.invalidEmail;
+        return FirebaseAuthenticationError.invalidEmail;
       case 'user-disabled':
-        return FirebaseAuthError.userDisabled;
+        return FirebaseAuthenticationError.userDisabled;
       case 'user-not-found':
-        return FirebaseAuthError.userNotFound;
+        return FirebaseAuthenticationError.userNotFound;
       case 'wrong-password':
-        return FirebaseAuthError.wrongPassword;
+        return FirebaseAuthenticationError.wrongPassword;
       case 'email-already-in-use':
       case 'account-exists-with-different-credential':
-        return FirebaseAuthError.emailAlreadyInUse;
+        return FirebaseAuthenticationError.emailAlreadyInUse;
       case 'invalid-credential':
-        return FirebaseAuthError.invalidCredential;
+        return FirebaseAuthenticationError.invalidCredential;
       case 'operation-not-allowed':
-        return FirebaseAuthError.operationNotAllowed;
+        return FirebaseAuthenticationError.operationNotAllowed;
       case 'weak-password':
-        return FirebaseAuthError.weakPassword;
+        return FirebaseAuthenticationError.weakPassword;
       case 'too-many-requests':
-        return FirebaseAuthError.tooManyRequests;
+        return FirebaseAuthenticationError.tooManyRequests;
       default:
-        return FirebaseAuthError.defaultError;
+        return FirebaseAuthenticationError.defaultError;
     }
   }
 }
