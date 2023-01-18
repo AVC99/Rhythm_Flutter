@@ -21,6 +21,8 @@ dependencies:
   shared_preferences: ^2.0.15
   firebase_auth: ^4.2.3
   firebase_core: ^2.4.1
+  flutter_spinkit: ^5.1.0
+  font_awesome_flutter: ^10.3.0
 
 dev_dependencies:
   flutter_test:

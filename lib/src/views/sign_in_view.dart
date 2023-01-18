@@ -5,6 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
 import 'package:rhythm/src/blocs/authentication/sign_in/sign_in_bloc.dart';
+import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/error_dialog.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
 import 'package:rhythm/src/widgets/large_action_button.dart';
 import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
 import 'package:rhythm/src/widgets/input_text_field.dart';
@@ -37,15 +40,37 @@ class _SignInViewState extends State<SignInView> {
 
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
+        const DialogHelper loadingDialog = DialogHelper(
+          child: LoadingSpinner(),
+          canBeDismissed: false,
+        );
+
         switch (state.status) {
           case SignInStatus.success:
-            print('Signed in successfully');
+            loadingDialog.dismissDialog(context);
+            // TODO: Refactor home route to view as a const
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/home',
+              (route) => false,
+            );
             break;
           case SignInStatus.loading:
-            print('Loading...');
+            loadingDialog.displayDialog(context);
             break;
           case SignInStatus.failure:
-            print('Sign in failed');
+            loadingDialog.dismissDialog(context);
+            final DialogHelper failureDialog = DialogHelper(
+              child: ErrorDialog(
+                title: AppLocalizations.of(context)!.authenticationFailed,
+                description: _determineError(state.message),
+                onAccept: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              canBeDismissed: true,
+            );
+            failureDialog.displayDialog(context);
             break;
           case SignInStatus.typing:
             break;
@@ -80,6 +105,34 @@ class _SignInViewState extends State<SignInView> {
         ),
       ),
     );
+  }
+
+  String _determineError(String error) {
+    AppLocalizations localizations = AppLocalizations.of(context)!;
+
+    switch (error) {
+      case 'FirebaseAuthError.invalidEmail':
+        return localizations.invalidEmailError;
+      case 'FirebaseAuthError.userDisabled':
+        return localizations.userDisabledError;
+      case 'FirebaseAuthError.userNotFound':
+        return localizations.userNotFoundError;
+      case 'FirebaseAuthError.wrongPassword':
+        return localizations.wrongPasswordError;
+      case 'FirebaseAuthError.emailAlreadyInUse':
+      case 'FirebaseAuthError.accountExistsWithDifferentCredential':
+        return localizations.emailAlreadyInUseError;
+      case 'FirebaseAuthError.invalidCredential':
+        return localizations.invalidCredentialError;
+      case 'FirebaseAuthError.operationNotAllowed':
+        return localizations.operationNotAllowedError;
+      case 'FirebaseAuthError.weakPassword':
+        return localizations.weakPasswordError;
+      case 'FirebaseAuthError.tooManyRequests':
+        return localizations.tooManyRequestsError;
+      default:
+        return localizations.error;
+    }
   }
 
   Widget _buildEmailField() {

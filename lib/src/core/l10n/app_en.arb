@@ -42,5 +42,9 @@
     "invalidCredentialError": "Invalid credentials",
     "operationNotAllowedError": "Operation not allowed",
     "weakPasswordError": "Weak password",
-    "error": "An unexpected error has occurred. Please, try it again later."
+    "error": "An unexpected error has occurred. Please, try it again later.",
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "tooManyRequestsError": "Too many attempts. Try it again later.",
+    "authenticationFailed": "Authentication failed"
 }

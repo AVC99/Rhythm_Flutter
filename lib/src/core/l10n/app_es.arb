@@ -42,5 +42,9 @@
     "invalidCredentialError": "Credenciales inválidas",
     "operationNotAllowedError": "Operación no permitida",
     "weakPasswordError": "Contraseña débil",
-    "error": "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
+    "error": "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde.",
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "tooManyRequestsError": "Demasiados intentos. Por favor, inténtalo de nuevo más tarde.",
+    "authenticationFailed": "Autenticación fallida"
 }

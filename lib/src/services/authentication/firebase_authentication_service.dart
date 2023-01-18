@@ -1,8 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:rhythm/src/core/localization.dart';
 import 'package:rhythm/src/models/user_entity.dart';
 import 'package:rhythm/src/services/authentication/authentication_service.dart';
+
+enum FirebaseAuthError {
+  invalidEmail,
+  userDisabled,
+  userNotFound,
+  wrongPassword,
+  emailAlreadyInUse,
+  accountExistsWithDifferentCredential,
+  invalidCredential,
+  operationNotAllowed,
+  weakPassword,
+  defaultError,
+  tooManyRequests,
+  noError
+}
 
 class FirebaseAuthenticationService implements AuthenticationService {
   final FirebaseAuth _firebaseAuthentication;
@@ -63,28 +77,29 @@ class FirebaseAuthenticationService implements AuthenticationService {
     return UserEntity.fromJson(map);
   }
 
-  String _determineError(FirebaseAuthException exception) {
+  FirebaseAuthError _determineError(FirebaseAuthException exception) {
     switch (exception.code) {
       case 'invalid-email':
-        return Localization().loc!.invalidEmailError;
+        return FirebaseAuthError.invalidEmail;
       case 'user-disabled':
-        return Localization().loc!.userDisabledError;
+        return FirebaseAuthError.userDisabled;
       case 'user-not-found':
-        return Localization().loc!.userNotFoundError;
+        return FirebaseAuthError.userNotFound;
       case 'wrong-password':
-        return Localization().loc!.wrongPasswordError;
+        return FirebaseAuthError.wrongPassword;
       case 'email-already-in-use':
       case 'account-exists-with-different-credential':
-        return Localization().loc!.emailAlreadyInUseError;
+        return FirebaseAuthError.emailAlreadyInUse;
       case 'invalid-credential':
-        return Localization().loc!.invalidCredentialError;
+        return FirebaseAuthError.invalidCredential;
       case 'operation-not-allowed':
-        return Localization().loc!.operationNotAllowedError;
+        return FirebaseAuthError.operationNotAllowed;
       case 'weak-password':
-        return Localization().loc!.weakPasswordError;
-      case 'ERROR_MISSING_GOOGLE_AUTH_TOKEN':
+        return FirebaseAuthError.weakPassword;
+      case 'too-many-requests':
+        return FirebaseAuthError.tooManyRequests;
       default:
-        return Localization().loc!.error;
+        return FirebaseAuthError.defaultError;
     }
   }
 }

@@ -27,3 +27,15 @@ const kSectionTitle = TextStyle(
   fontSize: 20.0,
   fontWeight: FontWeight.bold,
 );
+
+const kDialogTitle = TextStyle(
+  fontWeight: FontWeight.w600,
+);
+
+const kDialogDescription = TextStyle(
+  fontWeight: FontWeight.w400,
+);
+
+const kDialogActions = TextStyle(
+  fontWeight: FontWeight.w600,
+);

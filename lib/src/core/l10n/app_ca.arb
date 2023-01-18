@@ -42,5 +42,9 @@
     "invalidCredentialError": "Credencials invàlides",
     "operationNotAllowedError": "Operació no permesa",
     "weakPasswordError": "Contrasenya feble",
-    "error": "Ha ocurregut un error inesperat. Si us plau, intenta-ho de nou més tard."
+    "error": "Ha ocurregut un error inesperat. Si us plau, intenta-ho de nou més tard.",
+    "accept": "Acceptar",
+    "cancel": "Cancel·lar",
+    "tooManyRequestsError": "Massa intents. Intenta-ho més tard.",
+    "authenticationFailed": "Error d'autenticació"
 }
