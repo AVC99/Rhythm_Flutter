@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
 
 class ThemeChangerView extends StatefulWidget {
+  static const String route = '/theme';
+
   const ThemeChangerView({Key? key}) : super(key: key);
 
   @override

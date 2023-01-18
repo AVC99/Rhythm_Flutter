@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:rhythm/src/core/resources/constants.dart';
 
 abstract class ThemePersistence {
   Stream<RhythmThemeMode> getTheme();
+
   Future<void> saveTheme(RhythmThemeMode theme);
 
   void dispose();
@@ -35,6 +38,7 @@ class ThemeRepository implements ThemePersistence {
 
   void _init() {
     final themeString = _getValue(kThemeModePersistenceKey);
+
     if (themeString != null) {
       if (themeString == RhythmThemeMode.light.name) {
         _controller.add(RhythmThemeMode.light);
@@ -42,7 +46,12 @@ class ThemeRepository implements ThemePersistence {
         _controller.add(RhythmThemeMode.dark);
       }
     } else {
-      _controller.add(RhythmThemeMode.light);
+      var brightness =
+          SchedulerBinding.instance.platformDispatcher.platformBrightness;
+      bool isDarkMode = brightness == Brightness.dark;
+
+      _controller
+          .add(isDarkMode ? RhythmThemeMode.dark : RhythmThemeMode.light);
     }
   }
 

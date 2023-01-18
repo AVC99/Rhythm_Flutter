@@ -3,33 +3,38 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
+import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
 import 'package:rhythm/src/widgets/large_action_button.dart';
 import 'package:rhythm/src/widgets/svg_image.dart';
+import 'package:rhythm/src/views/sign_in_view.dart';
 
 class StartView extends StatelessWidget {
+  static const String route = '/';
+
   const StartView({Key? key}) : super(key: key);
 
-  Widget _buildBanner(BuildContext context) {
-    return Column(
-      children: [
-        SvgImage(
-          svg: kLogo,
-          width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.height / 15,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                VerticalRhythmBanner(
+                  subtitle: AppLocalizations.of(context)!.slogan,
+                ),
+                _buildIllustration(context),
+                _buildFooter(context),
+              ],
+            ),
+          ),
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 50,
-        ),
-        Text(
-          AppLocalizations.of(context)!.appName,
-          style: kAppTitle,
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height / 50),
-        Text(
-          AppLocalizations.of(context)!.slogan,
-          style: kTextLine,
-        ),
-      ],
+      ),
     );
   }
 
@@ -48,7 +53,7 @@ class StartView extends StatelessWidget {
           label: AppLocalizations.of(context)!.start,
           width: MediaQuery.of(context).size.width / 1.5,
           onPressed: () {
-            Navigator.pushNamed(context, '/signIn');
+            Navigator.pushNamed(context, SignInView.route);
           },
         ),
         SizedBox(height: MediaQuery.of(context).size.height / 15),
@@ -59,27 +64,5 @@ class StartView extends StatelessWidget {
       ],
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildBanner(context),
-                _buildIllustration(context),
-                _buildFooter(context),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
+
