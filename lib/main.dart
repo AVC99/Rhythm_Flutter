@@ -1,10 +1,8 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:rhythm/src/core/theme/theme_repository.dart';
-import 'package:rhythm/src/services/authentication/firebase_options.dart';
 import 'package:rhythm/src/app.dart';
 
 Future<void> main() async {
@@ -12,10 +10,6 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
-  );
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   final themeRepository = ThemeRepository(

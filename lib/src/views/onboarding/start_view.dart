@@ -6,7 +6,7 @@ import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
 import 'package:rhythm/src/widgets/large_action_button.dart';
 import 'package:rhythm/src/widgets/svg_image.dart';
-import 'package:rhythm/src/views/sign_in_view.dart';
+import 'package:rhythm/src/views/onboarding/sign_in_view.dart';
 
 class StartView extends StatelessWidget {
   static const String route = '/';

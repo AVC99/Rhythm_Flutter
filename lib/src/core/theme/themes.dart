@@ -23,7 +23,7 @@ abstract class AppTheme {
           background: kMarineBlue,
           onBackground: Colors.white,
           surface: kTransparentGrey,
-          onSurface: Colors.white,
+          onSurface: kLightBlack,
           brightness: Brightness.light,
         ),
         scaffoldBackgroundColor: kBrokenWhite,

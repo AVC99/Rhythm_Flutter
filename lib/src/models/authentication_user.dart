@@ -1,4 +1,4 @@
-class UserEntity {
+class AuthenticationUser {
   final String id;
   final String username;
   final String firstName;
@@ -7,7 +7,7 @@ class UserEntity {
   final String dateOfBirth;
   final String imageUrl;
 
-  UserEntity({
+  AuthenticationUser({
     required this.id,
     required this.username,
     required this.firstName,
@@ -17,7 +17,7 @@ class UserEntity {
     required this.imageUrl,
   });
 
-  factory UserEntity.empty() => UserEntity(
+  factory AuthenticationUser.empty() => AuthenticationUser(
     id: '',
     username: '',
     firstName: '',
@@ -27,7 +27,7 @@ class UserEntity {
     imageUrl: '',
   );
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
+  factory AuthenticationUser.fromJson(Map<String, dynamic> json) => AuthenticationUser(
     id: json['id'] ?? '',
     firstName: json['firstName'] ?? '',
     lastName: json['lastName'] ?? '',

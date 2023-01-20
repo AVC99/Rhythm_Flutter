@@ -40,10 +40,10 @@ abstract class FieldValidator {
   }
 
   static String? repeatPasswordValidator(
-      BuildContext context,
-      String? value,
-      String? repeatPassword,
-      ) {
+    BuildContext context,
+    String? value,
+    String? repeatPassword,
+  ) {
     if (!Validation.isFulfilled(value)) {
       return AppLocalizations.of(context)!.requiredFieldError;
     }
@@ -60,12 +60,12 @@ abstract class FieldValidator {
     return null;
   }
 
-  static String? userAgeValidator(BuildContext context, String? value) {
+  static String? userAgeValidator(BuildContext context, String? value, String locale) {
     if (!Validation.isFulfilled(value)) {
       return AppLocalizations.of(context)!.requiredFieldError;
     }
 
-    if (!Validation.isAdult(value!)) {
+    if (!Validation.isAdult(value, locale)) {
       return AppLocalizations.of(context)!.underAgeError(kMinUserAge);
     }
 

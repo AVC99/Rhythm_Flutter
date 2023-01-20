@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
-import 'package:rhythm/src/blocs/authentication/sign_in/sign_in_bloc.dart';
-import 'package:rhythm/src/services/authentication/firebase_authentication_error.dart';
-import 'package:rhythm/src/views/reset_password_view.dart';
-import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
-import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
-import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
+import 'package:rhythm/src/views/onboarding/reset_password_view.dart';
+import 'package:rhythm/src/views/onboarding/sign_up_view.dart';
 import 'package:rhythm/src/widgets/large_action_button.dart';
 import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
 import 'package:rhythm/src/widgets/input_text_field.dart';
@@ -40,73 +35,28 @@ class _SignInViewState extends State<SignInView> {
   Widget build(BuildContext context) {
     _isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
-    return BlocListener<SignInBloc, SignInState>(
-      listener: (context, state) {
-        const DialogHelper loadingDialog = DialogHelper(
-          child: LoadingSpinner(),
-          canBeDismissed: false,
-        );
-
-        switch (state.status) {
-          case SignInStatus.success:
-            loadingDialog.dismissDialog(context);
-            // TODO: Refactor home route to view as a const
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/home',
-              (route) => false,
-            );
-            break;
-
-          case SignInStatus.loading:
-            loadingDialog.displayDialog(context);
-            break;
-
-          case SignInStatus.failure:
-            loadingDialog.dismissDialog(context);
-            final DialogHelper failureDialog = DialogHelper(
-              child: PopupDialog(
-                title: AppLocalizations.of(context)!.authenticationFailed,
-                description: FirebaseAuthenticationErrorHandler.determineError(
-                  context,
-                  state.message,
-                ),
-                onAccept: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              canBeDismissed: true,
-            );
-            failureDialog.displayDialog(context);
-            break;
-
-          case SignInStatus.typing:
-            break;
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(),
-        body: SingleChildScrollView(
-          physics: _isKeyboardVisible
-              ? const BouncingScrollPhysics()
-              : const NeverScrollableScrollPhysics(),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height / 1.25,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    VerticalRhythmBanner(
-                      subtitle: AppLocalizations.of(context)!.signInToContinue,
-                    ),
-                    _buildForm(context),
-                    _buildFooter(context),
-                  ],
-                ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        physics: _isKeyboardVisible
+            ? const BouncingScrollPhysics()
+            : const NeverScrollableScrollPhysics(),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height / 1.25,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  VerticalRhythmBanner(
+                    subtitle: AppLocalizations.of(context)!.signInToContinue,
+                  ),
+                  _buildForm(context),
+                  _buildFooter(context),
+                ],
               ),
             ),
           ),
@@ -123,9 +73,7 @@ class _SignInViewState extends State<SignInView> {
       icon: const Icon(Icons.email_rounded),
       isPasswordField: false,
       textInputAction: TextInputAction.next,
-      onChanged: ((value) => context
-          .read<SignInBloc>()
-          .add(SignInEmailChangedEvent(email: value!))),
+      onChanged: (value) {},
       validator: (value) => FieldValidator.emailValidator(context, value),
     );
   }
@@ -138,9 +86,7 @@ class _SignInViewState extends State<SignInView> {
       hint: AppLocalizations.of(context)!.password,
       isPasswordField: true,
       textInputAction: TextInputAction.done,
-      onChanged: ((value) => context
-          .read<SignInBloc>()
-          .add(SignInPasswordChangedEvent(password: value!))),
+      onChanged: (value) {},
       validator: (value) => FieldValidator.passwordValidator(context, value),
     );
   }
@@ -180,15 +126,12 @@ class _SignInViewState extends State<SignInView> {
           label: AppLocalizations.of(context)!.signIn,
           width: MediaQuery.of(context).size.width / 1.5,
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              context.read<SignInBloc>().add(const SignInButtonPressedEvent());
-            }
+            if (_formKey.currentState!.validate()) {}
           },
         ),
         SizedBox(height: MediaQuery.of(context).size.height / 15),
         GestureDetector(
-          // TODO: Change route to view const field
-          onTap: () => Navigator.pushNamed(context, '/signUp'),
+          onTap: () => Navigator.pushNamed(context, SignUpView.route),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

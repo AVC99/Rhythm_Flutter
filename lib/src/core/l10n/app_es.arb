@@ -56,5 +56,11 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "profile": "Perfil",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "username": "Nombre de usuario",
+    "dateOfBirth": "Fecha de nacimiento",
+    "createAccount": "Crear cuenta"
 }

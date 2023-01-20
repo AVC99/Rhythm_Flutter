@@ -25,10 +25,8 @@ abstract class Validation {
     return password == repeatPassword;
   }
 
-  static bool isAdult(String dateOfBirth) {
-    String datePattern = 'dd-MM-yyyy';
-
-    DateTime birthDate = DateFormat(datePattern).parse(dateOfBirth);
+  static bool isAdult(String? dateOfBirth, String locale) {
+    DateTime birthDate = DateFormat.yMMMMd(locale).parse(dateOfBirth!);
     DateTime today = DateTime.now();
 
     int yearDiff = today.year - birthDate.year;
