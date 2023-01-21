@@ -62,5 +62,11 @@
     "lastName": "Apellidos",
     "username": "Nombre de usuario",
     "dateOfBirth": "Fecha de nacimiento",
-    "createAccount": "Crear cuenta"
+    "createAccount": "Crear cuenta",
+    "onPickImageError": "Galería",
+    "onPickImageErrorDescription": "Ha occurrido un error con la galería. Por favor, revisa que has aceptado los permisos necesarios o pruébalo de nuevo con otra imagen.",
+    "home": "Inicio",
+    "trending": "Popular",
+    "search": "Buscar",
+    "notifications": "Notificaciones"
 }

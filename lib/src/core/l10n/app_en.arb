@@ -62,5 +62,11 @@
     "lastName": "Last name",
     "username": "Username",
     "dateOfBirth": "Date of birth",
-    "createAccount": "Create account"
+    "createAccount": "Create account",
+    "onPickImageError": "Photo gallery",
+    "onPickImageErrorDescription": "An error has occurred with the photo gallery. Please, check if all permissions have been granted or try it again with another image.",
+    "home": "Home",
+    "trending": "Trending",
+    "search": "Search",
+    "notifications": "Notifications"
 }

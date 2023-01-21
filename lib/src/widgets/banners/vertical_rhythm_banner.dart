@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
-import 'package:rhythm/src/widgets/svg_image.dart';
+import 'package:rhythm/src/widgets/utils/svg_image.dart';
 
 class VerticalRhythmBanner extends StatelessWidget {
   final String subtitle;

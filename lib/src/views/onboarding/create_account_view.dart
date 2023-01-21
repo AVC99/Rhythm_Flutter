@@ -5,11 +5,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
-import 'package:rhythm/src/widgets/image_picker/image_picker_helper.dart';
-import 'package:rhythm/src/widgets/image_picker/widgets/circle_image_picker.dart';
-import 'package:rhythm/src/widgets/input_date_field.dart';
-import 'package:rhythm/src/widgets/input_text_field.dart';
-import 'package:rhythm/src/widgets/large_action_button.dart';
+import 'package:rhythm/src/views/home/home_view.dart';
+import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
+import 'package:rhythm/src/widgets/image_pickers/image_picker_helper.dart';
+import 'package:rhythm/src/widgets/image_pickers/widgets/circle_image_picker.dart';
+import 'package:rhythm/src/widgets/inputs/input_date_field.dart';
+import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
+import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
 
 class CreateAccountView extends StatefulWidget {
   static const String route = '/createAccount';
@@ -44,38 +47,56 @@ class _CreateAccountViewState extends State<CreateAccountView> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        physics: _isKeyboardVisible
-            ? const BouncingScrollPhysics()
-            : const NeverScrollableScrollPhysics(),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height / 1.25,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleImagePicker(
-                    image: _selectedImage,
-                    radius: MediaQuery.of(context).size.width / 4,
-                    onTap: () async {
-                      _selectedImage = await ImagePickerHelper.pickImage();
-
-                      setState(() {
-                        _selectedImage;
-                      });
-                    },
-                  ),
-                  _buildForm(context),
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            physics: _isKeyboardVisible
+                ? const BouncingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height / 1.25,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _buildImagePicker(context),
+                    _buildForm(context),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildImagePicker(BuildContext context) {
+    return CircleImagePicker(
+      image: _selectedImage,
+      radius: MediaQuery.of(context).size.width / 4,
+      onTap: () async {
+        _selectedImage = await ImagePickerHelper.pickImage(() {
+          final DialogHelper errorDialog = DialogHelper(
+            child: PopupDialog(
+              title: AppLocalizations.of(context)!.onPickImageError,
+              description:
+                  AppLocalizations.of(context)!.onPickImageErrorDescription,
+              onAccept: () => Navigator.of(context).pop(),
+            ),
+            canBeDismissed: true,
+          );
+
+          errorDialog.displayDialog(context);
+        });
+
+        setState(() {
+          _selectedImage;
+        });
+      },
     );
   }
 
@@ -150,7 +171,12 @@ class _CreateAccountViewState extends State<CreateAccountView> {
       label: AppLocalizations.of(context)!.createAccount,
       width: MediaQuery.of(context).size.width / 1.5,
       onPressed: () {
-        if (_formKey.currentState!.validate()) {}
+        // if (_formKey.currentState!.validate()) {}
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          HomeView.route,
+          (route) => false,
+        );
       },
     );
   }

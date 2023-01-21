@@ -30,7 +30,7 @@ class _InputDateFieldState extends State<InputDateField> {
   bool isPasswordVisible = false;
 
   Color _getThemeColor(String mode) {
-    return mode == ThemeMode.light.name ? kLightBlack : kTransparentGrey;
+    return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
   }
 
   @override
@@ -45,6 +45,7 @@ class _InputDateFieldState extends State<InputDateField> {
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 border: Border.all(
+                  width: 2.0,
                   color: _getThemeColor(state.themeMode.name),
                 ),
               ),

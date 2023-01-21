@@ -34,7 +34,7 @@ class _InputTextFieldState extends State<InputTextField> {
   bool isPasswordVisible = false;
 
   Color _getThemeColor(String mode) {
-    return mode == ThemeMode.light.name ? kLightBlack : kTransparentGrey;
+    return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
   }
 
   Widget? _handlePasswordVisibility(Color color) {
@@ -65,6 +65,7 @@ class _InputTextFieldState extends State<InputTextField> {
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 border: Border.all(
+                  width: 2.0,
                   color: _getThemeColor(state.themeMode.name),
                 ),
               ),
@@ -90,7 +91,7 @@ class _InputTextFieldState extends State<InputTextField> {
                     ),
                   ),
                   obscureText:
-                  widget.isPasswordField ? !isPasswordVisible : false,
+                      widget.isPasswordField ? !isPasswordVisible : false,
                   textInputAction: widget.textInputAction,
                   onChanged: widget.onChanged,
                   validator: widget.validator,

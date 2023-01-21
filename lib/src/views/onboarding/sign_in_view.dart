@@ -3,11 +3,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
+import 'package:rhythm/src/views/home/home_view.dart';
 import 'package:rhythm/src/views/onboarding/reset_password_view.dart';
 import 'package:rhythm/src/views/onboarding/sign_up_view.dart';
-import 'package:rhythm/src/widgets/large_action_button.dart';
-import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
-import 'package:rhythm/src/widgets/input_text_field.dart';
+import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
+import 'package:rhythm/src/widgets/banners/vertical_rhythm_banner.dart';
+import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 
 class SignInView extends StatefulWidget {
   static const route = '/signIn';
@@ -37,26 +38,28 @@ class _SignInViewState extends State<SignInView> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        physics: _isKeyboardVisible
-            ? const BouncingScrollPhysics()
-            : const NeverScrollableScrollPhysics(),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height / 1.25,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  VerticalRhythmBanner(
-                    subtitle: AppLocalizations.of(context)!.signInToContinue,
-                  ),
-                  _buildForm(context),
-                  _buildFooter(context),
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            physics: _isKeyboardVisible
+                ? const BouncingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height / 1.25,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    VerticalRhythmBanner(
+                      subtitle: AppLocalizations.of(context)!.signInToContinue,
+                    ),
+                    _buildForm(context),
+                    _buildFooter(context),
+                  ],
+                ),
               ),
             ),
           ),
@@ -126,7 +129,12 @@ class _SignInViewState extends State<SignInView> {
           label: AppLocalizations.of(context)!.signIn,
           width: MediaQuery.of(context).size.width / 1.5,
           onPressed: () {
-            if (_formKey.currentState!.validate()) {}
+            // if (_formKey.currentState!.validate()) {}
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomeView.route,
+              (route) => false,
+            );
           },
         ),
         SizedBox(height: MediaQuery.of(context).size.height / 15),

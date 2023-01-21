@@ -11,7 +11,7 @@ abstract class AppTheme {
           systemOverlayStyle: SystemUiOverlayStyle.dark,
           iconTheme: IconThemeData(color: Colors.black),
         ),
-        colorScheme: ColorScheme(
+        colorScheme: const ColorScheme(
           primary: kSkyBlue,
           onPrimary: Colors.white,
           secondary: kSkyBlue,
@@ -22,13 +22,13 @@ abstract class AppTheme {
           onError: Colors.white,
           background: kMarineBlue,
           onBackground: Colors.white,
-          surface: kTransparentGrey,
-          onSurface: kLightBlack,
+          surface: kBrokenWhite,
+          onSurface: kGrey,
           brightness: Brightness.light,
         ),
-        scaffoldBackgroundColor: kBrokenWhite,
-        cardTheme: CardTheme(
-          color: kTransparentGrey,
+        scaffoldBackgroundColor: Colors.white,
+        cardTheme: const CardTheme(
+          color: kBrokenWhite,
         ),
         fontFamily: 'Montserrat',
       );
@@ -40,7 +40,7 @@ abstract class AppTheme {
           systemOverlayStyle: SystemUiOverlayStyle.light,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-        colorScheme: ColorScheme(
+        colorScheme: const ColorScheme(
           primary: kSkyBlue,
           onPrimary: Colors.white,
           secondary: kSkyBlue,
@@ -51,13 +51,13 @@ abstract class AppTheme {
           onError: Colors.white,
           background: kMarineBlue,
           onBackground: Colors.white,
-          surface: kTransparentGrey,
+          surface: kBrokenWhite,
           onSurface: Colors.white,
           brightness: Brightness.dark,
         ),
         scaffoldBackgroundColor: kMarineBlue,
-        cardTheme: CardTheme(
-          color: kTransparentGrey,
+        cardTheme: const CardTheme(
+          color: kBrokenWhite,
         ),
         fontFamily: 'Montserrat',
       );

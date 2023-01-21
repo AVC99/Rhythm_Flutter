@@ -4,9 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
 import 'package:rhythm/src/views/onboarding/create_account_view.dart';
-import 'package:rhythm/src/widgets/large_action_button.dart';
-import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
-import 'package:rhythm/src/widgets/input_text_field.dart';
+import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
+import 'package:rhythm/src/widgets/banners/vertical_rhythm_banner.dart';
+import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 
 class SignUpView extends StatefulWidget {
   static const String route = '/signUp';
@@ -39,26 +39,28 @@ class _SignUpViewState extends State<SignUpView> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        physics: _isKeyboardVisible
-            ? const BouncingScrollPhysics()
-            : const NeverScrollableScrollPhysics(),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height / 1.25,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  VerticalRhythmBanner(
-                    subtitle: AppLocalizations.of(context)!.createNewAccount,
-                  ),
-                  _buildForm(context),
-                  _buildFooter(context),
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            physics: _isKeyboardVisible
+                ? const BouncingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height / 1.25,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    VerticalRhythmBanner(
+                      subtitle: AppLocalizations.of(context)!.createNewAccount,
+                    ),
+                    _buildForm(context),
+                    _buildFooter(context),
+                  ],
+                ),
               ),
             ),
           ),

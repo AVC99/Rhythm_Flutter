@@ -24,7 +24,7 @@ class CircleImagePicker extends StatefulWidget {
 
 class _CircleImagePickerState extends State<CircleImagePicker> {
   Color _getThemeColor(String mode) {
-    return mode == ThemeMode.light.name ? kLightBlack : kTransparentGrey;
+    return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
   }
 
   @override
@@ -41,7 +41,7 @@ class _CircleImagePickerState extends State<CircleImagePicker> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    width: 1.0,
+                    width: 2.0,
                     color: _getThemeColor(state.themeMode.name),
                   ),
                 ),

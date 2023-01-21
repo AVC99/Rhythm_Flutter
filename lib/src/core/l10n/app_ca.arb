@@ -62,5 +62,11 @@
     "lastName": "Cognoms",
     "username": "Nom d'usuari",
     "dateOfBirth": "Data de naixement",
-    "createAccount": "Crear compte"
+    "createAccount": "Crear compte",
+    "onPickImageError": "Galeria",
+    "onPickImageErrorDescription": "Ha ocurregut un error amb la galeria. Si us plau, revisa si has acceptat els permissos corresponents o prova amb una altre imatge.",
+    "home": "Inici",
+    "trending": "Popular",
+    "search": "Buscar",
+    "notifications": "Notificacions"
 }

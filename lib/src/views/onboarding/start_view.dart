@@ -3,9 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
-import 'package:rhythm/src/widgets/vertical_rhythm_banner.dart';
-import 'package:rhythm/src/widgets/large_action_button.dart';
-import 'package:rhythm/src/widgets/svg_image.dart';
+import 'package:rhythm/src/widgets/banners/vertical_rhythm_banner.dart';
+import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
+import 'package:rhythm/src/widgets/utils/svg_image.dart';
 import 'package:rhythm/src/views/onboarding/sign_in_view.dart';
 
 class StartView extends StatelessWidget {
@@ -16,6 +16,7 @@ class StartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: SafeArea(
         child: Padding(

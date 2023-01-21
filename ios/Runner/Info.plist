@@ -48,10 +48,10 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Pick images from gallery</string>
+    <string></string>
     <key>NSCameraUsageDescription</key>
-    <string>Camera access to allow taking pictures</string>
+    <string></string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Microphone access to record a video with sound</string>
+    <string></string>
 </dict>
 </plist>
