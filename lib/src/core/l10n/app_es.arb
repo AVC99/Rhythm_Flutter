@@ -68,5 +68,16 @@
     "home": "Inicio",
     "trending": "Popular",
     "search": "Buscar",
-    "notifications": "Notificaciones"
+    "notifications": "Notificaciones",
+    "edit": "Editar",
+    "settings": "Configuración",
+    "posts": "Posts",
+    "stats": "Estadísticas",
+    "social": "Social",
+    "saveToSpotify": "Añadir a favoritos de Spotify",
+    "removeFromSpotify": "Eliminar de favoritos de Spotify",
+    "topArtists": "Top artistas",
+    "mostListenedGenres": "Géneros más escuchados",
+    "topTracks": "Top canciones",
+    "searchFriend": "Buscar amigos"
 }

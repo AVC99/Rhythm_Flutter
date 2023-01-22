@@ -5,7 +5,7 @@ import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
 
 class CircularIconButton extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String tooltip;
   final Function()? onPressed;
 
@@ -26,7 +26,7 @@ class CircularIconButton extends StatelessWidget {
       builder: (context, state) {
         return IconButton(
           color: _getThemeColor(state.themeMode.name),
-          icon: Icon(icon),
+          icon: icon,
           tooltip: tooltip,
           onPressed: onPressed,
         );

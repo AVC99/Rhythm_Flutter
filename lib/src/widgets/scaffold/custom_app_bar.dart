@@ -42,7 +42,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return Row(
       children: [
         CircularIconButton(
-          icon: Icons.notifications,
+          icon: const Icon(Icons.notifications),
           tooltip: AppLocalizations.of(context)!.notifications,
           onPressed: () {},
         ),

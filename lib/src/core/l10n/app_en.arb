@@ -68,5 +68,16 @@
     "home": "Home",
     "trending": "Trending",
     "search": "Search",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "edit": "Edit",
+    "settings": "Settings",
+    "posts": "Posts",
+    "stats": "Stats",
+    "social": "Social",
+    "saveToSpotify": "Save to Spotify favourites",
+    "removeFromSpotify": "Remove from Spotify favourites",
+    "topArtists": "Top artists",
+    "mostListenedGenres": "Most listened genres",
+    "topTracks": "Top tracks",
+    "searchFriend": "Search friends"
 }

@@ -6,6 +6,7 @@ import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/constants.dart';
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
+import 'package:rhythm/src/views/home/profile_view.dart';
 import 'package:rhythm/src/widgets/scaffold/custom_app_bar.dart';
 import 'package:rhythm/src/widgets/utils/svg_image.dart';
 
@@ -43,26 +44,21 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildBody(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            Container(
-              color: Colors.red,
-            ),
-            Container(
-              color: Colors.yellow,
-            ),
-            Container(
-              color: Colors.green,
-            ),
-            Container(
-              color: Colors.orange,
-            ),
-          ],
-        ),
+      child: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          Container(
+            color: Colors.red,
+          ),
+          Container(
+            color: Colors.yellow,
+          ),
+          Container(
+            color: Colors.green,
+          ),
+          const ProfileView(),
+        ],
       ),
     );
   }

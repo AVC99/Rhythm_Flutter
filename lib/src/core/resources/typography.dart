@@ -39,3 +39,8 @@ const kDialogDescription = TextStyle(
 const kDialogActions = TextStyle(
   fontWeight: FontWeight.w600,
 );
+
+const kUsernameProfile = TextStyle(
+  fontSize: 24.0,
+  fontWeight: FontWeight.w600,
+);

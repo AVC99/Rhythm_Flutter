@@ -31,6 +31,19 @@ abstract class AppTheme {
           color: kBrokenWhite,
         ),
         fontFamily: 'Montserrat',
+        tabBarTheme: const TabBarTheme(
+          unselectedLabelColor: kLightBlack,
+          unselectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+          labelColor: kSkyBlue,
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        chipTheme: const ChipThemeData(
+          backgroundColor: kSkyBlue,
+        ),
       );
 
   static ThemeData get darkTheme => ThemeData(
@@ -60,5 +73,18 @@ abstract class AppTheme {
           color: kBrokenWhite,
         ),
         fontFamily: 'Montserrat',
+        tabBarTheme: const TabBarTheme(
+          unselectedLabelColor: kBrokenWhite,
+          unselectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+          labelColor: kSkyBlue,
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        chipTheme: const ChipThemeData(
+          backgroundColor: kSkyBlue,
+        ),
       );
 }

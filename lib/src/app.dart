@@ -43,8 +43,8 @@ class RhythmApp extends StatelessWidget {
               darkTheme: AppTheme.darkTheme,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              initialRoute: StartView.route,
-              // initialRoute: ThemeChangerView.route,
+              // initialRoute: StartView.route,
+              initialRoute: ThemeChangerView.route,
               routes: routes,
             );
           },
