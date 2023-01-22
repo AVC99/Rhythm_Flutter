@@ -12,6 +12,8 @@ import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
+import '../../widgets/cards/song_card.dart';
+
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
