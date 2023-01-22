@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:rhythm/src/core/theme/theme_repository.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
 import 'package:rhythm/src/core/theme/themes.dart';
 import 'package:rhythm/src/core/routes.dart';
+import 'package:rhythm/src/providers/authentication_provider.dart';
+import 'package:rhythm/src/views/splash_view.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
-import 'package:rhythm/src/views/theme_changer_view.dart';
+import 'package:rhythm/src/views/home/home_view.dart';
 
-class RhythmApp extends StatelessWidget {
+class RhythmApp extends ConsumerWidget {
   final ThemeRepository themeRepository;
 
   const RhythmApp({
@@ -18,21 +21,15 @@ class RhythmApp extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<ThemeRepository>.value(
-          value: themeRepository,
-        ),
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<ThemeCubit>(
-            create: (BuildContext context) => ThemeCubit(
-              themeRepository: context.read<ThemeRepository>(),
-            )..getCurrentTheme(),
-          ),
-        ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authenticationState = ref.watch(authenticationStateProvider);
+
+    return RepositoryProvider<ThemeRepository>.value(
+      value: themeRepository,
+      child: BlocProvider<ThemeCubit>(
+        create: (BuildContext context) => ThemeCubit(
+          themeRepository: context.read<ThemeRepository>(),
+        )..getCurrentTheme(),
         child: BlocBuilder<ThemeCubit, ThemeState>(
           builder: (context, themeState) {
             return MaterialApp(
@@ -43,8 +40,11 @@ class RhythmApp extends StatelessWidget {
               darkTheme: AppTheme.darkTheme,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              // initialRoute: StartView.route,
-              initialRoute: ThemeChangerView.route,
+              home: authenticationState.when(
+                data: (user) => user != null ? const HomeView() : const StartView(),
+                error: (error, stacktrace) => const StartView(),
+                loading: () => const SplashView(),
+              ),
               routes: routes,
             );
           },

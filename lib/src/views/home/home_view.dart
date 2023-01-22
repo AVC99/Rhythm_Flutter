@@ -20,8 +20,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final PageController _pageController =
-      PageController(initialPage: kInitialPage);
+  final PageController _pageController = PageController(
+    initialPage: kInitialPage,
+  );
   int _currentNavbarIndex = kInitialPage;
 
   @override

@@ -9,7 +9,7 @@ import 'package:rhythm/src/widgets/utils/svg_image.dart';
 import 'package:rhythm/src/views/onboarding/sign_in_view.dart';
 
 class StartView extends StatelessWidget {
-  static const String route = '/';
+  static const String route = '/start';
 
   const StartView({Key? key}) : super(key: key);
 
