@@ -5,10 +5,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
+import 'package:rhythm/src/widgets/cards/user_card.dart';
 import 'package:rhythm/src/widgets/images/image_holder.dart';
 import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
-import 'package:rhythm/src/widgets/songs/song_card.dart';
+import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
 class ProfileView extends StatefulWidget {
@@ -272,7 +273,19 @@ class _ProfileViewState extends State<ProfileView> {
             isPasswordField: false,
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 40),
-
+          Expanded(
+            child: ListView.separated(
+              itemBuilder: (context, index) => UserCard(
+                  action: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.add),
+              ),
+              ),
+              separatorBuilder: (context, index) =>
+                  SizedBox(height: MediaQuery.of(context).size.height / 60),
+              itemCount: 20,
+            ),
+          ),
         ],
       ),
     );
