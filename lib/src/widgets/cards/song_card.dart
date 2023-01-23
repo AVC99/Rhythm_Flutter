@@ -64,7 +64,7 @@ class _SongCardState extends State<SongCard> {
                     ),
                     Container(
                       constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width / 2,
+                        maxWidth: MediaQuery.of(context).size.width / 2.5,
                       ),
                       child: const SlidingText(
                         child: Text(
@@ -83,7 +83,7 @@ class _SongCardState extends State<SongCard> {
                     ),
                     Container(
                       constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width / 2,
+                        maxWidth: MediaQuery.of(context).size.width / 2.5,
                       ),
                       child: const SlidingText(
                         child: Text(

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
-import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
 class UserCard extends StatefulWidget {
@@ -74,7 +73,7 @@ class _UserCardState extends State<UserCard> {
               children: [
                 Container(
                   constraints:
-                      BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 3),
+                      BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 2.5),
                   child: const SlidingText(child: Text('Username'),
                   ),
                 ),
@@ -92,8 +91,6 @@ class _UserCardState extends State<UserCard> {
             ),
             _buildButton(context),
           ],
-
-
         ),
       ),
     );
