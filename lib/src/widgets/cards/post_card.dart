@@ -27,7 +27,7 @@ class _PostCardState extends State<PostCard> {
   bool _isPlaying = true;
 
   Color _getThemeColor(String mode) {
-    return mode == ThemeMode.light.name ? kLightBlack : kBrokenWhite;
+    return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
   }
 
   @override
@@ -133,7 +133,8 @@ class _PostCardState extends State<PostCard> {
                 decoration: BoxDecoration(
                   border: Border.all(width: 1),
                 ),
-                child: Image.network(albumCover),
+                child: Image.network(albumCover,
+                fit: BoxFit.fill,),
               ),
             ),
             Positioned(

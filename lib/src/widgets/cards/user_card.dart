@@ -20,7 +20,7 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
 
   Color _getThemeColor(String mode) {
-    return mode == ThemeMode.light.name ? kLightBlack : kBrokenWhite;
+    return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
   }
 
   @override

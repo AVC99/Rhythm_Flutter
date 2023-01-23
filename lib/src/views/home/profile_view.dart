@@ -342,7 +342,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               itemBuilder: (context, index) => UserCard(
                 action: IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(Icons.remove),
                 ),
               ),
               separatorBuilder: (context, index) =>
