@@ -3,11 +3,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
+import 'package:rhythm/src/core/utils/dates.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
+import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
+import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
+import 'package:rhythm/src/controllers/firestore/users_controller.dart';
+import 'package:rhythm/src/controllers/storage/storage_controller.dart';
+import 'package:rhythm/src/controllers/storage/storage_state.dart';
+import 'package:rhythm/src/views/home/home_view.dart';
 import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
 import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
 import 'package:rhythm/src/widgets/image_pickers/image_picker_helper.dart';
 import 'package:rhythm/src/widgets/image_pickers/widgets/circle_image_picker.dart';
@@ -52,6 +60,24 @@ class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
   @override
   Widget build(BuildContext context) {
     _isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+
+    ref.listen<FirestoreQueryState>(
+      usersControllerProvider,
+      (previousState, nextState) {
+        const DialogHelper loadingDialog = DialogHelper(
+          child: LoadingSpinner(),
+          canBeDismissed: false,
+        );
+
+        if (nextState.runtimeType is FirestoreQueryLoadingState ||
+            nextState.runtimeType is StorageLoadingState) {
+          loadingDialog.displayDialog(context);
+        } else if (previousState.runtimeType is FirestoreQueryLoadingState ||
+            previousState.runtimeType is StorageLoadingState) {
+          loadingDialog.dismissDialog(context);
+        }
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(),
@@ -179,27 +205,66 @@ class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
       label: AppLocalizations.of(context)!.createAccount,
       width: MediaQuery.of(context).size.width / 1.5,
       onPressed: () async {
-        final bool existsUsername = await ref
-            .read(usersControllerProvider.notifier)
-            .existsUsername(_usernameController.text);
+        if (_formKey.currentState!.validate()) {
+          final bool existsUsername = await ref
+              .read(usersControllerProvider.notifier)
+              .existsUsername(_usernameController.text);
 
-        // TODO: Show notification informing that username already exists
+          if (existsUsername) {
+            if (!mounted) return;
 
-        if (_formKey.currentState!.validate() && !existsUsername) {
-          /*ref.read(authenticationControllerProvider.notifier).createUser(
-                RhythmUser(
-                  email: widget.email,
-                  password: widget.password,
-                  firstName: _firstNameController.text,
-                  lastName: _lastNameController.text,
-                  username: _usernameController.text,
-                  dateOfBirth: Dates.fromDatetime(
-                    _dateOfBirthController.text,
-                    Localizations.localeOf(context).languageCode,
+            final usernameAlreadyInUseDialog = DialogHelper(
+              child: PopupDialog(
+                title: AppLocalizations.of(context)!.createAccountFailed,
+                description:
+                    AppLocalizations.of(context)!.usernameAlreadyInUseError,
+                onAccept: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              canBeDismissed: true,
+            );
+
+            usernameAlreadyInUseDialog.displayDialog(context);
+          } else {
+            if (!mounted) return;
+
+            String? imageUrl;
+            if (_selectedImage != null) {
+              imageUrl = await ref
+                  .read(storageControllerProvider.notifier)
+                  .uploadProfileAvatar(
+                    _selectedImage!,
+                    _usernameController.text,
+                  );
+            }
+
+            if (!mounted) return;
+
+            ref.read(authenticationControllerProvider.notifier).createUser(
+                  RhythmUser(
+                    email: widget.email,
+                    password: widget.password,
+                    firstName: _firstNameController.text,
+                    lastName: _lastNameController.text,
+                    username: _usernameController.text,
+                    dateOfBirth: Dates.fromDatetime(
+                      _dateOfBirthController.text,
+                      Localizations.localeOf(context).languageCode,
+                    ),
+                    imageUrl: imageUrl ?? '',
+                    creationDate: DateTime.now(),
                   ),
-                  imageUrl: '',
-                ),
-              );*/
+                );
+
+            if (!mounted) return;
+
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomeView.route,
+              (route) => false,
+            );
+          }
         }
       },
     );

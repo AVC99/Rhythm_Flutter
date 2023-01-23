@@ -11,3 +11,7 @@ const kProfileNavbarItemIndex = 3;
 
 // Firestore
 const kUsersCollection = 'users';
+
+// Storage
+const kProfileStorageReference = 'profiles';
+const kPostsStorageReference = 'posts';

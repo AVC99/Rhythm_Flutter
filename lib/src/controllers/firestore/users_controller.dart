@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
 import 'package:rhythm/src/providers/users_provider.dart';
+import 'package:rhythm/src/repositories/firestore_error.dart';
 import 'package:rhythm/src/repositories/users/user_error.dart';
 
 final usersControllerProvider =
@@ -38,8 +39,10 @@ class UsersController extends StateNotifier<FirestoreQueryState> {
 
         return null;
       }
-    } catch (e) {
-      state = FirestoreQueryErrorState(e.toString());
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
       return null;
     }
   }
@@ -54,8 +57,10 @@ class UsersController extends StateNotifier<FirestoreQueryState> {
       state = const FirestoreQuerySuccessState();
 
       return results.isNotEmpty;
-    } catch (e) {
-      state = FirestoreQueryErrorState(e.toString());
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
       return true;
     }
   }
@@ -70,9 +75,25 @@ class UsersController extends StateNotifier<FirestoreQueryState> {
       state = const FirestoreQuerySuccessState();
 
       return results.isNotEmpty;
-    } catch (e) {
-      state = FirestoreQueryErrorState(e.toString());
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
       return true;
+    }
+  }
+
+  Future<void> createUser(RhythmUser newUser) async {
+    state = const FirestoreQueryLoadingState();
+
+    try {
+      await ref.read(usersRepositoryProvider).addUser(newUser);
+
+      state = const FirestoreQuerySuccessState();
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
     }
   }
 }

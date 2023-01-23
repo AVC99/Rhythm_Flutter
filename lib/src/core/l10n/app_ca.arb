@@ -81,5 +81,9 @@
     "topTracks": "Top cançons",
     "searchFriend": "Buscar amics",
     "usernameAlreadyInUseError": "El nom d'usuari ja existeix",
-    "createAccountFailed": "Error al crear compte"
+    "createAccountFailed": "Error al crear compte",
+    "firestoreAlreadyExistsError": "Ja existeix el recurs.",
+    "firestoreNotFoundError": "Recurs no trobat.",
+    "firestorePermissionDeniedError": "No tens permissos per a realitzar l'acció.",
+    "firestoreUnauthenticatedError": "No estàs autenticat."
 }

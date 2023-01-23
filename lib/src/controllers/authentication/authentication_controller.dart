@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/providers/authentication_provider.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_state.dart';
+import 'package:rhythm/src/providers/users_provider.dart';
 import 'package:rhythm/src/repositories/authentication/firebase_authentication_error.dart';
 
 final authenticationControllerProvider =
@@ -16,16 +17,18 @@ class AuthenticationController extends StateNotifier<AuthenticationState> {
   AuthenticationController(this.ref)
       : super(const AuthenticationInitialState());
 
-  void createUser(RhythmUser authenticationUser) async {
+  void createUser(RhythmUser newUser) async {
     state = const AuthenticationLoadingState();
 
     try {
       await ref
           .read(authenticationRepositoryProvider)
           .createUserWithEmailAndPassword(
-            email: authenticationUser.email!,
-            password: authenticationUser.password!,
+            email: newUser.email!,
+            password: newUser.password!,
           );
+
+      await ref.read(usersRepositoryProvider).addUser(newUser);
 
       state = const AuthenticationAccountCreatedState();
     } catch (e) {

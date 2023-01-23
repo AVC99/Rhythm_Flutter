@@ -45,7 +45,7 @@ class _InputDateFieldState extends State<InputDateField> {
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 border: Border.all(
-                  width: 2.0,
+                  width: 1.0,
                   color: _getThemeColor(state.themeMode.name),
                 ),
               ),

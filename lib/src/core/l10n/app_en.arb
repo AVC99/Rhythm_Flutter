@@ -81,5 +81,9 @@
     "topTracks": "Top tracks",
     "searchFriend": "Search friends",
     "usernameAlreadyInUseError": "Username already in use",
-    "createAccountFailed": "Create account failed"
+    "createAccountFailed": "Create account failed",
+    "firestoreAlreadyExistsError": "Resource already exists.",
+    "firestoreNotFoundError": "Resource not found.",
+    "firestorePermissionDeniedError": "Permission denied.",
+    "firestoreUnauthenticatedError": "Not authenticated."
 }

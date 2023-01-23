@@ -104,6 +104,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
       icon: const Icon(Icons.email_rounded),
       isPasswordField: false,
       textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.emailAddress,
       onChanged: (value) => setState(() => _emailController.text = value!),
       validator: (value) => FieldValidator.emailValidator(context, value),
     );

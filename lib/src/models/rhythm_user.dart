@@ -6,6 +6,8 @@ class RhythmUser {
   final String? username;
   final DateTime? dateOfBirth;
   final String? imageUrl;
+  final bool isVerified;
+  final DateTime? creationDate;
 
   const RhythmUser({
     required this.email,
@@ -15,6 +17,8 @@ class RhythmUser {
     required this.username,
     required this.dateOfBirth,
     required this.imageUrl,
+    this.isVerified = false,
+    required this.creationDate,
   });
 
   factory RhythmUser.empty() => const RhythmUser(
@@ -25,6 +29,8 @@ class RhythmUser {
         username: '',
         dateOfBirth: null,
         imageUrl: '',
+        isVerified: false,
+        creationDate: null,
       );
 
   factory RhythmUser.fromJson(Map<String, dynamic> json) => RhythmUser(
@@ -34,6 +40,8 @@ class RhythmUser {
         username: json['username'] ?? '',
         dateOfBirth: json['dateOfBirth'],
         imageUrl: json['imageUrl'] ?? '',
+        isVerified: json['isVerified'] ?? false,
+        creationDate: json['creationDate'],
       );
 
   Map<String, dynamic> toJson() {
@@ -43,7 +51,9 @@ class RhythmUser {
       'lastName': lastName,
       'username': username,
       'dateOfBirth': dateOfBirth,
-      'imageUrl': imageUrl
+      'imageUrl': imageUrl,
+      'isVerified': isVerified,
+      'creationDate': creationDate,
     };
   }
 }

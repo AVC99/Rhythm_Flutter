@@ -129,6 +129,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
       icon: const Icon(Icons.email_rounded),
       isPasswordField: false,
       textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.emailAddress,
       onChanged: (value) => _emailController.text = value!,
       validator: (value) => FieldValidator.emailValidator(context, value),
     );

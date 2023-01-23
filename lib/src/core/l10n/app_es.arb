@@ -81,5 +81,9 @@
     "topTracks": "Top canciones",
     "searchFriend": "Buscar amigos",
     "usernameAlreadyInUseError": "El nombre de usuario ja existe",
-    "createAccountFailed": "Error al crear cuenta"
+    "createAccountFailed": "Error al crear cuenta",
+    "firestoreAlreadyExistsError": "El recurso ya existe.",
+    "firestoreNotFoundError": "Recurso no encontrado.",
+    "firestorePermissionDeniedError": "Permiso denegado.",
+    "firestoreUnauthenticatedError": "No autenticado."
 }

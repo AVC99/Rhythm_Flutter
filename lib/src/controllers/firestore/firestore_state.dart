@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:rhythm/src/repositories/firestore_error.dart';
 import 'package:rhythm/src/repositories/users/user_error.dart';
 
 abstract class FirestoreQueryState extends Equatable {
@@ -30,7 +31,7 @@ class FirestoreQuerySuccessState extends FirestoreQueryState {
 }
 
 class FirestoreQueryErrorState extends FirestoreQueryState {
-  final String error;
+  final FirestoreQueryError error;
 
   const FirestoreQueryErrorState(this.error);
 

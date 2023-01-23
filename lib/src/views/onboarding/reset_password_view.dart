@@ -135,6 +135,7 @@ class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
       hint: AppLocalizations.of(context)!.email,
       icon: const Icon(Icons.email_rounded),
       isPasswordField: false,
+      keyboardType: TextInputType.emailAddress,
       onChanged: (value) => _emailController.text = value!,
       validator: (value) => FieldValidator.emailValidator(context, value),
     );

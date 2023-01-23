@@ -11,6 +11,7 @@ class InputTextField extends StatefulWidget {
   final String hint;
   final bool isPasswordField;
   final TextInputAction textInputAction;
+  final TextInputType keyboardType;
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
 
@@ -22,6 +23,7 @@ class InputTextField extends StatefulWidget {
     required this.hint,
     required this.isPasswordField,
     this.textInputAction = TextInputAction.done,
+    this.keyboardType = TextInputType.text,
     this.onChanged,
     this.validator,
   }) : super(key: key);
@@ -64,7 +66,7 @@ class _InputTextFieldState extends State<InputTextField> {
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 border: Border.all(
-                  width: 2.0,
+                  width: 1.0,
                   color: _getThemeColor(state.themeMode.name),
                 ),
               ),
@@ -79,7 +81,7 @@ class _InputTextFieldState extends State<InputTextField> {
                   bottom: 0.0,
                 ),
                 child: TextFormField(
-                  keyboardType: TextInputType.name,
+                  keyboardType: widget.keyboardType,
                   decoration: InputDecoration(
                     icon: widget.icon,
                     iconColor: _getThemeColor(state.themeMode.name),
