@@ -160,15 +160,53 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   Widget _buildStatsTab(BuildContext context) {
     return ListView(
       children: [
+        _buildPlaylist(context),
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 50,
+        ),
         _buildTopArtists(context),
         SizedBox(
           height: MediaQuery.of(context).size.height / 50,
         ),
-        _buildTopGenres(context),
+        _buildTopTracks(context),
         SizedBox(
           height: MediaQuery.of(context).size.height / 50,
         ),
-        _buildTopTracks(context),
+
+        _buildTopGenres(context),
+      ],
+    );
+  }
+
+  Widget _buildPlaylist(BuildContext context){
+    return  Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding:  EdgeInsets.all(8.0),
+          child: Text(
+          'Playlist',
+            style: kSectionTitle,
+          ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 4,
+          child: ListView.separated(
+            padding: const EdgeInsets.all(8.0),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) => SizedBox(
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: LabeledImageHolder(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+              ),
+            ),
+            separatorBuilder: (context, index) => const SizedBox(
+              width: 12,
+            ),
+            itemCount: 5,
+          ),
+        ),
       ],
     );
   }
@@ -235,7 +273,20 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         SongCard(),
         SizedBox(
           height: 10,
-        ),
+        ), SongCard(),
+        SizedBox(
+          height: 10,
+        ), SongCard(),
+        SizedBox(
+          height: 10,
+        ), SongCard(),
+        SizedBox(
+          height: 10,
+        ), SongCard(),
+        SizedBox(
+          height: 10,
+        ), SongCard(),
+
       ],
     );
   }

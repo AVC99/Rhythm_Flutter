@@ -49,7 +49,6 @@ class _InputTextFieldState extends State<InputTextField> {
         ),
       );
     }
-
     return null;
   }
 

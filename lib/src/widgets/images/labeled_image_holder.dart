@@ -15,23 +15,24 @@ class LabeledImageHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String imageSource =
-        'https://i.pinimg.com/564x/8e/44/7c/8e447c70c2f1019d981e7871434d7a5f.jpg';
+        'https://i.scdn.co/image/ab6761610000e5ebbf108de19539a11669610d67';
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          clipBehavior: Clip.hardEdge,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            clipBehavior: Clip.hardEdge,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            ),
+            child: Image.network(
+              imageSource,
+              fit: BoxFit.cover,
+            ),
           ),
-          child: Image.network(
-            imageSource,
-            fit: BoxFit.cover,
-          ),
-        ),
-        const SlidingText(child: Text('Eladio Camión'))
-      ],
+          const SlidingText(child: Text('Feid'))
+        ],
+
     );
   }
 }
