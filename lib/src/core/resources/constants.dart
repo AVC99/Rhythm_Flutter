@@ -8,3 +8,6 @@ const kThemeModePersistenceKey = '__theme_mode_persistence_key__';
 // HomeView
 const kInitialPage = 0;
 const kProfileNavbarItemIndex = 3;
+
+// Firestore
+const kUsersCollection = 'users';

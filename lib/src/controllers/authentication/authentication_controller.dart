@@ -1,12 +1,14 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/providers/authentication_provider.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_state.dart';
+import 'package:rhythm/src/repositories/authentication/firebase_authentication_error.dart';
 
 final authenticationControllerProvider =
-    StateNotifierProvider<AuthenticationController, AuthenticationState>((ref) {
-  return AuthenticationController(ref);
-});
+    StateNotifierProvider<AuthenticationController, AuthenticationState>(
+  (ref) => AuthenticationController(ref),
+);
 
 class AuthenticationController extends StateNotifier<AuthenticationState> {
   final Ref ref;
@@ -14,16 +16,20 @@ class AuthenticationController extends StateNotifier<AuthenticationState> {
   AuthenticationController(this.ref)
       : super(const AuthenticationInitialState());
 
-  void createUser(String email, String password) async {
+  void createUser(RhythmUser authenticationUser) async {
     state = const AuthenticationLoadingState();
 
     try {
       await ref
           .read(authenticationRepositoryProvider)
-          .createUserWithEmailAndPassword(email: email, password: password);
+          .createUserWithEmailAndPassword(
+            email: authenticationUser.email!,
+            password: authenticationUser.password!,
+          );
+
       state = const AuthenticationAccountCreatedState();
     } catch (e) {
-      state = AuthenticationErrorState(e.toString());
+      state = AuthenticationErrorState(e as FirebaseAuthenticationError);
     }
   }
 
@@ -37,7 +43,7 @@ class AuthenticationController extends StateNotifier<AuthenticationState> {
 
       state = const AuthenticationSuccessState();
     } catch (e) {
-      state = AuthenticationErrorState(e.toString());
+      state = AuthenticationErrorState(e as FirebaseAuthenticationError);
     }
   }
 
@@ -55,7 +61,7 @@ class AuthenticationController extends StateNotifier<AuthenticationState> {
 
       state = const AuthenticationRecoveryEmailSentState();
     } catch (e) {
-      state = AuthenticationErrorState(e.toString());
+      state = AuthenticationErrorState(e as FirebaseAuthenticationError);
     }
   }
 }

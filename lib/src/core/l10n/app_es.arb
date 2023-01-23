@@ -79,5 +79,7 @@
     "topArtists": "Top artistas",
     "mostListenedGenres": "Géneros más escuchados",
     "topTracks": "Top canciones",
-    "searchFriend": "Buscar amigos"
+    "searchFriend": "Buscar amigos",
+    "usernameAlreadyInUseError": "El nombre de usuario ja existe",
+    "createAccountFailed": "Error al crear cuenta"
 }

@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
-import 'package:rhythm/src/controllers/authentication/authentication_state.dart';
 import 'package:rhythm/src/repositories/authentication/firebase_authentication_error.dart';
+import 'package:rhythm/src/controllers/authentication/authentication_state.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
 import 'package:rhythm/src/views/home/home_view.dart';
 import 'package:rhythm/src/views/onboarding/reset_password_view.dart';

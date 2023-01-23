@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:rhythm/src/repositories/authentication/firebase_authentication_error.dart';
 
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();
@@ -43,7 +44,7 @@ class AuthenticationAccountCreatedState extends AuthenticationState {
 }
 
 class AuthenticationErrorState extends AuthenticationState {
-  final String error;
+  final FirebaseAuthenticationError error;
 
   const AuthenticationErrorState(this.error);
 

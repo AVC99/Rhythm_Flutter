@@ -79,5 +79,7 @@
     "topArtists": "Top artists",
     "mostListenedGenres": "Most listened genres",
     "topTracks": "Top tracks",
-    "searchFriend": "Search friends"
+    "searchFriend": "Search friends",
+    "usernameAlreadyInUseError": "Username already in use",
+    "createAccountFailed": "Create account failed"
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
-import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
 class UserCard extends StatefulWidget {

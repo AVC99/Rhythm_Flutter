@@ -17,28 +17,31 @@ enum FirebaseAuthenticationError {
 }
 
 class FirebaseAuthenticationErrorHandler {
-  static String determineError(BuildContext context, String error) {
+  static String determineError(
+    BuildContext context,
+    FirebaseAuthenticationError error,
+  ) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
 
     switch (error) {
-      case 'FirebaseAuthenticationError.invalidEmail':
+      case FirebaseAuthenticationError.invalidEmail:
         return localizations.invalidEmailError;
-      case 'FirebaseAuthenticationError.userDisabled':
+      case FirebaseAuthenticationError.userDisabled:
         return localizations.userDisabledError;
-      case 'FirebaseAuthenticationError.userNotFound':
+      case FirebaseAuthenticationError.userNotFound:
         return localizations.userNotFoundError;
-      case 'FirebaseAuthenticationError.wrongPassword':
+      case FirebaseAuthenticationError.wrongPassword:
         return localizations.wrongPasswordError;
-      case 'FirebaseAuthenticationError.emailAlreadyInUse':
-      case 'FirebaseAuthenticationError.accountExistsWithDifferentCredential':
+      case FirebaseAuthenticationError.emailAlreadyInUse:
+      case FirebaseAuthenticationError.accountExistsWithDifferentCredential:
         return localizations.emailAlreadyInUseError;
-      case 'FirebaseAuthenticationError.invalidCredential':
+      case FirebaseAuthenticationError.invalidCredential:
         return localizations.invalidCredentialError;
-      case 'FirebaseAuthenticationError.operationNotAllowed':
+      case FirebaseAuthenticationError.operationNotAllowed:
         return localizations.operationNotAllowedError;
-      case 'FirebaseAuthenticationError.weakPassword':
+      case FirebaseAuthenticationError.weakPassword:
         return localizations.weakPasswordError;
-      case 'FirebaseAuthenticationError.tooManyRequests':
+      case FirebaseAuthenticationError.tooManyRequests:
         return localizations.tooManyRequestsError;
       default:
         return localizations.error;

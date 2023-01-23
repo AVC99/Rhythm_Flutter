@@ -15,7 +15,10 @@ final routes = <String, WidgetBuilder>{
   SignInView.route: (context) => const SignInView(),
   ResetPasswordView.route: (context) => const ResetPasswordView(),
   SignUpView.route: (context) => const SignUpView(),
-  CreateAccountView.route: (context) => const CreateAccountView(),
+  CreateAccountView.route: (context) => const CreateAccountView(
+        email: '',
+        password: '',
+      ),
   HomeView.route: (context) => const HomeView(),
   ThemeChangerView.route: (context) => const ThemeChangerView(),
 };

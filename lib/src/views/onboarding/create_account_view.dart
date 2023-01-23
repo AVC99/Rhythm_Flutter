@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
-import 'package:rhythm/src/views/home/home_view.dart';
 import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
 import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
 import 'package:rhythm/src/widgets/image_pickers/image_picker_helper.dart';
@@ -14,16 +15,23 @@ import 'package:rhythm/src/widgets/inputs/input_date_field.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
 
-class CreateAccountView extends StatefulWidget {
+class CreateAccountView extends StatefulHookConsumerWidget {
   static const String route = '/createAccount';
 
-  const CreateAccountView({Key? key}) : super(key: key);
+  final String email;
+  final String password;
+
+  const CreateAccountView({
+    Key? key,
+    required this.email,
+    required this.password,
+  }) : super(key: key);
 
   @override
-  State<CreateAccountView> createState() => _CreateAccountViewState();
+  ConsumerState<CreateAccountView> createState() => _CreateAccountViewState();
 }
 
-class _CreateAccountViewState extends State<CreateAccountView> {
+class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -121,7 +129,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
       hint: AppLocalizations.of(context)!.firstName,
       isPasswordField: false,
       textInputAction: TextInputAction.next,
-      onChanged: (value) {},
+      onChanged: (value) => _firstNameController.text = value!,
       validator: (value) => FieldValidator.regularValidator(context, value),
     );
   }
@@ -134,7 +142,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
       hint: AppLocalizations.of(context)!.lastName,
       isPasswordField: false,
       textInputAction: TextInputAction.next,
-      onChanged: (value) {},
+      onChanged: (value) => _lastNameController.text = value!,
       validator: (value) => FieldValidator.regularValidator(context, value),
     );
   }
@@ -147,7 +155,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
       hint: AppLocalizations.of(context)!.username,
       isPasswordField: false,
       textInputAction: TextInputAction.next,
-      onChanged: (value) {},
+      onChanged: (value) => _usernameController.text = value!,
       validator: (value) => FieldValidator.regularValidator(context, value),
     );
   }
@@ -170,13 +178,29 @@ class _CreateAccountViewState extends State<CreateAccountView> {
     return LargeActionButton(
       label: AppLocalizations.of(context)!.createAccount,
       width: MediaQuery.of(context).size.width / 1.5,
-      onPressed: () {
-        // if (_formKey.currentState!.validate()) {}
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          HomeView.route,
-          (route) => false,
-        );
+      onPressed: () async {
+        final bool existsUsername = await ref
+            .read(usersControllerProvider.notifier)
+            .existsUsername(_usernameController.text);
+
+        // TODO: Show notification informing that username already exists
+
+        if (_formKey.currentState!.validate() && !existsUsername) {
+          /*ref.read(authenticationControllerProvider.notifier).createUser(
+                RhythmUser(
+                  email: widget.email,
+                  password: widget.password,
+                  firstName: _firstNameController.text,
+                  lastName: _lastNameController.text,
+                  username: _usernameController.text,
+                  dateOfBirth: Dates.fromDatetime(
+                    _dateOfBirthController.text,
+                    Localizations.localeOf(context).languageCode,
+                  ),
+                  imageUrl: '',
+                ),
+              );*/
+        }
       },
     );
   }

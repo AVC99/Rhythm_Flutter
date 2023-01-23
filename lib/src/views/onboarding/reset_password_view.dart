@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
-import 'package:rhythm/src/controllers/authentication/authentication_state.dart';
 
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
 import 'package:rhythm/src/repositories/authentication/firebase_authentication_error.dart';
+import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
+import 'package:rhythm/src/controllers/authentication/authentication_state.dart';
 import 'package:rhythm/src/widgets/banners/vertical_rhythm_banner.dart';
 import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
 import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
@@ -43,8 +43,6 @@ class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
     ref.listen<AuthenticationState>(
       authenticationControllerProvider,
       (previousState, nextState) {
-        print(nextState.runtimeType);
-
         const DialogHelper loadingDialog = DialogHelper(
           child: LoadingSpinner(),
           canBeDismissed: false,
