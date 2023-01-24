@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum FirebaseAuthenticationError {
@@ -16,7 +16,7 @@ enum FirebaseAuthenticationError {
   noError
 }
 
-class FirebaseAuthenticationErrorHandler {
+abstract class FirebaseAuthenticationErrorHandler {
   static String determineError(
     BuildContext context,
     FirebaseAuthenticationError error,

@@ -27,6 +27,10 @@ dependencies:
   hooks_riverpod: ^2.1.3
   cloud_firestore: ^4.3.1
   firebase_storage: ^11.0.10
+  flutter_dotenv: ^5.0.2
+  spotify_sdk: ^2.3.0
+  http: any
+  audioplayers: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +43,7 @@ flutter:
   generate: true
 
   assets:
+    - .env
     - assets/images/
     - assets/logo/
 

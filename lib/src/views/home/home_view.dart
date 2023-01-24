@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/constants.dart';
@@ -13,16 +14,16 @@ import 'package:rhythm/src/views/home/trending_view.dart';
 import 'package:rhythm/src/widgets/scaffold/custom_app_bar.dart';
 import 'package:rhythm/src/widgets/utils/svg_image.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatefulHookConsumerWidget {
   static const String route = '/home';
 
   const HomeView({Key? key}) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  ConsumerState<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends ConsumerState<HomeView> {
   final PageController _pageController = PageController(
     initialPage: kInitialPage,
   );
@@ -51,11 +52,11 @@ class _HomeViewState extends State<HomeView> {
       child: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
-          const PostView(),
-          const TrendingView(),
-          const SearchView(),
-          const ProfileView(),
+        children: const [
+          PostView(),
+          TrendingView(),
+          SearchView(),
+          ProfileView(),
         ],
       ),
     );

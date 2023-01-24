@@ -15,3 +15,7 @@ const kUsersCollection = 'users';
 // Storage
 const kProfileStorageReference = 'profiles';
 const kPostsStorageReference = 'posts';
+
+// Environment
+const kEnvironmentSpotifyClientIdKey = 'SPOTIFY_CLIENT_ID';
+const kEnvironmentSpotifyRedirectUriKey = 'SPOTIFY_REDIRECT_URI';

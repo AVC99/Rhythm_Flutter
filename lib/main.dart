@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:rhythm/firebase_options.dart';
 import 'package:rhythm/src/core/theme/theme_repository.dart';
@@ -22,6 +23,8 @@ Future<void> main() async {
   final themeRepository = ThemeRepository(
     sharedPreferences: await SharedPreferences.getInstance(),
   );
+
+  await dotenv.load(fileName: '.env');
 
   runApp(
     ProviderScope(

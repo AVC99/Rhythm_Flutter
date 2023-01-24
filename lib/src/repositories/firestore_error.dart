@@ -21,7 +21,7 @@ enum FirestoreQueryError {
   unknown,
 }
 
-class FirestoreQueryErrorHandler {
+abstract class FirestoreQueryErrorHandler {
   static String determineError(
       BuildContext context, FirestoreQueryError error) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
