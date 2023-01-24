@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rhythm/src/widgets/cards/song_card.dart';
 
-import '../../core/resources/typography.dart';
-import '../../widgets/images/labeled_image_holder.dart';
+import 'package:rhythm/src/core/resources/typography.dart';
+import 'package:rhythm/src/widgets/cards/song_card.dart';
+import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 
 class TrendingView extends StatefulWidget {
   const TrendingView({Key? key}) : super(key: key);
@@ -17,10 +16,12 @@ class _TrendingViewState extends State<TrendingView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
-      child: ListView(shrinkWrap: true, children: [
-        _buildTodayTopArtist(context),
-        _buildTodayTopSongs(context),
-      ],
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          _buildTodayTopArtist(context),
+          _buildTodayTopSongs(context),
+        ],
       ),
     );
   }
