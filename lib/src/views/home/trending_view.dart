@@ -17,57 +17,52 @@ class _TrendingViewState extends State<TrendingView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
-      child: Expanded(
-        child: ListView(shrinkWrap: true, children: [
-          _buildTodayTopArtist(context),
-          _buildTodayTopSongs(context),
-        ],
-        ),
+      child: ListView(shrinkWrap: true, children: [
+        _buildTodayTopArtist(context),
+        _buildTodayTopSongs(context),
+      ],
       ),
     );
   }
 
   Widget _buildTodayTopSongs(BuildContext context) {
-    return Expanded(
-      //height: MediaQuery.of(context).size.height / 1.2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Today Most Shared Songs',
-              style: kSectionTitle,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'Today Most Shared Songs',
+            style: kSectionTitle,
+          ),
+        ),
+        ListView(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          children: const [
+            SongCard(),
+            SizedBox(
+              height: 12.0,
             ),
-          ),
-          ListView(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            children: const [
-              SongCard(),
-              SizedBox(
-                height: 12.0,
-              ),
-              SongCard(),
-              SizedBox(
-                height: 12.0,
-              ),
-              SongCard(),
-              SizedBox(
-                height: 12.0,
-              ),
-              SongCard(),
-              SizedBox(
-                height: 12.0,
-              ),
-              SongCard(),
-              SizedBox(
-                height: 12.0,
-              ),
-            ],
-          ),
-        ],
-      ),
+            SongCard(),
+            SizedBox(
+              height: 12.0,
+            ),
+            SongCard(),
+            SizedBox(
+              height: 12.0,
+            ),
+            SongCard(),
+            SizedBox(
+              height: 12.0,
+            ),
+            SongCard(),
+            SizedBox(
+              height: 12.0,
+            ),
+          ],
+        ),
+      ],
     );
   }
 
