@@ -31,6 +31,7 @@ dependencies:
   spotify_sdk: ^2.3.0
   http: any
   audioplayers: ^1.1.1
+  font_awesome_flutter: ^10.3.0
 
 dev_dependencies:
   flutter_test:

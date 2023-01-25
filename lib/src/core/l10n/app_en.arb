@@ -85,5 +85,7 @@
     "firestoreAlreadyExistsError": "Resource already exists.",
     "firestoreNotFoundError": "Resource not found.",
     "firestorePermissionDeniedError": "Permission denied.",
-    "firestoreUnauthenticatedError": "Not authenticated."
+    "firestoreUnauthenticatedError": "Not authenticated.",
+    "spotifyRequired": "Sign in to Spotify",
+    "spotifyRequiredDescription": "In order to use the app, you must sign in with your Spotify account. Either a free or a premium account are valid."
 }

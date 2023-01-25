@@ -6,10 +6,6 @@ final spotifyRepositoryProvider = Provider<SpotifyRepository>(
   (ref) => SpotifyRepository(),
 );
 
-final spotifyAccessToken = Provider<String>((ref) {
-  if (ref.read(spotifyRepositoryProvider).authorizationToken == null) {
-    ref.read(spotifyRepositoryProvider).getAuthorizationToken();
-  }
-
-  return ref.read(spotifyRepositoryProvider).authorizationToken!;
-});
+final getSpotifyAuthenticationToken = FutureProvider<String>(
+  (ref) async => ref.watch(spotifyRepositoryProvider).getAuthorizationToken(),
+);

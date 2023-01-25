@@ -7,6 +7,8 @@ import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/constants.dart';
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
+import 'package:rhythm/src/providers/spotify_provider.dart';
+import 'package:rhythm/src/views/errors/spotify_authentication_error_view.dart';
 import 'package:rhythm/src/views/home/posts_view.dart';
 import 'package:rhythm/src/views/home/profile_view.dart';
 import 'package:rhythm/src/views/home/search_view.dart';
@@ -37,12 +39,21 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    return ref.watch(getSpotifyAuthenticationToken).when(
+          data: (data) => _buildHomeView(context),
+          error: (error, stackTrace) => const SpotifyAuthenticationErrorView(),
+          loading: () => _buildHomeView(context),
+        );
+  }
+
+  Widget _buildHomeView(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
       extendBody: true,
       body: _buildBody(context),
       bottomNavigationBar: _buildBottomNavigationBar(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildFloatingActionButton(context),
     );
   }

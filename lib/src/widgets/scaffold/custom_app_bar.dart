@@ -5,7 +5,12 @@ import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
 import 'package:rhythm/src/widgets/banners/horizontal_rhythm_banner.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+  final bool hasActions;
+
+  const CustomAppBar({
+    Key? key,
+    this.hasActions = true,
+  }) : super(key: key);
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -31,7 +36,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const HorizontalRhythmBanner(),
-            _buildActions(context),
+            widget.hasActions ? _buildActions(context) : Container(),
           ],
         ),
       ),
