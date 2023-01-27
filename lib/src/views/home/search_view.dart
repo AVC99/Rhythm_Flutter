@@ -18,7 +18,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0.0 , horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
       child: Column(
         children: [
           Row(
@@ -32,10 +32,10 @@ class _SearchViewState extends State<SearchView> {
                 isPasswordField: false,
               ),
               SquaredIconButton(
-                    icon: const  Icon(Icons.search),
-                    width: MediaQuery.of(context).size.width / 15,
-                    onPressed: (){},
-                ),
+                icon: const Icon(Icons.search),
+                width: MediaQuery.of(context).size.width / 15,
+                onPressed: () {},
+              ),
             ],
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 40),

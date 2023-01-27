@@ -11,6 +11,7 @@ import 'package:rhythm/src/providers/authentication_provider.dart';
 import 'package:rhythm/src/views/splash_view.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
 import 'package:rhythm/src/views/home/home_view.dart';
+import 'package:rhythm/src/views/theme_changer_view.dart';
 
 class RhythmApp extends ConsumerWidget {
   final ThemeRepository themeRepository;
@@ -45,6 +46,7 @@ class RhythmApp extends ConsumerWidget {
                 error: (error, stacktrace) => const StartView(),
                 loading: () => const SplashView(),
               ),
+              // home: const ThemeChangerView(),
               routes: routes,
             );
           },

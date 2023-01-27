@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/constants.dart';
@@ -32,6 +33,17 @@ class _HomeViewState extends ConsumerState<HomeView> {
   int _currentNavbarIndex = kInitialPage;
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!await WebviewCookieManager().hasCookies()) {
+        ref.invalidate(spotifyAuthenticationToken);
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -39,7 +51,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return ref.watch(getSpotifyAuthenticationToken).when(
+    return ref.watch(spotifyAuthenticationToken).when(
           data: (data) => _buildHomeView(context),
           error: (error, stackTrace) => const SpotifyAuthenticationErrorView(),
           loading: () => _buildHomeView(context),
@@ -52,8 +64,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       extendBody: true,
       body: _buildBody(context),
       bottomNavigationBar: _buildBottomNavigationBar(context),
-      floatingActionButtonLocation:
-      FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildFloatingActionButton(context),
     );
   }
@@ -146,7 +157,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
         height: MediaQuery.of(context).size.height / 40,
         color: Colors.white,
       ),
-      onPressed: () {},
+      onPressed: () {
+        print(ref.read(spotifyAuthenticationToken));
+      },
     );
   }
 }

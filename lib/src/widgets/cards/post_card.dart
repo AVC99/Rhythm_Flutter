@@ -21,7 +21,8 @@ class _PostCardState extends State<PostCard> {
       'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
   final String albumCover =
       'https://images.genius.com/0c3da2db33dfeb1f3a397ac17254728a.1000x1000x1.png';
-  final String postImage = 'https://i.pinimg.com/originals/8f/76/5e/8f765eabe440a33eaa035bbba8ad9341.png';
+  final String postImage =
+      'https://i.pinimg.com/originals/8f/76/5e/8f765eabe440a33eaa035bbba8ad9341.png';
   final String reactionImage =
       'https://i.pinimg.com/originals/8e/44/7c/8e447c70c2f1019d981e7871434d7a5f.jpg';
   bool _isPlaying = true;
@@ -32,20 +33,22 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
-      return Container(
-        decoration: BoxDecoration(
-          color: _getThemeColor(state.themeMode.name),
-          borderRadius: const BorderRadius.all(Radius.circular(32)),
-        ),
-        child: Column(
-          children: [
-            _buildUserInfo(context),
-            _buildPostContent(context),
-          ],
-        ),
-      );
-    });
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return Container(
+          decoration: BoxDecoration(
+            color: _getThemeColor(state.themeMode.name),
+            borderRadius: const BorderRadius.all(Radius.circular(32)),
+          ),
+          child: Column(
+            children: [
+              _buildUserInfo(context),
+              _buildPostContent(context),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildUserInfo(BuildContext context) {
@@ -114,13 +117,14 @@ class _PostCardState extends State<PostCard> {
         child: Stack(
           children: [
             Container(
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.zero,
                   bottom: Radius.circular(32.0),
                 ),
-                image: DecorationImage(image:  NetworkImage(postImage),
-                fit: BoxFit.fill,
+                image: DecorationImage(
+                  image: NetworkImage(postImage),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -133,8 +137,10 @@ class _PostCardState extends State<PostCard> {
                 decoration: BoxDecoration(
                   border: Border.all(width: 1),
                 ),
-                child: Image.network(albumCover,
-                fit: BoxFit.fill,),
+                child: Image.network(
+                  albumCover,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             Positioned(

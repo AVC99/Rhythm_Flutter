@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
+import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
 import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
 import 'package:rhythm/src/widgets/cards/user_card.dart';
@@ -14,6 +15,7 @@ import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
+
 
 class ProfileView extends StatefulHookConsumerWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -100,10 +102,14 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     CircularIconButton(
                       icon: const Icon(CupertinoIcons.ellipsis_vertical),
                       tooltip: AppLocalizations.of(context)!.settings,
-                      onPressed: () {
-                        ref
+                      onPressed: () async {
+                        await ref.read(spotifyRepositoryProvider).signOut();
+
+                        await ref
                             .read(authenticationControllerProvider.notifier)
                             .signOut();
+
+                        if (!mounted) return;
 
                         Navigator.pushNamedAndRemoveUntil(
                           context,
@@ -172,20 +178,19 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         SizedBox(
           height: MediaQuery.of(context).size.height / 50,
         ),
-
         _buildTopGenres(context),
       ],
     );
   }
 
-  Widget _buildPlaylist(BuildContext context){
-    return  Column(
+  Widget _buildPlaylist(BuildContext context) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding:  EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Text(
-          'Playlist',
+            'Playlist',
             style: kSectionTitle,
           ),
         ),
@@ -273,20 +278,24 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         SongCard(),
         SizedBox(
           height: 10,
-        ), SongCard(),
+        ),
+        SongCard(),
         SizedBox(
           height: 10,
-        ), SongCard(),
+        ),
+        SongCard(),
         SizedBox(
           height: 10,
-        ), SongCard(),
+        ),
+        SongCard(),
         SizedBox(
           height: 10,
-        ), SongCard(),
+        ),
+        SongCard(),
         SizedBox(
           height: 10,
-        ), SongCard(),
-
+        ),
+        SongCard(),
       ],
     );
   }

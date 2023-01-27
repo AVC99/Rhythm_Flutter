@@ -50,7 +50,7 @@ class AuthenticationController extends StateNotifier<AuthenticationState> {
     }
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     await ref.read(authenticationRepositoryProvider).signOut();
   }
 

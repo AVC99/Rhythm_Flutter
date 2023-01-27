@@ -1,6 +1,7 @@
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 import 'package:rhythm/src/providers/environment_provider.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 class SpotifyRepository {
   SpotifyRepository();
@@ -23,5 +24,9 @@ class SpotifyRepository {
     } catch (_) {
       throw Exception('Error: Cannot authenticate user.');
     }
+  }
+
+  Future<void> signOut() async {
+    await WebviewCookieManager().clearCookies();
   }
 }

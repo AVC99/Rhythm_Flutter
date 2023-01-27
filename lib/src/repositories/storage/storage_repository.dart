@@ -15,7 +15,10 @@ class StorageRepository {
         profileReference = firebaseStorage.ref(kProfileStorageReference);
 
   Future<String> _uploadImage(
-      Reference reference, File file, String saveAs) async {
+    Reference reference,
+    File file,
+    String saveAs,
+  ) async {
     final imageRef = reference.child(saveAs);
     final uploadTask = imageRef.putFile(file);
 
