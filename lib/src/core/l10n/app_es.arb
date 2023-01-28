@@ -87,5 +87,6 @@
     "firestorePermissionDeniedError": "Permiso denegado.",
     "firestoreUnauthenticatedError": "No autenticado.",
     "spotifyRequired": "Inicia sesión en Spotify",
-    "spotifyRequiredDescription": "Para poder usar la app, se requiere iniciar sesión en Spotify. No es necesario disponer de una cuenta premium, la versión gratuita es suficiente."
+    "spotifyRequiredDescription": "Para poder usar la app, se requiere iniciar sesión en Spotify. No es necesario disponer de una cuenta premium, la versión gratuita es suficiente.",
+     "spotifyLogin": "Conectarse a Spotify"
 }

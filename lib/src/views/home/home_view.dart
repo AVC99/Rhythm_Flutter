@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
@@ -54,7 +55,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return ref.watch(spotifyAuthenticationToken).when(
           data: (data) => _buildHomeView(context),
           error: (error, stackTrace) => const SpotifyAuthenticationErrorView(),
-          loading: () => _buildHomeView(context),
+          loading: () => const LoadingSpinner(),
         );
   }
 
