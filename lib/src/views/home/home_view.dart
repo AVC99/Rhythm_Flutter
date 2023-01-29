@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/constants.dart';
 import 'package:rhythm/src/core/resources/images.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/views/errors/spotify_authentication_error_view.dart';
@@ -17,6 +17,7 @@ import 'package:rhythm/src/views/home/search_view.dart';
 import 'package:rhythm/src/views/home/trending_view.dart';
 import 'package:rhythm/src/widgets/scaffold/custom_app_bar.dart';
 import 'package:rhythm/src/widgets/utils/svg_image.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
 
 class HomeView extends StatefulHookConsumerWidget {
   static const String route = '/home';
@@ -32,6 +33,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     initialPage: kInitialPage,
   );
   int _currentNavbarIndex = kInitialPage;
+  late RhythmUser authenticatedUser;
 
   @override
   void initState() {

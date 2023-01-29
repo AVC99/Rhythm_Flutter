@@ -45,11 +45,19 @@ class UsersRepository {
     return collection.add(user.toJson());
   }
 
-  void updateUser(RhythmUser user) async {
-    await collection.doc(user.email).update(user.toJson());
+  Future<void> updateUser(RhythmUser user) async {
+    await collection.where('email', isEqualTo: user.email).get().then((query) {
+      for (var element in query.docs) {
+        element.reference.update(user.toJson());
+      }
+    });
   }
 
-  void deleteUser(RhythmUser user) async {
-    await collection.doc(user.email).delete();
+  Future<void> deleteUser(RhythmUser user) async {
+    await collection.where('email', isEqualTo: user.email).get().then((query) {
+      for (var element in query.docs) {
+        element.reference.delete();
+      }
+    });
   }
 }

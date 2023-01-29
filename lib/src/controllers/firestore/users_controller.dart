@@ -83,11 +83,43 @@ class UsersController extends StateNotifier<FirestoreQueryState> {
     }
   }
 
+  Future<RhythmUser?> getAuthenticatedUser(String email) async {
+    state = const FirestoreQueryLoadingState();
+
+    try {
+      final user = await getUserByEmail(email);
+
+      state = const FirestoreQuerySuccessState();
+
+      return user;
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
+
+      return null;
+    }
+  }
+
   Future<void> createUser(RhythmUser newUser) async {
     state = const FirestoreQueryLoadingState();
 
     try {
       await ref.read(usersRepositoryProvider).addUser(newUser);
+
+      state = const FirestoreQuerySuccessState();
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
+    }
+  }
+
+  Future<void> updateUser(RhythmUser user) async {
+    state = const FirestoreQueryLoadingState();
+
+    try {
+      await ref.read(usersRepositoryProvider).updateUser(user);
 
       state = const FirestoreQuerySuccessState();
     } on FirebaseException catch (e) {
