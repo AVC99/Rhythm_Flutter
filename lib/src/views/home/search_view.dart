@@ -29,7 +29,6 @@ class SearchView extends StatefulHookConsumerWidget {
 
 class _SearchViewState extends ConsumerState<SearchView> {
   List<RhythmUser> _searchUsers = [];
-  List<bool> _areUserFriends = [];
   RhythmUser? _clickedUser;
   final TextEditingController _searchController = TextEditingController();
 
@@ -162,21 +161,25 @@ class _SearchViewState extends ConsumerState<SearchView> {
                     itemCount: _searchUsers.length,
                     itemBuilder: (context, index) => UserCard(
                       user: _searchUsers[index],
-                      action: IconButton(
-                        icon: const Icon(Icons.person_add),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () async {
-                          _clickedUser = _searchUsers[index];
+                      action: widget.authenticatedUser.friends
+                              .contains(_searchUsers[index].username)
+                          ? Container()
+                          : IconButton(
+                              icon: const Icon(Icons.person_add),
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () async {
+                                _clickedUser = _searchUsers[index];
 
-                          await ref
-                              .watch(friendshipsControllerProvider.notifier)
-                              .sendFriendRequest(
-                                widget.authenticatedUser.username!,
-                                _clickedUser!.username!,
-                              );
-                        },
-                      ),
+                                await ref
+                                    .watch(
+                                        friendshipsControllerProvider.notifier)
+                                    .sendFriendRequest(
+                                      widget.authenticatedUser.username!,
+                                      _clickedUser!.username!,
+                                    );
+                              },
+                            ),
                     ),
                     separatorBuilder: (context, index) => SizedBox(
                       height: MediaQuery.of(context).size.height / 60,
