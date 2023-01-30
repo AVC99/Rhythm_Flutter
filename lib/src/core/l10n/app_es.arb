@@ -89,5 +89,16 @@
     "spotifyRequired": "Inicia sesión en Spotify",
     "spotifyRequiredDescription": "Para poder usar la app, se requiere iniciar sesión en Spotify. No es necesario disponer de una cuenta premium, la versión gratuita es suficiente.",
     "spotifyLogin": "Conectarse a Spotify",
-    "noResults": "No se han encontrado resultados"
+    "noResults": "No se han encontrado resultados",
+    "qrSemanticLabel": "Código QR de {username}",
+    "@qrSemanticLabel": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "yourRhythmQR": "Tu código QR de Rhythm",
+    "yourRhythmQRDescription": "¡Comparte tu código QR y permite que otros usuarios te puedan enviar una solicitud de amistad de manera sencilla al escanearlo!",
+    "scanQr": "Escanear QR"
 }

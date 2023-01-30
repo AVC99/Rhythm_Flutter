@@ -89,5 +89,16 @@
     "spotifyRequired": "Sign in to Spotify",
     "spotifyRequiredDescription": "In order to use the app, you must sign in with your Spotify account. Either a free or a premium account are valid.",
     "spotifyLogin": "Connect to Spotify",
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "qrSemanticLabel": "{username}'s QR code",
+    "@qrSemanticLabel": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "yourRhythmQR": "Your Rhythm QR code",
+    "yourRhythmQRDescription": "Share your QR code and allow users to send you a friend request easily on scan it!",
+    "scanQr": "Scan QR"
 }

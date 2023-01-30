@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rhythm/src/views/actions/qr_code_view.dart';
 
 import 'package:rhythm/src/views/splash_view.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
@@ -20,5 +21,8 @@ final routes = <String, WidgetBuilder>{
         password: '',
       ),
   HomeView.route: (context) => const HomeView(),
+  QrCodeView.route: (context) => const QrCodeView(
+    username: '',
+  ),
   ThemeChangerView.route: (context) => const ThemeChangerView(),
 };

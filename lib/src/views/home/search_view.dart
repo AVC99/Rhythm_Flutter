@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 
 import 'package:rhythm/src/models/rhythm_user.dart';
+import 'package:rhythm/src/controllers/firestore/users_controller.dart';
+import 'package:rhythm/src/views/actions/qr_code_view.dart';
 import 'package:rhythm/src/widgets/buttons/squared_icon_button.dart';
 import 'package:rhythm/src/widgets/cards/user_card.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
@@ -58,7 +59,17 @@ class _SearchViewState extends ConsumerState<SearchView> {
               SquaredIconButton(
                 icon: const Icon(Icons.qr_code),
                 width: MediaQuery.of(context).size.width / 15,
-                onPressed: () {},
+                onPressed: () {
+                  // _showQrBottomSheetModal(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QrCodeView(
+                        username: widget.authenticatedUser.username!,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -88,4 +99,27 @@ class _SearchViewState extends ConsumerState<SearchView> {
       ),
     );
   }
+
+/*void _showQrBottomSheetModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            ListTile(
+              leading: Icon(FontAwesomeIcons.barcode),
+              title: Text('Scan a QR'),
+              subtitle: Text('Send a friend request to a user.'),
+            ),
+            ListTile(
+              leading: Icon(FontAwesomeIcons.qrcode),
+              title: Text('Show your QR'),
+              subtitle: Text('Let a user add you as a friend.'),
+            ),
+          ],
+        );
+      },
+    );
+  }*/
 }
