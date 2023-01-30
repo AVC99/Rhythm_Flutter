@@ -54,6 +54,7 @@ class _UserCardState extends State<UserCard> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
+        width: MediaQuery.of(context).size.width / 6,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),

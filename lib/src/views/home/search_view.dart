@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
+import 'package:rhythm/src/controllers/firestore/friendships_controller.dart';
 
 import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/controllers/firestore/users_controller.dart';
+import 'package:rhythm/src/repositories/friendships/friendships_error.dart';
 import 'package:rhythm/src/views/actions/qr_code_view.dart';
 import 'package:rhythm/src/widgets/buttons/squared_icon_button.dart';
 import 'package:rhythm/src/widgets/cards/user_card.dart';
+import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 
 class SearchView extends StatefulHookConsumerWidget {
@@ -23,10 +29,84 @@ class SearchView extends StatefulHookConsumerWidget {
 
 class _SearchViewState extends ConsumerState<SearchView> {
   List<RhythmUser> _searchUsers = [];
+  List<bool> _areUserFriends = [];
+  RhythmUser? _clickedUser;
   final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<FirestoreQueryState>(
+      friendshipsControllerProvider,
+      (previousState, nextState) {
+        const DialogHelper loadingDialog = DialogHelper(
+          child: LoadingSpinner(),
+          canBeDismissed: false,
+        );
+
+        switch (nextState.runtimeType) {
+          case FirestoreQueryLoadingState:
+            loadingDialog.displayDialog(context);
+            break;
+
+          case FirestoreQuerySuccessState:
+            loadingDialog.dismissDialog(context);
+
+            final DialogHelper failureDialog = DialogHelper(
+              child: PopupDialog(
+                title: AppLocalizations.of(context)!.friendRequest,
+                description: AppLocalizations.of(context)!
+                    .friendRequestSent(_clickedUser!.username!),
+                onAccept: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              canBeDismissed: true,
+            );
+
+            failureDialog.displayDialog(context);
+            break;
+
+          case FirestoreFriendshipsDataErrorState:
+            loadingDialog.dismissDialog(context);
+
+            final DialogHelper messageDialog = DialogHelper(
+              child: PopupDialog(
+                title: AppLocalizations.of(context)!.friendRequest,
+                description: FriendshipDataErrorHandler.determineError(
+                  context,
+                  (nextState as FirestoreFriendshipsDataErrorState).error,
+                ),
+                onAccept: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              canBeDismissed: true,
+            );
+
+            messageDialog.displayDialog(context);
+            break;
+
+          case FirestoreQueryErrorState:
+            loadingDialog.dismissDialog(context);
+
+            final DialogHelper failureDialog = DialogHelper(
+              child: PopupDialog(
+                title: AppLocalizations.of(context)!.friendRequest,
+                description:
+                    AppLocalizations.of(context)!.friendRequestErrorOnSend,
+                onAccept: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              canBeDismissed: true,
+            );
+
+            failureDialog.displayDialog(context);
+            break;
+        }
+      },
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
       child: Column(
@@ -86,7 +166,16 @@ class _SearchViewState extends ConsumerState<SearchView> {
                         icon: const Icon(Icons.person_add),
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onPressed: () {},
+                        onPressed: () async {
+                          _clickedUser = _searchUsers[index];
+
+                          await ref
+                              .watch(friendshipsControllerProvider.notifier)
+                              .sendFriendRequest(
+                                widget.authenticatedUser.username!,
+                                _clickedUser!.username!,
+                              );
+                        },
                       ),
                     ),
                     separatorBuilder: (context, index) => SizedBox(

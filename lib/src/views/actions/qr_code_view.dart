@@ -76,6 +76,7 @@ class _QrCodeViewState extends ConsumerState<QrCodeView> {
                 ),
                 onAccept: () {
                   Navigator.of(context).pop();
+                  loadingDialog.dismissDialog(context);
                 },
               ),
               canBeDismissed: true,

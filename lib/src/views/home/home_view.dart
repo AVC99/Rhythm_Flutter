@@ -23,8 +23,12 @@ import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
 
 class HomeView extends StatefulHookConsumerWidget {
   static const String route = '/home';
+  final RhythmUser? user;
 
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({
+    Key? key,
+    this.user,
+  }) : super(key: key);
 
   @override
   ConsumerState<HomeView> createState() => _HomeViewState();
@@ -40,6 +44,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
+
+    if (widget.user != null) {
+      _authenticatedUser = widget.user!;
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!await WebviewCookieManager().hasCookies()) {

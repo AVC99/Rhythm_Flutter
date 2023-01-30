@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rhythm/src/core/resources/images.dart';
 
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
 import 'package:rhythm/src/core/resources/colors.dart';
@@ -44,19 +45,13 @@ class _CircleImagePickerState extends State<CircleImagePicker> {
                     width: 2.0,
                     color: _getThemeColor(state.themeMode.name),
                   ),
+                  image: DecorationImage(
+                    image: widget.image != null
+                        ? FileImage(widget.image!,)
+                        : const AssetImage(kDefaultImageProfile) as ImageProvider,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                clipBehavior: Clip.hardEdge,
-                child: widget.image != null
-                    ? Image.file(
-                        widget.image!,
-                        fit: BoxFit.cover,
-                      )
-                    : Center(
-                        child: Icon(
-                          Icons.image,
-                          color: _getThemeColor(state.themeMode.name),
-                        ),
-                      ),
               ),
               const Positioned(
                 right: 0.0,

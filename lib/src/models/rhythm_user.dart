@@ -11,6 +11,7 @@ class RhythmUser {
   final bool isVerified;
   final DateTime? creationDate;
   String? spotifyId;
+  List<String> friends;
 
   RhythmUser({
     required this.email,
@@ -23,32 +24,35 @@ class RhythmUser {
     this.isVerified = false,
     required this.creationDate,
     this.spotifyId = '',
+    this.friends = const [],
   });
 
   factory RhythmUser.empty() => RhythmUser(
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    username: '',
-    dateOfBirth: null,
-    imageUrl: '',
-    isVerified: false,
-    creationDate: null,
-    spotifyId: '',
-  );
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        username: '',
+        dateOfBirth: null,
+        imageUrl: '',
+        isVerified: false,
+        creationDate: null,
+        spotifyId: '',
+        friends: const [],
+      );
 
   factory RhythmUser.fromJson(Map<String, dynamic> json) => RhythmUser(
-    email: json['email'] ?? '',
-    firstName: json['firstName'] ?? '',
-    lastName: json['lastName'] ?? '',
-    username: json['username'] ?? '',
-    dateOfBirth: (json['dateOfBirth'] as Timestamp).toDate(),
-    imageUrl: json['imageUrl'] ?? '',
-    isVerified: json['isVerified'] ?? false,
-    creationDate: (json['creationDate'] as Timestamp).toDate(),
-    spotifyId: json['spotifyId'] ?? '',
-  );
+        email: json['email'] ?? '',
+        firstName: json['firstName'] ?? '',
+        lastName: json['lastName'] ?? '',
+        username: json['username'] ?? '',
+        dateOfBirth: (json['dateOfBirth'] as Timestamp).toDate(),
+        imageUrl: json['imageUrl'] ?? '',
+        isVerified: json['isVerified'] ?? false,
+        creationDate: (json['creationDate'] as Timestamp).toDate(),
+        spotifyId: json['spotifyId'] ?? '',
+        friends: (json['friends'] as List<dynamic>).map((item) => item as String).toList(),
+      );
 
   Map<String, dynamic> toJson() {
     return {
@@ -61,6 +65,7 @@ class RhythmUser {
       'isVerified': isVerified,
       'creationDate': creationDate,
       'spotifyId': spotifyId,
+      'friends': friends.toList(),
     };
   }
 }

@@ -46,6 +46,7 @@ class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
   File? _selectedImage;
+  RhythmUser? _createdUser;
   bool _isKeyboardVisible = false;
 
   @override
@@ -241,27 +242,33 @@ class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
 
             if (!mounted) return;
 
+            _createdUser = RhythmUser(
+              email: widget.email,
+              password: widget.password,
+              firstName: _firstNameController.text,
+              lastName: _lastNameController.text,
+              username: _usernameController.text,
+              dateOfBirth: Dates.fromDatetime(
+                _dateOfBirthController.text,
+                Localizations.localeOf(context).languageCode,
+              ),
+              imageUrl: imageUrl ?? '',
+              creationDate: DateTime.now(),
+            );
+
             ref.read(authenticationControllerProvider.notifier).createUser(
-                  RhythmUser(
-                    email: widget.email,
-                    password: widget.password,
-                    firstName: _firstNameController.text,
-                    lastName: _lastNameController.text,
-                    username: _usernameController.text,
-                    dateOfBirth: Dates.fromDatetime(
-                      _dateOfBirthController.text,
-                      Localizations.localeOf(context).languageCode,
-                    ),
-                    imageUrl: imageUrl ?? '',
-                    creationDate: DateTime.now(),
-                  ),
+                  _createdUser!,
                 );
 
             if (!mounted) return;
 
-            Navigator.pushNamedAndRemoveUntil(
+            Navigator.pushAndRemoveUntil(
               context,
-              HomeView.route,
+              MaterialPageRoute(
+                builder: (context) => HomeView(
+                  user: _createdUser,
+                ),
+              ),
               (route) => false,
             );
           }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 
 import 'package:rhythm/src/models/rhythm_friendship.dart';
 import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
@@ -50,6 +51,13 @@ class FriendshipsController extends StateNotifier<FirestoreQueryState> {
         ref
             .read(friendshipsRepositoryProvider)
             .acceptFriendRequest(receiverUsername, senderUsername);
+
+        ref
+            .read(usersControllerProvider.notifier)
+            .addFriend(senderUsername, receiverUsername);
+        ref
+            .read(usersControllerProvider.notifier)
+            .addFriend(receiverUsername, senderUsername);
 
         friendshipReceived.isAccepted
             ? state = const FirestoreFriendshipsDataErrorState(

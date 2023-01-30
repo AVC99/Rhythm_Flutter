@@ -157,4 +157,18 @@ class UsersController extends StateNotifier<FirestoreQueryState> {
 
     return users;
   }
+
+  Future<void> addFriend(String user, String friend) async {
+    state = const FirestoreQueryLoadingState();
+
+    try {
+      ref.read(usersRepositoryProvider).addFriend(user, friend);
+
+      state = const FirestoreQuerySuccessState();
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
+    }
+  }
 }

@@ -74,6 +74,17 @@ class UsersRepository {
     });
   }
 
+  Future<void> addFriend(String user, String friend) async {
+    final userToUpdate = await getUserByUsername(user).then(
+      (value) =>
+          RhythmUser.fromJson(value.first.data() as Map<String, dynamic>),
+    );
+
+    userToUpdate.friends.add(friend);
+
+    await updateUser(userToUpdate);
+  }
+
   Future<void> deleteUser(RhythmUser user) async {
     await collection.where('email', isEqualTo: user.email).get().then((query) {
       for (var element in query.docs) {
