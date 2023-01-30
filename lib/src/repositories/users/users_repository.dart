@@ -41,6 +41,27 @@ class UsersRepository {
     });
   }
 
+  Future<List<DocumentSnapshot>> searchUsersByUsername(
+    String authenticatedUsername,
+    String queryUsername,
+  ) async {
+    return await collection
+        .where('username', isGreaterThanOrEqualTo: queryUsername)
+        .where('username', isLessThan: '${queryUsername}z')
+        .where('username', isNotEqualTo: authenticatedUsername)
+        .limit(15)
+        .get()
+        .then((query) {
+      List<DocumentSnapshot> results = [];
+
+      for (var doc in query.docs) {
+        results.add(doc);
+      }
+
+      return results;
+    });
+  }
+
   Future<DocumentReference> addUser(RhythmUser user) {
     return collection.add(user.toJson());
   }

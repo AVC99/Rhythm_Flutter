@@ -83,11 +83,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
       child: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          PostView(),
-          TrendingView(),
-          SearchView(),
-          ProfileView(),
+        children: [
+          const PostView(),
+          const TrendingView(),
+          SearchView(
+            authenticatedUser: _authenticatedUser,
+          ),
+          const ProfileView(),
         ],
       ),
     );
@@ -150,12 +152,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  /*child: _authenticatedUser.imageUrl!.isNotEmpty
-                      ? Image.network(
-                          _authenticatedUser.imageUrl!,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(kDefaultImageProfile),*/
                 ),
                 label: AppLocalizations.of(context)!.profile,
               ),

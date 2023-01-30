@@ -128,4 +128,33 @@ class UsersController extends StateNotifier<FirestoreQueryState> {
       );
     }
   }
+
+  Future<List<RhythmUser>> searchUsersByUsername(
+    String authenticatedUsername,
+    String queryUsername,
+  ) async {
+    List<RhythmUser> users = [];
+
+    state = const FirestoreQueryLoadingState();
+
+    try {
+      final results = await ref
+          .read(usersRepositoryProvider)
+          .searchUsersByUsername(authenticatedUsername, queryUsername);
+
+      for (var element in results) {
+        users.add(RhythmUser.fromJson(element.data() as Map<String, dynamic>));
+      }
+
+      state = const FirestoreQuerySuccessState();
+
+      return users;
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
+    }
+
+    return users;
+  }
 }

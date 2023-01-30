@@ -88,5 +88,6 @@
     "firestoreUnauthenticatedError": "No estàs autenticat.",
     "spotifyRequired": "Inicia sessió a Spotify",
     "spotifyRequiredDescription": "Per a poder fer servir l'app, es requereix iniciar sessió a la teva compte de Spotify. No és necessari disposar de compte premium, la versió gratuïta és suficient.",
-    "spotifyLogin": "Connectar-se a Spotify"
+    "spotifyLogin": "Connectar-se a Spotify",
+    "noResults": "No s'han trobat resultats"
 }

@@ -42,6 +42,7 @@ class _UserCardState extends State<UserCard> {
             children: [
               _buildUserProfile(context),
               _buildUserInformation(context),
+              widget.action,
             ],
           ),
         );
@@ -74,7 +75,7 @@ class _UserCardState extends State<UserCard> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width / 1.7,
+        width: MediaQuery.of(context).size.width / 2,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -86,9 +87,9 @@ class _UserCardState extends State<UserCard> {
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width / 2.5,
                   ),
-                  child: const SlidingText(
+                  child: SlidingText(
                     child: Text(
-                      'Username',
+                      widget.user.username!,
                       style: kCardTitle,
                     ),
                   ),
@@ -105,15 +106,14 @@ class _UserCardState extends State<UserCard> {
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width / 3,
                       ),
-                      child: const SlidingText(
-                        child: Text('Spotify ID'),
+                      child: SlidingText(
+                        child: Text(widget.user.spotifyId!),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            widget.action,
           ],
         ),
       ),

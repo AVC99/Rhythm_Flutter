@@ -88,5 +88,6 @@
     "firestoreUnauthenticatedError": "Not authenticated.",
     "spotifyRequired": "Sign in to Spotify",
     "spotifyRequiredDescription": "In order to use the app, you must sign in with your Spotify account. Either a free or a premium account are valid.",
-    "spotifyLogin": "Connect to Spotify"
+    "spotifyLogin": "Connect to Spotify",
+    "noResults": "No results found"
 }
