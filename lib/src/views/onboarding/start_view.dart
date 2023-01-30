@@ -3,10 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
+import 'package:rhythm/src/views/onboarding/sign_in_view.dart';
 import 'package:rhythm/src/widgets/banners/vertical_rhythm_banner.dart';
 import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
 import 'package:rhythm/src/widgets/utils/svg_image.dart';
-import 'package:rhythm/src/views/onboarding/sign_in_view.dart';
 
 class StartView extends StatelessWidget {
   static const String route = '/start';

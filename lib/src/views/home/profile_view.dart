@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/models/rhythm_user.dart';
+import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
 import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';

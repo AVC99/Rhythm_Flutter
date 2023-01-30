@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import 'package:rhythm/src/repositories/firestore_error.dart';
 import 'package:rhythm/src/repositories/users/user_error.dart';
 

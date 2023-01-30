@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:rhythm/src/repositories/spotify/spotify_error.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:rhythm/src/providers/environment_provider.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
+
+import 'package:rhythm/src/repositories/spotify/spotify_error.dart';
+import 'package:rhythm/src/providers/environment_provider.dart';
 
 class SpotifyRepository {
   static const String baseUrl = 'https://api.spotify.com/v1';

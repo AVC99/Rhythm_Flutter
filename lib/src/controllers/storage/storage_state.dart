@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import 'package:rhythm/src/repositories/firestore_error.dart';
 
 abstract class StorageState extends Equatable {

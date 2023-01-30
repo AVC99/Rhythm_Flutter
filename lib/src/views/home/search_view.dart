@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:rhythm/src/models/rhythm_user.dart';
 
+import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/widgets/buttons/squared_icon_button.dart';
-import '../../widgets/cards/user_card.dart';
-import '../../widgets/inputs/input_text_field.dart';
+import 'package:rhythm/src/widgets/cards/user_card.dart';
+import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);

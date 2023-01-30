@@ -64,6 +64,6 @@ class DefaultFirebaseOptions {
     projectId: 'rhythm-92166',
     storageBucket: 'rhythm-92166.appspot.com',
     iosClientId: '620433459529-e1kqhd9enk73lh8dq6b6kh4dvs3avf5v.apps.googleusercontent.com',
-    iosBundleId: 'com.rhythm.rhythmm',
+    iosBundleId: 'com.rhythm.rhythm',
   );
 }

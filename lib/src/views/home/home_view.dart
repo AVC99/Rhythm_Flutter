@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/constants.dart';
 import 'package:rhythm/src/core/resources/images.dart';
-import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
+import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/views/errors/spotify_authentication_error_view.dart';
 import 'package:rhythm/src/views/home/posts_view.dart';
@@ -35,7 +35,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     initialPage: kInitialPage,
   );
   int _currentNavbarIndex = kInitialPage;
-  late RhythmUser authenticatedUser;
+  late RhythmUser _authenticatedUser;
 
   @override
   void initState() {
@@ -46,10 +46,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ref.invalidate(spotifyAuthenticationToken);
       }
 
-      authenticatedUser = (await ref
+      _authenticatedUser = (await ref
           .read(usersControllerProvider.notifier)
           .getAuthenticatedUser(FirebaseAuth.instance.currentUser!.email!))!;
-
     });
   }
 
@@ -143,8 +142,20 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               ? kLightBlack
                               : kBrokenWhite,
                     ),
-                    color: Colors.transparent,
+                    image: DecorationImage(
+                      image: _authenticatedUser.imageUrl!.isNotEmpty
+                          ? NetworkImage(_authenticatedUser.imageUrl!)
+                          : const AssetImage(kDefaultImageProfile)
+                              as ImageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
+                  /*child: _authenticatedUser.imageUrl!.isNotEmpty
+                      ? Image.network(
+                          _authenticatedUser.imageUrl!,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(kDefaultImageProfile),*/
                 ),
                 label: AppLocalizations.of(context)!.profile,
               ),

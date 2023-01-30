@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
-import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
-
 import 'package:rhythm/src/widgets/scaffold/custom_app_bar.dart';
+import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
 
 class SpotifyAuthenticationErrorView extends ConsumerWidget {
   const SpotifyAuthenticationErrorView({Key? key}) : super(key: key);

@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:rhythm/src/core/resources/constants.dart';
 
 abstract class Environment {

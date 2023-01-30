@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:rhythm/src/repositories/authentication/firebase_authentication_error.dart';
 
 class AuthenticationRepository {

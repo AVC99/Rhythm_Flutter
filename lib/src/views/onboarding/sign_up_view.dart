@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
 
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/validations/input_field_validator.dart';
 import 'package:rhythm/src/controllers/firestore/users_controller.dart';
+import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
 import 'package:rhythm/src/views/onboarding/create_account_view.dart';
 import 'package:rhythm/src/widgets/buttons/large_action_button.dart';
 import 'package:rhythm/src/widgets/banners/vertical_rhythm_banner.dart';

@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:rhythm/src/widgets/cards/post_card.dart';
 
 class PostView extends StatefulWidget {

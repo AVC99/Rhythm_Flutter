@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
+import 'package:rhythm/src/core/theme/theme_cubit.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
-
-import '../../core/theme/theme_cubit.dart';
 
 class PostCard extends StatefulWidget {
   const PostCard({Key? key}) : super(key: key);
