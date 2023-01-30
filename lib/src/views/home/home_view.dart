@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
@@ -43,6 +45,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
       if (!await WebviewCookieManager().hasCookies()) {
         ref.invalidate(spotifyAuthenticationToken);
       }
+
+      authenticatedUser = (await ref
+          .read(usersControllerProvider.notifier)
+          .getAuthenticatedUser(FirebaseAuth.instance.currentUser!.email!))!;
+
     });
   }
 

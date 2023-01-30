@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
 import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
@@ -15,7 +16,6 @@ import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
-
 
 class ProfileView extends StatefulHookConsumerWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -349,9 +349,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) => UserCard(
+                user: RhythmUser.empty(),
                 action: IconButton(
+                  icon: const Icon(Icons.person_remove),
                   onPressed: () {},
-                  icon: const Icon(Icons.remove),
                 ),
               ),
               separatorBuilder: (context, index) =>

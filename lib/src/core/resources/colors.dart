@@ -7,3 +7,4 @@ const kElectric = Color(0xFF64FFDA);
 const kBrokenWhite = Colors.white54;
 const kGrey = Colors.black12;
 const kLightBlack = Colors.black54;
+const kSpotifyGreen = Color(0xFF1DB954);

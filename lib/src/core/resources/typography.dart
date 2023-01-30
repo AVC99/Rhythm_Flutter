@@ -44,3 +44,8 @@ const kUsernameProfile = TextStyle(
   fontSize: 24.0,
   fontWeight: FontWeight.w600,
 );
+
+const kCardTitle = TextStyle(
+  fontSize: 18.0,
+  fontWeight: FontWeight.w600,
+);

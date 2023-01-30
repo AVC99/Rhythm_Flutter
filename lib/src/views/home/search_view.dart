@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
 
 import 'package:rhythm/src/widgets/buttons/squared_icon_button.dart';
 import '../../widgets/cards/user_card.dart';
@@ -42,9 +43,10 @@ class _SearchViewState extends State<SearchView> {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) => UserCard(
+                user: RhythmUser.empty(),
                 action: IconButton(
+                  icon: const Icon(Icons.person_add),
                   onPressed: () {},
-                  icon: const Icon(Icons.add),
                 ),
               ),
               separatorBuilder: (context, index) =>

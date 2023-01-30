@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
+import 'package:rhythm/src/core/resources/images.dart';
+import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
 class UserCard extends StatefulWidget {
+  final RhythmUser user;
   final Widget action;
 
   const UserCard({
     Key? key,
+    required this.user,
     required this.action,
   }) : super(key: key);
 
@@ -18,7 +24,6 @@ class UserCard extends StatefulWidget {
 }
 
 class _UserCardState extends State<UserCard> {
-
   Color _getThemeColor(String mode) {
     return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
   }
@@ -37,7 +42,7 @@ class _UserCardState extends State<UserCard> {
             children: [
               _buildUserProfile(context),
               _buildUserInformation(context),
-          ],
+            ],
           ),
         );
       },
@@ -46,16 +51,22 @@ class _UserCardState extends State<UserCard> {
 
   Widget _buildUserProfile(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(10.0),
-       child: Container(
-         clipBehavior: Clip.hardEdge,
-         decoration: BoxDecoration(
-           borderRadius: BorderRadius.circular(8.0),
-         ),
-         child: Image.network(
-           'https://i.scdn.co/image/ab67616d0000b27330326b23e30ae93d4d48165b',
-         ),
-       ),
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: widget.user.imageUrl!.isNotEmpty
+            ? Image.network(
+                widget.user.imageUrl!,
+                fit: BoxFit.cover,
+              )
+            : Image.asset(
+                kDefaultImageProfile,
+                fit: BoxFit.cover,
+              ),
+      ),
     );
   }
 
@@ -72,32 +83,40 @@ class _UserCardState extends State<UserCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  constraints:
-                      BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 2.5),
-                  child: const SlidingText(child: Text('Username'),
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 2.5,
+                  ),
+                  child: const SlidingText(
+                    child: Text(
+                      'Username',
+                      style: kCardTitle,
+                    ),
                   ),
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.location_on),
+                    const Icon(
+                      FontAwesomeIcons.spotify,
+                      size: 20.0,
+                      color: kSpotifyGreen,
+                    ),
+                    const SizedBox(width: 8.0),
                     Container(
-                      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/3),
-                      child: const  SlidingText(child: Text('City, Country'),
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width / 3,
+                      ),
+                      child: const SlidingText(
+                        child: Text('Spotify ID'),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            _buildButton(context),
+            widget.action,
           ],
         ),
       ),
     );
   }
-
-  Widget _buildButton(BuildContext context) {
-    return widget.action;
-  }
 }
-
