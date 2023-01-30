@@ -100,5 +100,19 @@
     },
     "yourRhythmQR": "Tu código QR de Rhythm",
     "yourRhythmQRDescription": "¡Comparte tu código QR y permite que otros usuarios te puedan enviar una solicitud de amistad de manera sencilla al escanearlo!",
-    "scanQr": "Escanear QR"
+    "scanQr": "Escanear QR",
+    "friendRequest": "Solicitud de amistad",
+    "friendRequestSent": "Se ha enviado una solicitud de amistad a {username}.",
+    "@friendRequestSent": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "friendRequestErrorOnSend": "No se ha podido enviar la solicitud de amistad.",
+    "friendRequestPending": "Ya existe una solicitud de amistad pendiente.",
+    "friendRequestAlreadyFriends": "¡Ya sois amigos!",
+    "friendRequestAccepted": "Solicitud de amistad aceptada.",
+    "friendRequestToYourselfError": "No puedes agregarte a ti mismo..."
 }

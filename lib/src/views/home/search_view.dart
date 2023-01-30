@@ -36,7 +36,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
             children: [
               InputTextField(
                 controller: _searchController,
-                width: MediaQuery.of(context).size.width / 1.35,
+                width: MediaQuery.of(context).size.width / 1.5,
                 hint: AppLocalizations.of(context)!.searchFriend,
                 icon: const Icon(Icons.search),
                 isPasswordField: false,
@@ -60,7 +60,6 @@ class _SearchViewState extends ConsumerState<SearchView> {
                 icon: const Icon(Icons.qr_code),
                 width: MediaQuery.of(context).size.width / 15,
                 onPressed: () {
-                  // _showQrBottomSheetModal(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -99,27 +98,4 @@ class _SearchViewState extends ConsumerState<SearchView> {
       ),
     );
   }
-
-/*void _showQrBottomSheetModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            ListTile(
-              leading: Icon(FontAwesomeIcons.barcode),
-              title: Text('Scan a QR'),
-              subtitle: Text('Send a friend request to a user.'),
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.qrcode),
-              title: Text('Show your QR'),
-              subtitle: Text('Let a user add you as a friend.'),
-            ),
-          ],
-        );
-      },
-    );
-  }*/
 }

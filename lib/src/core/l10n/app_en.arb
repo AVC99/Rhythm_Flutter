@@ -100,5 +100,19 @@
     },
     "yourRhythmQR": "Your Rhythm QR code",
     "yourRhythmQRDescription": "Share your QR code and allow users to send you a friend request easily on scan it!",
-    "scanQr": "Scan QR"
+    "scanQr": "Scan QR",
+    "friendRequest": "Friend request",
+    "friendRequestSent": "A friend request has been successfully sent to {username}.",
+    "@friendRequestSent": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "friendRequestErrorOnSend": "The friend request could not be sent.",
+    "friendRequestPending": "Already exists a pending friend request.",
+    "friendRequestAlreadyFriends": "You are already friends!",
+    "friendRequestAccepted": "Friend request has been accepted.",
+    "friendRequestToYourselfError": "You cannot add to yourself..."
 }

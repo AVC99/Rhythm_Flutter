@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:rhythm/src/repositories/firestore_error.dart';
+import 'package:rhythm/src/repositories/friendships/friendships_error.dart';
 import 'package:rhythm/src/repositories/users/user_error.dart';
 
 abstract class FirestoreQueryState extends Equatable {
@@ -44,6 +45,15 @@ class FirestoreUsersDataErrorState extends FirestoreQueryState {
   final UserDataError error;
 
   const FirestoreUsersDataErrorState(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+
+class FirestoreFriendshipsDataErrorState extends FirestoreQueryState {
+  final FriendshipDataError error;
+
+  const FirestoreFriendshipsDataErrorState(this.error);
 
   @override
   List<Object> get props => [error];
