@@ -20,7 +20,9 @@ final routes = <String, WidgetBuilder>{
         email: '',
         password: '',
       ),
-  HomeView.route: (context) => const HomeView(),
+  HomeView.route: (context) => const HomeView(
+    user: null,
+  ),
   QrCodeView.route: (context) => const QrCodeView(
     username: '',
   ),

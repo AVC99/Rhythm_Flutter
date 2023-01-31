@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rhythm/src/providers/users_provider.dart';
+import 'package:rhythm/src/views/onboarding/start_view.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
@@ -10,7 +11,6 @@ import 'package:rhythm/src/core/resources/constants.dart';
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
 import 'package:rhythm/src/models/rhythm_user.dart';
-import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/views/errors/spotify_authentication_error_view.dart';
 import 'package:rhythm/src/views/home/posts_view.dart';
@@ -50,13 +50,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      /*_authenticatedUser = (await ref
+          .read(usersControllerProvider.notifier)
+          .getAuthenticatedUser(FirebaseAuth.instance.currentUser!.email!))!;*/
+
       if (!await WebviewCookieManager().hasCookies()) {
         ref.invalidate(spotifyAuthenticationToken);
       }
-
-      _authenticatedUser = (await ref
-          .read(usersControllerProvider.notifier)
-          .getAuthenticatedUser(FirebaseAuth.instance.currentUser!.email!))!;
     });
   }
 
@@ -68,9 +68,26 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return ref.watch(spotifyAuthenticationToken).when(
-          data: (data) => _buildHomeView(context),
-          error: (error, stackTrace) => const SpotifyAuthenticationErrorView(),
+    return ref.watch(authenticatedUserProvider).when(
+          data: (data) {
+            _authenticatedUser = data;
+
+            return ref.watch(spotifyAuthenticationToken).when(
+                  data: (data) => _buildHomeView(context),
+                  error: (error, stackTrace) =>
+                      const SpotifyAuthenticationErrorView(),
+                  loading: () => const LoadingSpinner(),
+                );
+          },
+          error: (error, stacktrace) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              StartView.route,
+              (route) => false,
+            );
+
+            return Container();
+          },
           loading: () => const LoadingSpinner(),
         );
   }

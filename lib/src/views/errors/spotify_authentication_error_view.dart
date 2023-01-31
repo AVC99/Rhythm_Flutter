@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,6 +43,20 @@ class SpotifyAuthenticationErrorView extends ConsumerWidget {
                     style: kDialogDescription,
                   ),
                 ),
+                defaultTargetPlatform == TargetPlatform.iOS
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 16.0),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Text(
+                              AppLocalizations.of(context)!.spotifyRequiredApp,
+                              style: kDialogDescription,
+                            ),
+                          )
+                        ],
+                      )
+                    : Container(),
                 SizedBox(height: MediaQuery.of(context).size.height / 10),
                 LargeActionButton(
                   label: AppLocalizations.of(context)!.spotifyLogin,

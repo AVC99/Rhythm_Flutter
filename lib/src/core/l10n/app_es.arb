@@ -114,5 +114,6 @@
     "friendRequestPending": "Ya existe una solicitud de amistad pendiente.",
     "friendRequestAlreadyFriends": "¡Ya sois amigos!",
     "friendRequestAccepted": "Solicitud de amistad aceptada.",
-    "friendRequestToYourselfError": "No puedes agregarte a ti mismo..."
+    "friendRequestToYourselfError": "No puedes agregarte a ti mismo...",
+    "spotifyRequiredApp": "Necesitas tener la aplicación de Spotify instalada en tu dispositivo para poder disfrutar de todas las funcionalidades de Rhythm."
 }

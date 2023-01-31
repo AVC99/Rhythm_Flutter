@@ -182,9 +182,9 @@ class _SignInViewState extends ConsumerState<SignInView> {
         LargeActionButton(
           label: AppLocalizations.of(context)!.signIn,
           width: MediaQuery.of(context).size.width / 1.5,
-          onPressed: () {
+          onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              ref
+              await ref
                   .read(authenticationControllerProvider.notifier)
                   .signIn(_emailController.text, _passwordController.text);
             }

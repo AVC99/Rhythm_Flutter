@@ -16,7 +16,7 @@ import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 
 class SearchView extends StatefulHookConsumerWidget {
-  final RhythmUser authenticatedUser;
+  final RhythmUser? authenticatedUser;
 
   const SearchView({
     Key? key,
@@ -127,7 +127,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                     _searchUsers = await ref
                         .read(usersControllerProvider.notifier)
                         .searchUsersByUsername(
-                          widget.authenticatedUser.username!,
+                          widget.authenticatedUser!.username!,
                           _searchController.text,
                         );
                   }
@@ -143,7 +143,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => QrCodeView(
-                        username: widget.authenticatedUser.username!,
+                        username: widget.authenticatedUser!.username!,
                       ),
                     ),
                   );
@@ -161,7 +161,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                     itemCount: _searchUsers.length,
                     itemBuilder: (context, index) => UserCard(
                       user: _searchUsers[index],
-                      action: widget.authenticatedUser.friends
+                      action: widget.authenticatedUser!.friends
                               .contains(_searchUsers[index].username)
                           ? Container()
                           : IconButton(
@@ -175,7 +175,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                                     .watch(
                                         friendshipsControllerProvider.notifier)
                                     .sendFriendRequest(
-                                      widget.authenticatedUser.username!,
+                                      widget.authenticatedUser!.username!,
                                       _clickedUser!.username!,
                                     );
                               },
