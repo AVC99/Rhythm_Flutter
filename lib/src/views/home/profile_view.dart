@@ -26,11 +26,10 @@ import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 import '../../widgets/dialogs/widgets/loading_spinner.dart';
 
 class ProfileView extends StatefulHookConsumerWidget {
-  final RhythmUser authenticatedUser;
+
 
   const ProfileView({
     Key? key,
-    required this.authenticatedUser,
   }) : super(key: key);
 
   @override
