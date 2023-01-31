@@ -181,6 +181,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                                     );
 
                                 ref.invalidate(authenticatedUserProvider);
+                                setState(() {});
                               },
                             )
                           : IconButton(
@@ -200,6 +201,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                                     );
 
                                 ref.invalidate(authenticatedUserProvider);
+                                setState(() {});
                               },
                             ),
                     ),
