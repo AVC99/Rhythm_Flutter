@@ -40,6 +40,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   );
   int _currentNavbarIndex = kInitialPage;
   late RhythmUser _authenticatedUser;
+  bool _isKeyboardVisible = false;
 
   @override
   void initState() {
@@ -50,10 +51,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      /*_authenticatedUser = (await ref
-          .read(usersControllerProvider.notifier)
-          .getAuthenticatedUser(FirebaseAuth.instance.currentUser!.email!))!;*/
-
       if (!await WebviewCookieManager().hasCookies()) {
         ref.invalidate(spotifyAuthenticationToken);
       }
@@ -68,6 +65,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    _isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+
     return ref.watch(authenticatedUserProvider).when(
           data: (data) {
             _authenticatedUser = data;
@@ -192,16 +191,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 
   Widget _buildFloatingActionButton(BuildContext context) {
-    return FloatingActionButton(
-      child: SvgImage(
-        svg: kLogo,
-        width: MediaQuery.of(context).size.width / 40,
-        height: MediaQuery.of(context).size.height / 40,
-        color: Colors.white,
-      ),
-      onPressed: () {
-        print(ref.read(spotifyAuthenticationToken));
-      },
-    );
+    return !_isKeyboardVisible
+        ? FloatingActionButton(
+            child: SvgImage(
+              svg: kLogo,
+              width: MediaQuery.of(context).size.width / 40,
+              height: MediaQuery.of(context).size.height / 40,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              print(ref.read(spotifyAuthenticationToken));
+            },
+          )
+        : Container();
   }
 }
