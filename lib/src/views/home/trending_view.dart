@@ -40,24 +40,29 @@ class _TrendingViewState extends State<TrendingView> {
         ListView(
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
-          children: const [
-            SongCard(),
+          children:  [
+            SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
+                songName: 'Songname', artistName: 'artistName'),
             SizedBox(
               height: 12.0,
             ),
-            SongCard(),
+            SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
+                songName: 'Songname', artistName: 'artistName'),
             SizedBox(
               height: 12.0,
             ),
-            SongCard(),
+            SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
+                songName: 'Songname', artistName: 'artistName'),
             SizedBox(
               height: 12.0,
             ),
-            SongCard(),
+            SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
+                songName: 'Songname', artistName: 'artistName'),
             SizedBox(
               height: 12.0,
             ),
-            SongCard(),
+            SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
+                songName: 'Songname', artistName: 'artistName'),
             SizedBox(
               height: 12.0,
             ),
@@ -89,6 +94,8 @@ class _TrendingViewState extends State<TrendingView> {
               child: LabeledImageHolder(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
+                url: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
+                description: 'Eladio Camion',
               ),
             ),
             separatorBuilder: (context, index) => const SizedBox(

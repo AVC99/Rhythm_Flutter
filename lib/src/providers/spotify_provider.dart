@@ -4,16 +4,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rhythm/src/controllers/firestore/users_controller.dart';
 import 'package:rhythm/src/repositories/spotify/spotify_repository.dart';
 
+import '../models/display_info.dart';
+
 final spotifyRepositoryProvider = Provider<SpotifyRepository>(
-      (ref) => SpotifyRepository(),
+  (ref) => SpotifyRepository(),
 );
 
 final spotifyAuthenticationToken = FutureProvider<String>((ref) async {
   final token =
-  await ref.read(spotifyRepositoryProvider).getAuthorizationToken();
+      await ref.read(spotifyRepositoryProvider).getAuthorizationToken();
 
   final spotifyUser =
-  await ref.read(spotifyRepositoryProvider).getAuthenticatedUser(token);
+      await ref.read(spotifyRepositoryProvider).getAuthenticatedUser(token);
 
   final rhythmUser = await ref
       .read(usersControllerProvider.notifier)
@@ -26,3 +28,14 @@ final spotifyAuthenticationToken = FutureProvider<String>((ref) async {
 
   return token;
 });
+
+final spotifyTopArtistProvider = FutureProvider<List<DisplayInfo>>(
+    (ref) async => await ref.read(spotifyRepositoryProvider).getUserTopArtist(),
+);
+
+final spotifyPlaylistProvider = FutureProvider<List<DisplayInfo>>(
+    (ref) async => await ref.read(spotifyRepositoryProvider).getUserPlaylist(),
+);
+final spotifyTopSongsProvider = FutureProvider<List<DisplayInfo>>(
+    (ref) async => await ref.read(spotifyRepositoryProvider).getUserTopTracks(),
+);
