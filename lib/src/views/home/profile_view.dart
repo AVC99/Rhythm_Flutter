@@ -2,13 +2,16 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
 import 'package:rhythm/src/controllers/firestore/friendships_controller.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
+import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/providers/users_provider.dart';
 import 'package:rhythm/src/repositories/friendships/friendships_error.dart';
@@ -26,10 +29,11 @@ import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 import '../../widgets/dialogs/widgets/loading_spinner.dart';
 
 class ProfileView extends StatefulHookConsumerWidget {
+ RhythmUser authenticatedUser;
 
-
-  const ProfileView({
+   ProfileView({
     Key? key,
+    required this.authenticatedUser,
   }) : super(key: key);
 
   @override
@@ -159,9 +163,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   Widget _buildUserProfileImage(BuildContext context) {
     return Stack(
       children: [
-        Image.network(
-          'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        ),
+        widget.authenticatedUser.imageUrl!.isNotEmpty ? Image.network(widget.authenticatedUser.imageUrl!) : Image.asset(kDefaultImageProfile),
+
         Positioned.fill(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -175,13 +178,16 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircularIconButton(
-                      icon: const Icon(Icons.edit),
-                      tooltip: AppLocalizations.of(context)!.edit,
-                      onPressed: () {},
+                    Visibility(
+                      visible: false,
+                      child:  CircularIconButton(
+                        icon: const Icon(Icons.edit),
+                        tooltip: AppLocalizations.of(context)!.edit,
+                        onPressed: () {},
+                      ),
                     ),
                     CircularIconButton(
-                      icon: const Icon(CupertinoIcons.ellipsis_vertical),
+                      icon:  const Icon(FontAwesomeIcons.arrowRightFromBracket),
                       tooltip: AppLocalizations.of(context)!.settings,
                       onPressed: () async {
                         await ref.read(spotifyRepositoryProvider).signOut();
@@ -206,11 +212,11 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width / 1.2,
                 ),
-                child: const SlidingText(
+                child: SlidingText(
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                      'danimr99',
+                      widget.authenticatedUser.username!,
                       style: kUsernameProfile,
                     ),
                   ),

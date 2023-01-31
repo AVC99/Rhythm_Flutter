@@ -113,7 +113,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           SearchView(
             authenticatedUser: _authenticatedUser,
           ),
-          const ProfileView(),
+         ProfileView( authenticatedUser: _authenticatedUser),
         ],
       ),
     );

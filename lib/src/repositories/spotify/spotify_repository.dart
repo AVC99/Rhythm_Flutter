@@ -94,7 +94,7 @@ class SpotifyRepository {
 
   Future<List<DisplayInfo>> getUserTopArtist() async {
     const url =
-        '$baseUrl/me/top/artists?time_range=medium_term&limit=10&offset=0';
+        '$baseUrl/me/top/artists?time_range=short_term&limit=10&offset=0';
     final uri = Uri.parse(url);
     final response = await http.get(
       uri,
@@ -123,7 +123,7 @@ class SpotifyRepository {
 
   Future<List<DisplayInfo>> getUserTopTracks() async {
     const url =
-        '$baseUrl/me/top/tracks?time_range=medium_term&limit=10&offset=0';
+        '$baseUrl/me/top/tracks?time_range=short_term&limit=10&offset=0';
     final uri = Uri.parse(url);
     final response = await http.get(
       uri,

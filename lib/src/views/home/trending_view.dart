@@ -43,27 +43,27 @@ class _TrendingViewState extends State<TrendingView> {
           children:  [
             SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
                 songName: 'Songname', artistName: 'artistName', isPlaying: false,),
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
             SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
               songName: 'Songname', artistName: 'artistName', isPlaying: false,),
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
             SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
               songName: 'Songname', artistName: 'artistName', isPlaying: false,),
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
             SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
               songName: 'Songname', artistName: 'artistName', isPlaying: false,),
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
             SongCard(imageUrl: 'https://i.scdn.co/image/ab6761610000e5eb87ff3d09a0fdb1fbdaed417b',
               songName: 'Songname', artistName: 'artistName', isPlaying: false,),
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
           ],
