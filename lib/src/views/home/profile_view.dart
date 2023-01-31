@@ -2,15 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
+import 'package:rhythm/src/controllers/firestore/friendships_controller.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
-import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
+import 'package:rhythm/src/providers/users_provider.dart';
+import 'package:rhythm/src/repositories/friendships/friendships_error.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
 import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
 import 'package:rhythm/src/widgets/cards/user_card.dart';
+import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/loading_spinner.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
 import 'package:rhythm/src/widgets/images/image_holder.dart';
 import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
@@ -35,6 +41,66 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<FirestoreQueryState>(
+      friendshipsControllerProvider,
+          (previousState, nextState) {
+        const DialogHelper loadingDialog = DialogHelper(
+          child: LoadingSpinner(),
+          canBeDismissed: false,
+        );
+
+        print('State: $nextState');
+
+        switch (nextState.runtimeType) {
+          case FirestoreQueryLoadingState:
+            loadingDialog.displayDialog(context);
+            break;
+
+          case FirestoreQuerySuccessState:
+            loadingDialog.dismissDialog(context);
+            break;
+
+          case FirestoreFriendshipsDataErrorState:
+            loadingDialog.dismissDialog(context);
+
+            final DialogHelper messageDialog = DialogHelper(
+              child: PopupDialog(
+                title: AppLocalizations.of(context)!.friendRequest,
+                description: FriendshipDataErrorHandler.determineError(
+                  context,
+                  (nextState as FirestoreFriendshipsDataErrorState).error,
+                ),
+                onAccept: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              canBeDismissed: true,
+            );
+
+            messageDialog.displayDialog(context);
+            break;
+
+          case FirestoreQueryErrorState:
+            loadingDialog.dismissDialog(context);
+
+            final DialogHelper failureDialog = DialogHelper(
+              child: PopupDialog(
+                title: AppLocalizations.of(context)!.friendRequest,
+                description:
+                AppLocalizations.of(context)!.friendRequestErrorOnSend,
+                onAccept: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              canBeDismissed: true,
+            );
+
+            failureDialog.displayDialog(context);
+            break;
+        }
+      },
+    );
+
     return DefaultTabController(
       length: 3,
       child: NestedScrollView(
@@ -334,34 +400,53 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   }
 
   Widget _buildSocialTab(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Column(
-        children: [
-          InputTextField(
-            controller: _searchController,
-            width: MediaQuery.of(context).size.width / 1.25,
-            hint: AppLocalizations.of(context)!.searchFriend,
-            icon: const Icon(Icons.search),
-            isPasswordField: false,
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height / 40),
-          Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) => UserCard(
-                user: RhythmUser.empty(),
-                action: IconButton(
-                  icon: const Icon(Icons.person_remove),
-                  onPressed: () {},
-                ),
+    return ref.watch(authenticatedUserFriendsProvider).when(
+          data: (data) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Column(
+                children: [
+                  InputTextField(
+                    controller: _searchController,
+                    width: MediaQuery.of(context).size.width / 1.25,
+                    hint: AppLocalizations.of(context)!.searchFriend,
+                    icon: const Icon(Icons.search),
+                    isPasswordField: false,
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height / 40),
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) => UserCard(
+                        user: data[index],
+                        action: IconButton(
+                          icon: const Icon(Icons.person_remove),
+                          onPressed: () async {
+                            await ref
+                                .watch(
+                              friendshipsControllerProvider.notifier,
+                            )
+                                .deleteFriendship(
+                              ref.read(authenticatedUserProvider).value!.username!,
+                              data[index].username!,
+                            );
+
+                            ref.invalidate(authenticatedUserProvider);
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: MediaQuery.of(context).size.height / 60,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              separatorBuilder: (context, index) =>
-                  SizedBox(height: MediaQuery.of(context).size.height / 60),
-              itemCount: 20,
-            ),
-          ),
-        ],
-      ),
-    );
+            );
+          },
+          error: (error, stacktrace) => Container(),
+          loading: () => const LoadingSpinner(),
+        );
   }
 }

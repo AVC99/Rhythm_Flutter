@@ -16,3 +16,21 @@ final authenticatedUserProvider = FutureProvider((ref) async {
     return RhythmUser.fromJson(value.first.data() as Map<String, dynamic>);
   });
 });
+
+final authenticatedUserFriendsProvider =
+    FutureProvider<List<RhythmUser>>((ref) async {
+  final user = ref.read(authenticatedUserProvider).value!;
+
+  List<RhythmUser> friends = [];
+
+  for (var element in user.friends) {
+    friends.add(
+      await ref.read(usersRepositoryProvider).getUserByUsername(element).then(
+            (value) =>
+                RhythmUser.fromJson(value.first.data() as Map<String, dynamic>),
+          ),
+    );
+  }
+
+  return friends;
+});

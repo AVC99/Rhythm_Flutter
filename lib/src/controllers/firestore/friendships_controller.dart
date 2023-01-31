@@ -43,6 +43,8 @@ class FriendshipsController extends StateNotifier<FirestoreQueryState> {
               );
       }
 
+      if (state is FirestoreFriendshipsDataErrorState) return;
+
       final friendshipReceived = await ref
           .read(friendshipsRepositoryProvider)
           .getFriendship(receiverUsername, senderUsername);
@@ -106,7 +108,8 @@ class FriendshipsController extends StateNotifier<FirestoreQueryState> {
           .read(usersControllerProvider.notifier)
           .deleteFriend(userB, userA);
 
-      state = const FirestoreFriendshipsDataErrorState(FriendshipDataError.deletedFriendship);
+      state = const FirestoreFriendshipsDataErrorState(
+          FriendshipDataError.deletedFriendship);
     } on FirebaseException catch (e) {
       state = FirestoreQueryErrorState(
         FirestoreQueryErrorHandler.determineErrorCode(e),

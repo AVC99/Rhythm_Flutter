@@ -107,6 +107,7 @@ class _QrCodeViewState extends ConsumerState<QrCodeView> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: SafeArea(
         child: Padding(

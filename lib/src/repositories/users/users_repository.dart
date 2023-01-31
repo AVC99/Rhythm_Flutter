@@ -80,9 +80,10 @@ class UsersRepository {
           RhythmUser.fromJson(value.first.data() as Map<String, dynamic>),
     );
 
-    userToUpdate.friends.add(friend);
-
-    await updateUser(userToUpdate);
+    if (!userToUpdate.friends.contains(friend)) {
+      userToUpdate.friends.add(friend);
+      await updateUser(userToUpdate);
+    }
   }
 
   Future<void> deleteFriend(String user, String friend) async {

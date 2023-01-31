@@ -33,7 +33,7 @@ class _UserCardState extends State<UserCard> {
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return Container(
-          height: MediaQuery.of(context).size.height / 10,
+          height: MediaQuery.of(context).size.height / 8,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             color: _getThemeColor(state.themeMode.name),
