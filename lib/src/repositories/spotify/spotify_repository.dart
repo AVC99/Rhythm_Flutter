@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:rhythm/src/models/display_info.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
@@ -11,6 +12,7 @@ import 'package:rhythm/src/providers/environment_provider.dart';
 
 class SpotifyRepository {
   static const String baseUrl = 'https://api.spotify.com/v1';
+  late String authorizationToken;
 
   SpotifyRepository();
 
@@ -39,19 +41,20 @@ class SpotifyRepository {
 
     try {
       if (defaultTargetPlatform == TargetPlatform.iOS) {
-        return await SpotifySdk.getAccessToken(
+        authorizationToken = await SpotifySdk.getAccessToken(
           clientId: Environment.getSpotifyClientId(),
           redirectUrl: Environment.getSpotifyRedirectUri(),
           scope: scopes.join(', '),
           spotifyUri: 'spotify:track:58kNJana4w5BIjlZE2wq5r',
         );
+        return authorizationToken;
       }
-
-      return await SpotifySdk.getAccessToken(
+      authorizationToken = await SpotifySdk.getAccessToken(
         clientId: Environment.getSpotifyClientId(),
         redirectUrl: Environment.getSpotifyRedirectUri(),
         scope: scopes.join(', '),
       );
+      return authorizationToken;
     } on PlatformException catch (e) {
       // Forgot password => PlatformException
       // No Spotify app on iOS => PlatformException
@@ -67,8 +70,8 @@ class SpotifyRepository {
   }
 
   Future<String> getAuthenticatedUser(
-      String authenticationToken,
-      ) async {
+    String authenticationToken,
+  ) async {
     const url = '$baseUrl/me';
     final uri = Uri.parse(url);
     final response = await http.get(
@@ -79,11 +82,103 @@ class SpotifyRepository {
         'Authorization': 'Bearer $authenticationToken',
       },
     );
-
+    authorizationToken = authenticationToken;
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
 
       return json['id'];
+    } else {
+      throw Exception('Error: Cannot get authenticated Spotify user.');
+    }
+  }
+
+  Future<List<DisplayInfo>> getUserTopArtist() async {
+    const url =
+        '$baseUrl/me/top/artists?time_range=medium_term&limit=10&offset=0';
+    final uri = Uri.parse(url);
+    final response = await http.get(
+      uri,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authorizationToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<DisplayInfo> artistList = [];
+      Map<String, dynamic> myMap = json.decode(response.body);
+      List<dynamic> items = myMap['items'];
+
+      for (var element in items) {
+        artistList.add(DisplayInfo(
+            text: element['name'], url: element['images'][0]['url']));
+      }
+
+      return artistList;
+    } else {
+      throw Exception('Error: Cannot get authenticated Spotify user.');
+    }
+  }
+
+  Future<List<DisplayInfo>> getUserTopTracks() async {
+    const url =
+        '$baseUrl/me/top/tracks?time_range=medium_term&limit=10&offset=0';
+    final uri = Uri.parse(url);
+    final response = await http.get(
+      uri,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authorizationToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<DisplayInfo> artistList = [];
+      Map<String, dynamic> myMap = json.decode(response.body);
+      List<dynamic> items = myMap['items'];
+
+      for (var element in items) {
+        artistList.add(
+          DisplayInfo(
+            text: element['name'],
+            url: element['album']['images'][0]['url'],
+            artist: element['artists'][0]['name'],
+            previewUrl: element['preview_url'],
+          ),
+        );
+      }
+
+      return artistList;
+    } else {
+      throw Exception('Error: Cannot get authenticated Spotify user.');
+    }
+  }
+
+  Future<List<DisplayInfo>> getUserPlaylist() async {
+    const url = '$baseUrl/me/playlists?limit=50&offset=0';
+    final uri = Uri.parse(url);
+    final response = await http.get(
+      uri,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authorizationToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<DisplayInfo> playlist = [];
+      Map<String, dynamic> myMap = json.decode(response.body);
+      List<dynamic> items = myMap['items'];
+
+      for (var element in items) {
+        playlist.add(DisplayInfo(
+            text: element['name'], url: element['images'][0]['url']));
+      }
+
+      return playlist;
     } else {
       throw Exception('Error: Cannot get authenticated Spotify user.');
     }

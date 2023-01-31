@@ -53,8 +53,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
       if (!await WebviewCookieManager().hasCookies()) {
         ref.invalidate(spotifyAuthenticationToken);
       }
-
-      _authenticatedUser = (await ref
+      _authenticatedUser = (
+          await ref
           .read(usersControllerProvider.notifier)
           .getAuthenticatedUser(FirebaseAuth.instance.currentUser!.email!))!;
     });
@@ -70,7 +70,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     return ref.watch(spotifyAuthenticationToken).when(
           data: (data) => _buildHomeView(context),
-          error: (error, stackTrace) => const SpotifyAuthenticationErrorView(),
+          error: (error, stackTrace)  {
+           return const SpotifyAuthenticationErrorView();
+          },
+
           loading: () => const LoadingSpinner(),
         );
   }
@@ -97,7 +100,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
           SearchView(
             authenticatedUser: _authenticatedUser,
           ),
-          const ProfileView(),
+          ProfileView(
+            authenticatedUser: _authenticatedUser,
+          ),
         ],
       ),
     );

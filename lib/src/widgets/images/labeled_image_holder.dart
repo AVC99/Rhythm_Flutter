@@ -5,34 +5,37 @@ import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 class LabeledImageHolder extends StatelessWidget {
   final double width;
   final double height;
+  final String url;
+  final String description;
 
   const LabeledImageHolder({
     Key? key,
     required this.width,
     required this.height,
+    required this.url,
+    required this.description,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const String imageSource =
-        'https://i.scdn.co/image/ab6761610000e5ebbf108de19539a11669610d67';
-
     return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(
+          child: Container(
+            height: height,
             clipBehavior: Clip.hardEdge,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
             child: Image.network(
-              imageSource,
+              url,
               fit: BoxFit.cover,
             ),
           ),
-          const SlidingText(child: Text('Feid'))
-        ],
-
+        ),
+        SlidingText(child: Text(description))
+      ],
     );
   }
 }

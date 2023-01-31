@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,16 +17,31 @@ import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
+import '../../widgets/dialogs/widgets/loading_spinner.dart';
 
 class ProfileView extends StatefulHookConsumerWidget {
-  const ProfileView({Key? key}) : super(key: key);
+  final RhythmUser authenticatedUser;
+
+  const ProfileView({
+    Key? key,
+    required this.authenticatedUser,
+  }) : super(key: key);
 
   @override
   ConsumerState<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends ConsumerState<ProfileView> {
+  late AudioPlayer _audioPlayer;
   final TextEditingController _searchController = TextEditingController();
+  late int indexPlaying = -1;
+  bool isPlaying = false ;
+
+@override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+  }
 
   @override
   void dispose() {
@@ -178,42 +194,50 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         SizedBox(
           height: MediaQuery.of(context).size.height / 50,
         ),
-        _buildTopGenres(context),
+       // _buildTopGenres(context),
       ],
     );
   }
 
   Widget _buildPlaylist(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            'Playlist',
-            style: kSectionTitle,
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 4,
-          child: ListView.separated(
-            padding: const EdgeInsets.all(8.0),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => SizedBox(
-              width: MediaQuery.of(context).size.width / 3.5,
-              child: LabeledImageHolder(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-              ),
-            ),
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 12,
-            ),
-            itemCount: 5,
-          ),
-        ),
-      ],
-    );
+    return ref.watch(spotifyPlaylistProvider).when(
+          data: (data) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Playlist',
+                    style: kSectionTitle,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(8.0),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => SizedBox(
+                      width: MediaQuery.of(context).size.width / 3.5,
+                      child: LabeledImageHolder(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        url: data[index].url,
+                        description: data[index].text,
+                      ),
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(
+                      width: 12,
+                    ),
+                    itemCount: data.length,
+                  ),
+                ),
+              ],
+            );
+          },
+          error: (error, stacktrace) => Text(error.toString()),
+          loading: () => const LoadingSpinner(),
+        );
   }
 
   Widget _buildTopGenres(BuildContext context) {
@@ -246,91 +270,105 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   }
 
   Widget _buildTopTracks(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            'Top Songs',
-            style: kSectionTitle,
-          ),
-        ),
-        SizedBox(
-          height: 12.0,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-        SizedBox(
-          height: 10,
-        ),
-        SongCard(),
-      ],
-    );
+    return ref.watch(spotifyTopSongsProvider).when(
+          data: (data) {
+            return Column(
+
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Top Songs',
+                    style: kSectionTitle,
+                  ),
+                ),
+              SizedBox(
+                  child: ListView.separated(
+                    primary: false,
+                    physics: const  NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap:() {
+                          if(indexPlaying==index){
+                            _audioPlayer.stop();
+                            setState(() {
+                              indexPlaying = -1;
+                            });
+                          }else{
+                            _audioPlayer.play(UrlSource(data[index].previewUrl!));
+                            setState(() {
+                              indexPlaying = index;
+                            });
+                          }
+
+                        } ,
+                        child: SongCard(imageUrl: data[index].url,
+                            songName: data[index].text,
+                            artistName:data[index].artist!,
+                            isPlaying: index == indexPlaying ? true : false,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 12,
+                    ),
+                    itemCount: data.length,
+                  ),
+                )
+              ],
+            );
+          },
+          error: (error, stacktrace) => Text(error.toString()),
+          loading: () => const LoadingSpinner(),
+        );
   }
 
   Widget _buildTopArtists(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            AppLocalizations.of(context)!.topArtists,
-            style: kSectionTitle,
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 4,
-          child: ListView.separated(
-            padding: const EdgeInsets.all(8.0),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => SizedBox(
-              width: MediaQuery.of(context).size.width / 3.5,
-              child: LabeledImageHolder(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+    return ref.watch(spotifyTopArtistProvider).when(
+        data: (data) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  AppLocalizations.of(context)!.topArtists,
+                  style: kSectionTitle,
+                ),
               ),
-            ),
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 12,
-            ),
-            itemCount: 5,
-          ),
-        ),
-      ],
-    );
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 4,
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(8.0),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => SizedBox(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    child: LabeledImageHolder(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      url: data[index].url,
+                      description: data[index].text,
+                    ),
+                  ),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    width: 12,
+                  ),
+                  itemCount: data.length,
+                ),
+              ),
+            ],
+          );
+        },
+        error: (error, stacktrace) {
+          print(stacktrace.toString());
+          return Text(
+            error.toString(),
+          );
+        },
+        loading: () => const LoadingSpinner());
+    /**/
   }
 
   Widget _buildSocialTab(BuildContext context) {

@@ -8,14 +8,25 @@ import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
 class SongCard extends StatefulWidget {
-  const SongCard({Key? key}) : super(key: key);
+  final String imageUrl;
+  final String songName;
+  final String artistName;
+  late bool? isPlaying = false;
+
+   SongCard({
+    Key? key,
+    required this.imageUrl,
+    required this.songName,
+    required this.artistName,
+    this.isPlaying,
+  }) : super(key: key);
 
   @override
   State<SongCard> createState() => _SongCardState();
 }
 
 class _SongCardState extends State<SongCard> {
-  bool _isPlaying = false;
+
   bool _isLiked = false;
 
   Color _getThemeColor(String mode) {
@@ -66,9 +77,9 @@ class _SongCardState extends State<SongCard> {
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width / 2.5,
                       ),
-                      child: const SlidingText(
+                      child:SlidingText(
                         child: Text(
-                          'JS4E',
+                         widget.songName,
                         ),
                       ),
                     )
@@ -85,9 +96,9 @@ class _SongCardState extends State<SongCard> {
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width / 2.5,
                       ),
-                      child: const SlidingText(
+                      child:  SlidingText(
                         child: Text(
-                          'Arcangel',
+                        widget.artistName,
                         ),
                       ),
                     )
@@ -96,61 +107,54 @@ class _SongCardState extends State<SongCard> {
               ],
             ),
           ),
-          _buildLikeButton(context),
+          //_buildLikeButton(context),
         ],
       ),
     );
   }
 
   Widget _buildAlbumCover(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isPlaying = !_isPlaying;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Stack(
-            children: [
-              Image.network(
-                'https://i.scdn.co/image/ab67616d0000b27330326b23e30ae93d4d48165b',
-              ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: AnimatedOpacity(
-                    opacity: _isPlaying ? 0.0 : 0.75,
-                    duration: const Duration(milliseconds: 300),
-                    child: const Icon(
-                      Icons.pause,
-                      size: 32,
-                      color: Colors.white,
-                    ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Stack(
+          children: [
+            Image.network(
+              widget.imageUrl,
+            ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: AnimatedOpacity(
+                  opacity: widget.isPlaying! ?  0.75 : 0.0,
+                  duration: const Duration(milliseconds: 300),
+                  child: const Icon(
+                    Icons.pause,
+                    size: 32,
+                    color: Colors.white,
                   ),
                 ),
               ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: AnimatedOpacity(
-                    opacity: _isPlaying ? 0.75 : 0.0,
-                    duration: const Duration(milliseconds: 300),
-                    child: const Icon(
-                      Icons.play_arrow,
-                      size: 32,
-                      color: Colors.white,
-                    ),
+            ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: AnimatedOpacity(
+                  opacity: widget.isPlaying! ?  0.0 : 0.75,
+                  duration: const Duration(milliseconds: 300),
+                  child: const Icon(
+                    Icons.play_arrow,
+                    size: 32,
+                    color: Colors.white,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -167,6 +171,9 @@ class _SongCardState extends State<SongCard> {
       onPressed: () {
         setState(() {
           _isLiked = !_isLiked;
+          if(_isLiked){
+
+          }
         });
       },
     );
