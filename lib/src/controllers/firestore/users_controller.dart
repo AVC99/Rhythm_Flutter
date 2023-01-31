@@ -171,4 +171,18 @@ class UsersController extends StateNotifier<FirestoreQueryState> {
       );
     }
   }
+
+  Future<void> deleteFriend(String user, String friend) async {
+    state = const FirestoreQueryLoadingState();
+
+    try {
+      await ref.read(usersRepositoryProvider).deleteFriend(user, friend);
+
+      state = const FirestoreQuerySuccessState();
+    } on FirebaseException catch (e) {
+      state = FirestoreQueryErrorState(
+        FirestoreQueryErrorHandler.determineErrorCode(e),
+      );
+    }
+  }
 }

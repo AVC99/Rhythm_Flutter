@@ -6,6 +6,7 @@ import 'package:rhythm/src/controllers/firestore/friendships_controller.dart';
 
 import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/controllers/firestore/users_controller.dart';
+import 'package:rhythm/src/providers/users_provider.dart';
 import 'package:rhythm/src/repositories/friendships/friendships_error.dart';
 import 'package:rhythm/src/views/actions/qr_code_view.dart';
 import 'package:rhythm/src/widgets/buttons/squared_icon_button.dart';
@@ -163,7 +164,25 @@ class _SearchViewState extends ConsumerState<SearchView> {
                       user: _searchUsers[index],
                       action: widget.authenticatedUser!.friends
                               .contains(_searchUsers[index].username)
-                          ? Container()
+                          ? IconButton(
+                              icon: const Icon(Icons.person_remove),
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () async {
+                                _clickedUser = _searchUsers[index];
+
+                                await ref
+                                    .watch(
+                                      friendshipsControllerProvider.notifier,
+                                    )
+                                    .deleteFriendship(
+                                      widget.authenticatedUser!.username!,
+                                      _clickedUser!.username!,
+                                    );
+
+                                ref.invalidate(authenticatedUserProvider);
+                              },
+                            )
                           : IconButton(
                               icon: const Icon(Icons.person_add),
                               splashColor: Colors.transparent,
@@ -173,11 +192,14 @@ class _SearchViewState extends ConsumerState<SearchView> {
 
                                 await ref
                                     .watch(
-                                        friendshipsControllerProvider.notifier)
+                                      friendshipsControllerProvider.notifier,
+                                    )
                                     .sendFriendRequest(
                                       widget.authenticatedUser!.username!,
                                       _clickedUser!.username!,
                                     );
+
+                                ref.invalidate(authenticatedUserProvider);
                               },
                             ),
                     ),

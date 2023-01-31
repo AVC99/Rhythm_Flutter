@@ -46,4 +46,18 @@ class FriendshipsRepository {
       }
     });
   }
+
+  Future<void> deleteFriendRequest(String userA, String userB) async {
+    await collection
+        .where('sender', isEqualTo: userA)
+        .where('receiver', isEqualTo: userB)
+        .get()
+        .then(
+      (query) {
+        for (var element in query.docs) {
+          element.reference.delete();
+        }
+      },
+    );
+  }
 }

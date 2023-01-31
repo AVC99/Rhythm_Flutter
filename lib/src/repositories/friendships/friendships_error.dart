@@ -6,6 +6,7 @@ enum FriendshipDataError {
   alreadyFriends,
   justAccepted,
   cannotSelfAddAsFriend,
+  deletedFriendship,
 }
 
 class FriendshipDataErrorHandler {
@@ -24,6 +25,8 @@ class FriendshipDataErrorHandler {
         return localizations.friendRequestAccepted;
       case FriendshipDataError.cannotSelfAddAsFriend:
         return localizations.friendRequestToYourselfError;
+        case FriendshipDataError.deletedFriendship:
+        return localizations.friendshipDeleted;
       default:
         return localizations.error;
     }
