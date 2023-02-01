@@ -12,7 +12,7 @@ const kProfileNavbarItemIndex = 3;
 // Firestore
 const kUsersCollection = 'users';
 const kFriendshipsCollection = 'friendships';
-
+const kPostsCollection = 'posts';
 // Storage
 const kProfileStorageReference = 'profiles';
 const kPostsStorageReference = 'posts';

@@ -4,17 +4,27 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rhythm/src/controllers/storage/storage_controller.dart';
+import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/models/display_info.dart';
+import 'package:rhythm/src/models/post.dart';
+import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
+import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
+
+import '../../providers/post_provider.dart';
 
 class TrackSelectorView extends StatefulHookConsumerWidget {
   final File imageFile;
+  final RhythmUser user;
 
   const TrackSelectorView({
     Key? key,
     required this.imageFile,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -26,6 +36,7 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
   List<DisplayInfo> _searchTracks = [];
   late AudioPlayer _audioPlayer;
   late int indexPlaying = -1;
+  late int selectedIndex = -1;
   bool isPlaying = false;
 
   @override
@@ -38,6 +49,7 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
   void dispose() {
     super.dispose();
     _searchController.dispose();
+    _audioPlayer.release();
   }
 
   @override
@@ -62,13 +74,12 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
                     onChanged: (value) async {
                       _searchTracks.clear();
                       _searchController.text = value!;
-
+                      selectedIndex = -1;
                       if (value.isNotEmpty) {
                         _searchTracks = await ref
                             .read(spotifyRepositoryProvider)
                             .searchTracks(_searchController.text);
                       }
-
                       setState(() {});
                     },
                   ),
@@ -82,27 +93,9 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
                   primary: false,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        if (indexPlaying == index) {
-                          _audioPlayer.stop();
-                          setState(() {
-                            indexPlaying = -1;
-                          });
-                        } else {
-                          _audioPlayer.play(UrlSource(_searchTracks[index].previewUrl!));
-                          setState(() {
-                            indexPlaying = index;
-                          });
-                        }
-                      },
-                      child: SongCard(
-                        imageUrl: _searchTracks[index].url,
-                        songName: _searchTracks[index].text,
-                        artistName: _searchTracks[index].artist!,
-                        isPlaying: index == indexPlaying ? true : false,
-                      ),
-                    );
+                    return index == selectedIndex
+                        ? _buildTrackCard(context, index, true)
+                        : _buildTrackCard(context, index, false);
                   },
                   separatorBuilder: (context, index) => const SizedBox(
                     height: 12,
@@ -118,10 +111,75 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
     );
   }
 
+  Widget _buildTrackCard(BuildContext context, int index, bool isSelected) {
+    return Container(
+      //padding: const EdgeInsets.all(1.0),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(17.0)),
+        border: Border.all(
+            color: isSelected ? kSkyBlue : Colors.transparent, width: 2.0),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          if (indexPlaying == index) {
+            _audioPlayer.stop();
+            setState(() {
+              indexPlaying = -1;
+            });
+          } else {
+            _audioPlayer.play(UrlSource(_searchTracks[index].previewUrl!));
+            setState(() {
+              selectedIndex = index;
+              indexPlaying = index;
+            });
+          }
+        },
+        child: SongCard(
+          imageUrl: _searchTracks[index].url,
+          songName: _searchTracks[index].text,
+          artistName: _searchTracks[index].artist!,
+          isPlaying: index == indexPlaying ? true : false,
+        ),
+      ),
+    );
+  }
+
   Widget _buildUploadPostButton(BuildContext context) {
     return FloatingActionButton(
       tooltip: AppLocalizations.of(context)!.uploadPost,
-      onPressed: () {},
+      onPressed: () async {
+        if (selectedIndex != -1) {
+          final imageUrl = await ref
+              .read(storageControllerProvider.notifier)
+              .uploadPost(widget.imageFile, widget.user.username!);
+
+          ref.read(postRepositoryProvider).createPost(
+                Post(
+                  username: widget.user.username!,
+                  artist: _searchTracks[selectedIndex].artist!,
+                  userImageUrl: widget.user.imageUrl!,
+                  postImageUrl: imageUrl!,
+                  previewUrl: _searchTracks[selectedIndex].previewUrl!,
+                  coverUrl: _searchTracks[selectedIndex].url,
+                  creationDate: DateTime.now(),
+                ),
+              );
+          if(!mounted)return;
+          Navigator.pop(context);
+        } else {
+          final messageDialog = DialogHelper(
+            child: PopupDialog(
+              title: AppLocalizations.of(context)!.uploadPost,
+              description: AppLocalizations.of(context)!.missingSelectedSong,
+              onAccept: () {
+                Navigator.pop(context);
+              },
+            ),
+            canBeDismissed: true,
+          );
+          messageDialog.displayDialog(context);
+        }
+      },
       child: const Icon(Icons.upload),
     );
   }

@@ -225,6 +225,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       MaterialPageRoute(
                         builder: (context) => TrackSelectorView(
                           imageFile: imageFile,
+                          user: _authenticatedUser,
                         ),
                       ),
                     );

@@ -54,6 +54,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+    _audioPlayer.release();
   }
 
   @override

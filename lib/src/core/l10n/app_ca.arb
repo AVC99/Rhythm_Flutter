@@ -119,5 +119,7 @@
     "friendshipDeleted": "Ja no sou amics!",
     "uploadPost": "Publicar post",
     "takePhotoError": "No ha sigut possible accedir a la càmara del dispositiu. Revisa que hagis otorgat els permissos necessaris a Rhythm.",
-    "searchSongs": "Buscar cançons"
+    "searchSongs": "Buscar cançons",
+    "missingSelectedSong": "No has seleccionat cap canço encara"
+
 }
