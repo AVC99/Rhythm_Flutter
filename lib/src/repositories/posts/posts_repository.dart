@@ -39,7 +39,6 @@ class PostsRepository {
         value,) {
       return RhythmUser.fromJson(value.docs.first.data() as Map<String, dynamic>);
     });
-    print(user.username);
     for (var element in user.friends) {
       posts.addAll(await getPostsFromUser(element));
     }

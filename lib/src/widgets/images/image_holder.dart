@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class ImageHolder extends StatelessWidget {
   final double width;
   final double height;
+  final String imageUrl;
 
   const ImageHolder({
     Key? key,
     required this.width,
     required this.height,
+    required this.imageUrl,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const String imageSource =
-        'https://i.pinimg.com/564x/8e/44/7c/8e447c70c2f1019d981e7871434d7a5f.jpg';
 
     return Container(
       width: width,
@@ -22,7 +22,7 @@ class ImageHolder extends StatelessWidget {
         border: Border.all(width: 1.0),
       ),
       child: Image.network(
-        imageSource,
+       imageUrl,
         fit: BoxFit.cover,
       ),
     );

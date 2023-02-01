@@ -11,6 +11,7 @@ import 'package:rhythm/src/controllers/authentication/authentication_controller.
 import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
 import 'package:rhythm/src/controllers/firestore/friendships_controller.dart';
 import 'package:rhythm/src/models/rhythm_user.dart';
+import 'package:rhythm/src/providers/post_provider.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/providers/users_provider.dart';
 import 'package:rhythm/src/repositories/friendships/friendships_error.dart';
@@ -25,6 +26,8 @@ import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
+
+import '../../models/post.dart';
 
 class ProfileView extends StatefulHookConsumerWidget {
   final RhythmUser authenticatedUser;
@@ -43,6 +46,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   final TextEditingController _searchController = TextEditingController();
   late int indexPlaying = -1;
   bool isPlaying = false;
+  late List<Post> _postList;
 
   @override
   void initState() {
@@ -238,24 +242,30 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   }
 
   Widget _buildPostsTab(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: GridView.count(
-        physics: const ClampingScrollPhysics(),
-        mainAxisSpacing: 1.0,
-        crossAxisSpacing: 1.0,
-        crossAxisCount: 3,
-        children: List.generate(
-          33,
-          (index) => Center(
-            child: ImageHolder(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-            ),
-          ),
-        ),
-      ),
-    );
+    return ref.watch(userPostProvider(widget.authenticatedUser.username!)).when(
+          data: (data) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: GridView.count(
+                physics: const ClampingScrollPhysics(),
+                mainAxisSpacing: 1.0,
+                crossAxisSpacing: 1.0,
+                crossAxisCount: 3,
+                children: List.generate(
+                  data.length,(index) => Center(
+                    child: ImageHolder(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      imageUrl: data[index].postImageUrl,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+          error: (error, stacktrace) => Text(error.toString()),
+          loading: () => const LoadingSpinner(),
+        );
   }
 
   Widget _buildStatsTab(BuildContext context) {
