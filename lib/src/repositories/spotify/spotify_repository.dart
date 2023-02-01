@@ -183,4 +183,38 @@ class SpotifyRepository {
       throw Exception('Error: Cannot get authenticated Spotify user.');
     }
   }
+
+  Future<List<DisplayInfo>> searchTracks(String query) async {
+    final url = '$baseUrl/search?q=$query&type=track';
+    final uri = Uri.parse(url);
+    final response = await http.get(
+      uri,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authorizationToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> myMap = json.decode(response.body);
+      List<dynamic> items = myMap['tracks']['items'];
+      List<DisplayInfo> tracks = [];
+
+      for (var element in items) {
+        tracks.add(
+          DisplayInfo(
+            text: element['name'],
+            url: element['album']['images'][0]['url'],
+            artist: element['artists'][0]['name'],
+            previewUrl: element['preview_url'],
+          ),
+        );
+      }
+
+      return tracks;
+    } else {
+      throw Exception('Error: Cannot search tracks from Spotify');
+    }
+  }
 }

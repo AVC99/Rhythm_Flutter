@@ -1,16 +1,15 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
-import 'package:rhythm/src/controllers/firestore/friendships_controller.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/resources/typography.dart';
 import 'package:rhythm/src/controllers/authentication/authentication_controller.dart';
+import 'package:rhythm/src/controllers/firestore/firestore_state.dart';
+import 'package:rhythm/src/controllers/firestore/friendships_controller.dart';
 import 'package:rhythm/src/models/rhythm_user.dart';
 import 'package:rhythm/src/providers/spotify_provider.dart';
 import 'package:rhythm/src/providers/users_provider.dart';
@@ -26,12 +25,11 @@ import 'package:rhythm/src/widgets/images/labeled_image_holder.dart';
 import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
-import '../../widgets/dialogs/widgets/loading_spinner.dart';
 
 class ProfileView extends StatefulHookConsumerWidget {
- RhythmUser authenticatedUser;
+  final RhythmUser authenticatedUser;
 
-   ProfileView({
+  const ProfileView({
     Key? key,
     required this.authenticatedUser,
   }) : super(key: key);
@@ -44,9 +42,9 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   late AudioPlayer _audioPlayer;
   final TextEditingController _searchController = TextEditingController();
   late int indexPlaying = -1;
-  bool isPlaying = false ;
+  bool isPlaying = false;
 
-@override
+  @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
@@ -62,13 +60,11 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   Widget build(BuildContext context) {
     ref.listen<FirestoreQueryState>(
       friendshipsControllerProvider,
-          (previousState, nextState) {
+      (previousState, nextState) {
         const DialogHelper loadingDialog = DialogHelper(
           child: LoadingSpinner(),
           canBeDismissed: false,
         );
-
-        print('State: $nextState');
 
         switch (nextState.runtimeType) {
           case FirestoreQueryLoadingState:
@@ -106,7 +102,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               child: PopupDialog(
                 title: AppLocalizations.of(context)!.friendRequest,
                 description:
-                AppLocalizations.of(context)!.friendRequestErrorOnSend,
+                    AppLocalizations.of(context)!.friendRequestErrorOnSend,
                 onAccept: () {
                   Navigator.of(context).pop();
                 },
@@ -163,8 +159,19 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   Widget _buildUserProfileImage(BuildContext context) {
     return Stack(
       children: [
-        widget.authenticatedUser.imageUrl!.isNotEmpty ? Image.network(widget.authenticatedUser.imageUrl!) : Image.asset(kDefaultImageProfile),
-
+        SizedBox(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height / 3,
+          child: widget.authenticatedUser.imageUrl!.isNotEmpty
+              ? Image.network(
+                  widget.authenticatedUser.imageUrl!,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  kDefaultImageProfile,
+                  fit: BoxFit.cover,
+                ),
+        ),
         Positioned.fill(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,14 +187,14 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   children: [
                     Visibility(
                       visible: false,
-                      child:  CircularIconButton(
+                      child: CircularIconButton(
                         icon: const Icon(Icons.edit),
                         tooltip: AppLocalizations.of(context)!.edit,
                         onPressed: () {},
                       ),
                     ),
                     CircularIconButton(
-                      icon:  const Icon(FontAwesomeIcons.arrowRightFromBracket),
+                      icon: const Icon(FontAwesomeIcons.arrowRightFromBracket),
                       tooltip: AppLocalizations.of(context)!.settings,
                       onPressed: () async {
                         await ref.read(spotifyRepositoryProvider).signOut();
@@ -265,7 +272,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         SizedBox(
           height: MediaQuery.of(context).size.height / 50,
         ),
-       // _buildTopGenres(context),
+        // _buildTopGenres(context),
       ],
     );
   }
@@ -344,7 +351,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     return ref.watch(spotifyTopSongsProvider).when(
           data: (data) {
             return Column(
-
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
@@ -354,31 +360,32 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     style: kSectionTitle,
                   ),
                 ),
-              SizedBox(
+                SizedBox(
                   child: ListView.separated(
                     primary: false,
-                    physics: const  NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap:() {
-                          if(indexPlaying==index){
+                        onTap: () {
+                          if (indexPlaying == index) {
                             _audioPlayer.stop();
                             setState(() {
                               indexPlaying = -1;
                             });
-                          }else{
-                            _audioPlayer.play(UrlSource(data[index].previewUrl!));
+                          } else {
+                            _audioPlayer
+                                .play(UrlSource(data[index].previewUrl!));
                             setState(() {
                               indexPlaying = index;
                             });
                           }
-
-                        } ,
-                        child: SongCard(imageUrl: data[index].url,
-                            songName: data[index].text,
-                            artistName:data[index].artist!,
-                            isPlaying: index == indexPlaying ? true : false,
+                        },
+                        child: SongCard(
+                          imageUrl: data[index].url,
+                          songName: data[index].text,
+                          artistName: data[index].artist!,
+                          isPlaying: index == indexPlaying ? true : false,
                         ),
                       );
                     },
@@ -398,48 +405,47 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
 
   Widget _buildTopArtists(BuildContext context) {
     return ref.watch(spotifyTopArtistProvider).when(
-        data: (data) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  AppLocalizations.of(context)!.topArtists,
-                  style: kSectionTitle,
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 4,
-                child: ListView.separated(
+          data: (data) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => SizedBox(
-                    width: MediaQuery.of(context).size.width / 3.5,
-                    child: LabeledImageHolder(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      url: data[index].url,
-                      description: data[index].text,
-                    ),
+                  child: Text(
+                    AppLocalizations.of(context)!.topArtists,
+                    style: kSectionTitle,
                   ),
-                  separatorBuilder: (context, index) => const SizedBox(
-                    width: 12,
-                  ),
-                  itemCount: data.length,
                 ),
-              ),
-            ],
-          );
-        },
-        error: (error, stacktrace) {
-          print(stacktrace.toString());
-          return Text(
-            error.toString(),
-          );
-        },
-        loading: () => const LoadingSpinner());
-    /**/
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(8.0),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => SizedBox(
+                      width: MediaQuery.of(context).size.width / 3.5,
+                      child: LabeledImageHolder(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        url: data[index].url,
+                        description: data[index].text,
+                      ),
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(
+                      width: 12,
+                    ),
+                    itemCount: data.length,
+                  ),
+                ),
+              ],
+            );
+          },
+          error: (error, stacktrace) {
+            return Text(
+              error.toString(),
+            );
+          },
+          loading: () => const LoadingSpinner(),
+        );
   }
 
   Widget _buildSocialTab(BuildContext context) {
@@ -467,12 +473,15 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                           onPressed: () async {
                             await ref
                                 .watch(
-                              friendshipsControllerProvider.notifier,
-                            )
+                                  friendshipsControllerProvider.notifier,
+                                )
                                 .deleteFriendship(
-                              ref.read(authenticatedUserProvider).value!.username!,
-                              data[index].username!,
-                            );
+                                  ref
+                                      .read(authenticatedUserProvider)
+                                      .value!
+                                      .username!,
+                                  data[index].username!,
+                                );
 
                             ref.invalidate(authenticatedUserProvider);
                             setState(() {});

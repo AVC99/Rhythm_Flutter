@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rhythm/src/providers/users_provider.dart';
+import 'package:rhythm/src/views/actions/track_selector_view.dart';
 import 'package:rhythm/src/views/onboarding/start_view.dart';
+import 'package:rhythm/src/widgets/dialogs/dialog_helper.dart';
+import 'package:rhythm/src/widgets/dialogs/widgets/popup_dialog.dart';
+import 'package:rhythm/src/widgets/image_pickers/image_picker_helper.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
@@ -113,7 +117,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           SearchView(
             authenticatedUser: _authenticatedUser,
           ),
-         ProfileView( authenticatedUser: _authenticatedUser),
+          ProfileView(authenticatedUser: _authenticatedUser),
         ],
       ),
     );
@@ -200,7 +204,33 @@ class _HomeViewState extends ConsumerState<HomeView> {
               color: Colors.white,
             ),
             onPressed: () {
-              print(ref.read(spotifyAuthenticationToken));
+              ImagePickerHelper.takeImage(() {
+                DialogHelper errorDialog = DialogHelper(
+                  child: PopupDialog(
+                    title: AppLocalizations.of(context)!.uploadPost,
+                    description: AppLocalizations.of(context)!.takePhotoError,
+                    onAccept: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  canBeDismissed: true,
+                );
+
+                errorDialog.displayDialog(context);
+              }).then(
+                (imageFile) {
+                  if (imageFile != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TrackSelectorView(
+                          imageFile: imageFile,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              );
             },
           )
         : Container();

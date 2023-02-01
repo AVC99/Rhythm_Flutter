@@ -116,5 +116,8 @@
     "friendRequestAccepted": "S'ha acceptat la sol·licitut d'amistat.",
     "friendRequestToYourselfError": "No pots afegir-te a tu mateix...",
     "spotifyRequiredApp": "Necessites tenir l'aplicació de Spotify instal·lada al teu dispositiu per gaudir de totes les funcionalitats de Rhythm.",
-    "friendshipDeleted": "Ja no sou amics!"
+    "friendshipDeleted": "Ja no sou amics!",
+    "uploadPost": "Publicar post",
+    "takePhotoError": "No ha sigut possible accedir a la càmara del dispositiu. Revisa que hagis otorgat els permissos necessaris a Rhythm.",
+    "searchSongs": "Buscar cançons"
 }

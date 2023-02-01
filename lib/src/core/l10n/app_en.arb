@@ -116,5 +116,9 @@
     "friendRequestAccepted": "Friend request has been accepted.",
     "friendRequestToYourselfError": "You cannot add to yourself...",
     "spotifyRequiredApp": "You must have the Spotify application installed on your device to enjoy all Rhythm features.",
-    "friendshipDeleted": "You are not friends anymore!"
+    "friendshipDeleted": "You are not friends anymore!",
+    "uploadPost": "Upload post",
+    "takePhotoError": "Unable to access to de device's camera. Check if Rhythm app has been granted with the required permissions to do so.",
+    "searchSongs": "Search songs"
+
 }

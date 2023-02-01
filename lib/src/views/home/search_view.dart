@@ -34,6 +34,12 @@ class _SearchViewState extends ConsumerState<SearchView> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ref.listen<FirestoreQueryState>(
       friendshipsControllerProvider,
