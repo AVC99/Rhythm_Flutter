@@ -6,14 +6,14 @@ import '../../core/resources/constants.dart';
 
 class PostsRepository {
   final CollectionReference collection =
-      FirebaseFirestore.instance.collection(kPostsCollection);
+  FirebaseFirestore.instance.collection(kPostsCollection);
 
   Stream<QuerySnapshot> getStream() {
     return collection.snapshots();
   }
 
-  Future<void> createPost(Post post) async{
-   collection.add(post.toJson());
+  Future<void> createPost(Post post) async {
+    collection.add(post.toJson());
   }
 
   Future<List<Post>> getPostsFromUser(String username) async {
@@ -31,9 +31,16 @@ class PostsRepository {
     });
   }
 
-  Future<List<Post>> getUserFeed(RhythmUser user)async {
+  Future<List<Post>> getUserFeed(String email) async {
     List<Post> posts = [];
-    for(var element in user.friends){
+    final CollectionReference usersCollection =
+    FirebaseFirestore.instance.collection(kUsersCollection);
+    final user = await usersCollection.where('email', isEqualTo: email).get().then((
+        value,) {
+      return RhythmUser.fromJson(value.docs.first.data() as Map<String, dynamic>);
+    });
+    print(user.username);
+    for (var element in user.friends) {
       posts.addAll(await getPostsFromUser(element));
     }
     return posts;

@@ -112,7 +112,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          const PostView(),
+          PostView(user: _authenticatedUser),
           const TrendingView(),
           SearchView(
             authenticatedUser: _authenticatedUser,

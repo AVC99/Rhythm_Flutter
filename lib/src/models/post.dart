@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
   final String username;
+  final String songName;
   final String artist;
   final String userImageUrl;
   final String postImageUrl;
@@ -16,7 +17,7 @@ class Post {
     required this.postImageUrl,
     required this.previewUrl,
     required this.coverUrl,
-    required this.creationDate,
+    required this.creationDate, required this.songName,
   });
 
   factory Post.empty() => Post(
@@ -26,6 +27,7 @@ class Post {
         postImageUrl: '',
         previewUrl: '',
         coverUrl: '',
+       songName: '',
         creationDate: null,
       );
 
@@ -36,6 +38,7 @@ class Post {
         postImageUrl: json['postImageUrl'] ?? '',
         previewUrl: json['previewUrl'] ?? '',
         coverUrl: json['coverUrl'] ?? '',
+       songName: json['songName'] ?? '',
         creationDate: (json['creationDate'] as Timestamp).toDate(),
       );
 
@@ -48,6 +51,7 @@ class Post {
       'previewUrl': previewUrl,
       'coverUrl': coverUrl,
       'creationDate': creationDate,
+      'songName': songName,
     };
   }
 }

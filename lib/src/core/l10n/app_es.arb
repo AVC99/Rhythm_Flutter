@@ -120,5 +120,6 @@
     "uploadPost": "Publicar post",
     "takePhotoError": "No ha sido posible acceder a la cámara del dispositivo. Revisa que se hayan dado los permisos necesarios a Rhythm.",
     "searchSongs": "Buscar canciones",
-    "missingSelectedSong": "You have not selected any song yet"
+    "missingSelectedSong": "You have not selected any song yet",
+    "noPostToDisplay": "Add more friends to see their content"
 }

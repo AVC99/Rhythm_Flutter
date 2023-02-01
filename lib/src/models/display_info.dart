@@ -10,4 +10,5 @@ class DisplayInfo {
     this.artist,
     this.previewUrl,
   });
+
 }

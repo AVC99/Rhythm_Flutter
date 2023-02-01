@@ -156,6 +156,7 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
           ref.read(postRepositoryProvider).createPost(
                 Post(
                   username: widget.user.username!,
+                 songName: _searchTracks[selectedIndex].text,
                   artist: _searchTracks[selectedIndex].artist!,
                   userImageUrl: widget.user.imageUrl!,
                   postImageUrl: imageUrl!,

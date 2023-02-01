@@ -3,28 +3,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
+import 'package:rhythm/src/models/display_info.dart';
+import 'package:rhythm/src/models/post.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
 class PostCard extends StatefulWidget {
-  const PostCard({Key? key}) : super(key: key);
+  final Post post;
+  late bool? isPlaying = false;
+
+ PostCard({
+    Key? key,
+    required this.post,
+    this.isPlaying,
+  }) : super(key: key);
 
   @override
   State<PostCard> createState() => _PostCardState();
 }
 
 class _PostCardState extends State<PostCard> {
-  final String songDetails = 'SongName - Artist';
-  final String locationDetails = 'City, Country';
-  final String userName = 'Username';
-  final String userProfileImage =
-      'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
-  final String albumCover =
-      'https://images.genius.com/0c3da2db33dfeb1f3a397ac17254728a.1000x1000x1.png';
-  final String postImage =
-      'https://i.pinimg.com/originals/8f/76/5e/8f765eabe440a33eaa035bbba8ad9341.png';
-  final String reactionImage =
-      'https://i.pinimg.com/originals/8e/44/7c/8e447c70c2f1019d981e7871434d7a5f.jpg';
-  bool _isPlaying = true;
+  late bool? isPlayVisible= widget.isPlaying;
+  late bool? isPauseVisible =widget.isPlaying;
 
   Color _getThemeColor(String mode) {
     return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
@@ -56,7 +55,7 @@ class _PostCardState extends State<PostCard> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(userProfileImage),
+            backgroundImage: NetworkImage(widget.post.userImageUrl),
             radius: 32,
           ),
         ),
@@ -72,7 +71,7 @@ class _PostCardState extends State<PostCard> {
                 width: MediaQuery.of(context).size.width / 1.5,
                 child: SlidingText(
                   child: Text(
-                    userName,
+                    widget.post.username,
                     style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -87,7 +86,7 @@ class _PostCardState extends State<PostCard> {
                   ),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width / 1.5,
-                    child: SlidingText(child: Text(songDetails)),
+                    child: SlidingText(child: Text('${widget.post.songName} · ${widget.post.artist}')),
                   ),
                 ),
               ],
@@ -107,90 +106,106 @@ class _PostCardState extends State<PostCard> {
 
   Widget _buildPostContent(BuildContext context) {
     return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _isPlaying = !_isPlaying;
-          });
-        },
-        child: Stack(
-          children: [
-            Container(
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.zero,
+                bottom: Radius.circular(32.0),
+              ),
+              image: DecorationImage(
+                image: NetworkImage(widget.post.postImageUrl),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 20,
+            child: Stack(
+              children: [
+
+                Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: MediaQuery.of(context).size.height / 8,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1),
+                  ),
+                  child: Image.network(
+                    widget.post.coverUrl,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: AnimatedOpacity(
+                      opacity: widget.isPlaying! ?  0.0 : 1.0,
+                      duration: const Duration(milliseconds: 500),
+                      child: const Icon(
+                        Icons.pause,
+                        size: 40,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: AnimatedOpacity(
+                      opacity: widget.isPlaying! ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 500),
+
+                      child: const Icon(
+                        Icons.play_arrow,
+                        size: 40,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+       /*   Positioned(
+            bottom: 10,
+            right: 15,
+            child: Container(
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.zero,
-                  bottom: Radius.circular(32.0),
-                ),
-                image: DecorationImage(
-                  image: NetworkImage(postImage),
-                  fit: BoxFit.fill,
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(60.0)),
+                border: Border.all(width: 1.5),
+              ),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(reactionImage),
               ),
             ),
-            Positioned(
-              top: 20,
-              left: 20,
-              child: Container(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 8,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1),
-                ),
-                child: Image.network(
-                  albumCover,
-                  fit: BoxFit.fill,
-                ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 45,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(60.0)),
+                border: Border.all(width: 1.5),
+              ),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(reactionImage),
               ),
             ),
-            Positioned(
-              bottom: 10,
-              right: 15,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                  border: Border.all(width: 1.5),
-                ),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(reactionImage),
-                ),
+          ),
+          Positioned(
+            bottom: 1,
+            right: 65,
+            child: Center(
+              child: IconButton(
+                icon: const Icon(Icons.add_circle_rounded),
+                onPressed: () {},
+                iconSize: 50,
               ),
             ),
-            Positioned(
-              bottom: 10,
-              right: 45,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                  border: Border.all(width: 1.5),
-                ),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(reactionImage),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 1,
-              right: 65,
-              child: Center(
-                child: IconButton(
-                  icon: const Icon(Icons.add_circle_rounded),
-                  onPressed: () {},
-                  iconSize: 50,
-                ),
-              ),
-            ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: AnimatedOpacity(
-                  opacity: _isPlaying ? 0.0 : 1.0,
-                  duration: const Duration(milliseconds: 500),
-                  child: _pauseButton(),
-                ),
-              ),
-            )
-          ],
-        ),
+          ),*/
+
+        ],
       ),
     );
   }
