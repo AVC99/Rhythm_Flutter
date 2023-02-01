@@ -69,7 +69,7 @@ class _PostViewState extends ConsumerState<PostView> {
               },
                 child: PostCard(
                   post: data[index],
-                    isPlaying: index == indexPlaying ? true : false
+                    isPlaying: index == indexPlaying ? true : false,
                 ),
             ),
             controller: PageController(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
+import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
 import 'package:rhythm/src/models/display_info.dart';
 import 'package:rhythm/src/models/post.dart';
@@ -11,7 +12,7 @@ class PostCard extends StatefulWidget {
   final Post post;
   late bool? isPlaying = false;
 
- PostCard({
+  PostCard({
     Key? key,
     required this.post,
     this.isPlaying,
@@ -22,8 +23,8 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  late bool? isPlayVisible= widget.isPlaying;
-  late bool? isPauseVisible =widget.isPlaying;
+  late bool? isPlayVisible = widget.isPlaying;
+  late bool? isPauseVisible = widget.isPlaying;
 
   Color _getThemeColor(String mode) {
     return mode == ThemeMode.light.name ? kGrey : kBrokenWhite;
@@ -55,7 +56,9 @@ class _PostCardState extends State<PostCard> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(widget.post.userImageUrl),
+            backgroundImage: widget.post.userImageUrl.isEmpty
+                ? const AssetImage(kDefaultImageProfile)
+                : NetworkImage(widget.post.userImageUrl) as ImageProvider,
             radius: 32,
           ),
         ),
@@ -86,7 +89,9 @@ class _PostCardState extends State<PostCard> {
                   ),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width / 1.5,
-                    child: SlidingText(child: Text('${widget.post.songName} · ${widget.post.artist}')),
+                    child: SlidingText(
+                        child: Text(
+                            '${widget.post.songName} · ${widget.post.artist}')),
                   ),
                 ),
               ],
@@ -125,7 +130,6 @@ class _PostCardState extends State<PostCard> {
             left: 20,
             child: Stack(
               children: [
-
                 Container(
                   width: MediaQuery.of(context).size.width / 4,
                   height: MediaQuery.of(context).size.height / 8,
@@ -141,7 +145,7 @@ class _PostCardState extends State<PostCard> {
                   child: Align(
                     alignment: Alignment.center,
                     child: AnimatedOpacity(
-                      opacity: widget.isPlaying! ?  0.0 : 1.0,
+                      opacity: widget.isPlaying! ? 0.0 : 1.0,
                       duration: const Duration(milliseconds: 500),
                       child: const Icon(
                         Icons.pause,
@@ -156,7 +160,6 @@ class _PostCardState extends State<PostCard> {
                     child: AnimatedOpacity(
                       opacity: widget.isPlaying! ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 500),
-
                       child: const Icon(
                         Icons.play_arrow,
                         size: 40,
@@ -167,7 +170,7 @@ class _PostCardState extends State<PostCard> {
               ],
             ),
           ),
-       /*   Positioned(
+          /*   Positioned(
             bottom: 10,
             right: 15,
             child: Container(
@@ -204,7 +207,6 @@ class _PostCardState extends State<PostCard> {
               ),
             ),
           ),*/
-
         ],
       ),
     );
