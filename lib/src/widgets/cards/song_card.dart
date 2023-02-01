@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
-import 'package:rhythm/src/widgets/buttons/circular_icon_button.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
 class SongCard extends StatefulWidget {
   final String imageUrl;
   final String songName;
   final String artistName;
-  late bool? isPlaying = false;
+  bool? isPlaying;
 
-   SongCard({
+  SongCard({
     Key? key,
     required this.imageUrl,
     required this.songName,
     required this.artistName,
-    this.isPlaying,
+    this.isPlaying = false,
   }) : super(key: key);
 
   @override
@@ -26,9 +24,6 @@ class SongCard extends StatefulWidget {
 }
 
 class _SongCardState extends State<SongCard> {
-
-  bool _isLiked = false;
-
   Color _getThemeColor(String mode) {
     return mode == ThemeMode.light.name ? Colors.black12 : kBrokenWhite;
   }
@@ -77,9 +72,9 @@ class _SongCardState extends State<SongCard> {
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width / 2.5,
                       ),
-                      child:SlidingText(
+                      child: SlidingText(
                         child: Text(
-                         widget.songName,
+                          widget.songName,
                         ),
                       ),
                     )
@@ -96,9 +91,9 @@ class _SongCardState extends State<SongCard> {
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width / 2.5,
                       ),
-                      child:  SlidingText(
+                      child: SlidingText(
                         child: Text(
-                        widget.artistName,
+                          widget.artistName,
                         ),
                       ),
                     )
@@ -130,7 +125,7 @@ class _SongCardState extends State<SongCard> {
               child: Align(
                 alignment: Alignment.center,
                 child: AnimatedOpacity(
-                  opacity: widget.isPlaying! ?  0.75 : 0.0,
+                  opacity: widget.isPlaying! ? 0.75 : 0.0,
                   duration: const Duration(milliseconds: 300),
                   child: const Icon(
                     Icons.pause,
@@ -144,7 +139,7 @@ class _SongCardState extends State<SongCard> {
               child: Align(
                 alignment: Alignment.center,
                 child: AnimatedOpacity(
-                  opacity: widget.isPlaying! ?  0.0 : 0.75,
+                  opacity: widget.isPlaying! ? 0.0 : 0.75,
                   duration: const Duration(milliseconds: 300),
                   child: const Icon(
                     Icons.play_arrow,
@@ -157,25 +152,6 @@ class _SongCardState extends State<SongCard> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildLikeButton(BuildContext context) {
-    return CircularIconButton(
-      icon: Icon(
-        _isLiked ? Icons.favorite : Icons.favorite_border,
-        color: _isLiked ? Colors.red : Colors.white,
-      ),
-      tooltip: _isLiked ? AppLocalizations.of(context)!.removeFromSpotify
-          : AppLocalizations.of(context)!.saveToSpotify,
-      onPressed: () {
-        setState(() {
-          _isLiked = !_isLiked;
-          if(_isLiked){
-
-          }
-        });
-      },
     );
   }
 }

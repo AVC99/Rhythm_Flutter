@@ -111,8 +111,9 @@ class SpotifyRepository {
       List<dynamic> items = myMap['items'];
 
       for (var element in items) {
-        artistList.add(DisplayInfo(
-            text: element['name'], url: element['images'][0]['url']));
+        artistList.add(
+          DisplayInfo(text: element['name'], url: element['images'][0]['url']),
+        );
       }
 
       return artistList;
@@ -174,8 +175,12 @@ class SpotifyRepository {
       List<dynamic> items = myMap['items'];
 
       for (var element in items) {
-        playlist.add(DisplayInfo(
-            text: element['name'], url: element['images'][0]['url']));
+        playlist.add(
+          DisplayInfo(
+            text: element['name'],
+            url: element['images'][0]['url'],
+          ),
+        );
       }
 
       return playlist;

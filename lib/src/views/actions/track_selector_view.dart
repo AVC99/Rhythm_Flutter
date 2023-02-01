@@ -117,7 +117,9 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(17.0)),
         border: Border.all(
-            color: isSelected ? kSkyBlue : Colors.transparent, width: 2.0),
+          color: isSelected ? kSkyBlue : Colors.transparent,
+          width: 2.0,
+        ),
       ),
       child: GestureDetector(
         onTap: () {
@@ -156,7 +158,7 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
           ref.read(postRepositoryProvider).createPost(
                 Post(
                   username: widget.user.username!,
-                 songName: _searchTracks[selectedIndex].text,
+                  songName: _searchTracks[selectedIndex].text,
                   artist: _searchTracks[selectedIndex].artist!,
                   userImageUrl: widget.user.imageUrl!,
                   postImageUrl: imageUrl!,
@@ -165,7 +167,7 @@ class _TrackSelectorViewState extends ConsumerState<TrackSelectorView> {
                   creationDate: DateTime.now(),
                 ),
               );
-          if(!mounted)return;
+          if (!mounted) return;
           Navigator.pop(context);
         } else {
           final messageDialog = DialogHelper(

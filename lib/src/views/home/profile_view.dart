@@ -27,8 +27,6 @@ import 'package:rhythm/src/widgets/inputs/input_text_field.dart';
 import 'package:rhythm/src/widgets/cards/song_card.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
-import '../../models/post.dart';
-
 class ProfileView extends StatefulHookConsumerWidget {
   final RhythmUser authenticatedUser;
 
@@ -46,7 +44,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   final TextEditingController _searchController = TextEditingController();
   late int indexPlaying = -1;
   bool isPlaying = false;
-  late List<Post> _postList;
 
   @override
   void initState() {
@@ -252,7 +249,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 crossAxisSpacing: 1.0,
                 crossAxisCount: 3,
                 children: List.generate(
-                  data.length,(index) => Center(
+                  data.length,
+                  (index) => Center(
                     child: ImageHolder(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
@@ -327,35 +325,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
           error: (error, stacktrace) => Text(error.toString()),
           loading: () => const LoadingSpinner(),
         );
-  }
-
-  Widget _buildTopGenres(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppLocalizations.of(context)!.mostListenedGenres,
-            style: kSectionTitle,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 12.0),
-            child: Wrap(
-              spacing: 10,
-              children: const [
-                Chip(label: Text('Trap Urbano')),
-                Chip(label: Text('Trap Urbano')),
-                Chip(label: Text('Trap Urbano')),
-                Chip(label: Text('Trap Urbano')),
-                Chip(label: Text('Trap Urbano')),
-                Chip(label: Text('Trap Urbano')),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
   }
 
   Widget _buildTopTracks(BuildContext context) {

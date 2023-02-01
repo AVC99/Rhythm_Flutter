@@ -109,7 +109,8 @@ class FriendshipsController extends StateNotifier<FirestoreQueryState> {
           .deleteFriend(userB, userA);
 
       state = const FirestoreFriendshipsDataErrorState(
-          FriendshipDataError.deletedFriendship);
+        FriendshipDataError.deletedFriendship,
+      );
     } on FirebaseException catch (e) {
       state = FirestoreQueryErrorState(
         FirestoreQueryErrorHandler.determineErrorCode(e),

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rhythm/src/core/resources/colors.dart';
 import 'package:rhythm/src/core/resources/images.dart';
 import 'package:rhythm/src/core/theme/theme_cubit.dart';
-import 'package:rhythm/src/models/display_info.dart';
 import 'package:rhythm/src/models/post.dart';
 import 'package:rhythm/src/widgets/texts/sliding_text.dart';
 
@@ -90,8 +89,10 @@ class _PostCardState extends State<PostCard> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width / 1.5,
                     child: SlidingText(
-                        child: Text(
-                            '${widget.post.songName} · ${widget.post.artist}')),
+                      child: Text(
+                        '${widget.post.songName} · ${widget.post.artist}',
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -99,13 +100,6 @@ class _PostCardState extends State<PostCard> {
           ],
         ),
       ],
-    );
-  }
-
-  Widget _pauseButton() {
-    return const Icon(
-      Icons.pause,
-      size: 80,
     );
   }
 
