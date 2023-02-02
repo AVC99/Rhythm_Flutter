@@ -121,6 +121,6 @@
     "takePhotoError": "No ha sigut possible accedir a la càmara del dispositiu. Revisa que hagis otorgat els permissos necessaris a Rhythm.",
     "searchSongs": "Buscar cançons",
     "missingSelectedSong": "No has seleccionat cap canço encara",
-    "noPostToDisplay": "Agrega amics per a mostrar els seus continguts"
+    "noPostToDisplay": "Agrega més amics per a mostrar les seves publicacions"
 
 }

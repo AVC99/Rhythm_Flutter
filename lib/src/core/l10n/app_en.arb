@@ -120,7 +120,7 @@
     "uploadPost": "Upload post",
     "takePhotoError": "Unable to access to de device's camera. Check if Rhythm app has been granted with the required permissions to do so.",
     "searchSongs": "Search songs",
-    "missingSelectedSong": "No has seleccionado ninguna canción aún",
-    "noPostToDisplay": "Agrega a más amigos para ver sus contenidos"
+    "missingSelectedSong": "You have not selected any image yet",
+    "noPostToDisplay": "Add more friends to see their posts"
 
 }
