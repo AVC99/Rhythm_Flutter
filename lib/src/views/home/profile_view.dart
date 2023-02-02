@@ -196,7 +196,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       ),
                     ),
                     CircularIconButton(
-                      icon: const Icon(FontAwesomeIcons.arrowRightFromBracket),
+                      icon: const Icon(
+                        FontAwesomeIcons.arrowRightFromBracket,
+                        color: kSkyBlue,
+                      ),
                       tooltip: AppLocalizations.of(context)!.settings,
                       onPressed: () async {
                         await ref.read(spotifyRepositoryProvider).signOut();

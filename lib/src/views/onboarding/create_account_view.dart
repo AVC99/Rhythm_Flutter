@@ -260,8 +260,6 @@ class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
                   _createdUser!,
                 );
 
-            if (!mounted) return;
-
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
@@ -269,7 +267,7 @@ class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
                   user: _createdUser,
                 ),
               ),
-              (route) => false,
+                  (route) => false,
             );
           }
         }

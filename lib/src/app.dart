@@ -42,7 +42,8 @@ class RhythmApp extends ConsumerWidget {
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               home: authenticationState.when(
-                data: (user) => user != null ? const HomeView() : const StartView(),
+                data: (user) =>
+                    user != null ? const HomeView() : const StartView(),
                 error: (error, stacktrace) => const StartView(),
                 loading: () => const SplashView(),
               ),
